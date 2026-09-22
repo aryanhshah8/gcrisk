@@ -109,8 +109,8 @@ The GCR environment at 1--1.5~AU consists of protons, helium, and heavier
 ions (the so-called HZE particles) spanning kinetic energies from a few
 hundred MeV/n to tens of GeV/n. Biological effectiveness peaks near the
 energy range where stopping power is highest.
-A round-trip crewed Mars mission (transit + surface stay) of approximately
-900 days is estimated to deliver a total effective dose of the order
+A round-trip crewed Mars mission (transit + surface stay) of
+$\sim\!900$~days is estimated to deliver a total effective dose of the order
 $1$--$2$~Sv \citep{zeitlin2013}, which, depending on crew demographics and
 the risk model used, implies a radiation-induced cancer mortality probability
 that may approach or exceed NASA's career limit \citep{nasa2014}.
@@ -173,7 +173,7 @@ telemetry from NASA's PDS archive (MSL-M-RAD-3-RDR-V1.0; $218$ of $253$
 cruise days; \url{scripts/fetch_real_rad_cruise_data.py}), replacing
 the statistically-reconstructed proxy used in earlier drafts. Day-to-day
 Pearson agreement over all 218 days is weak ($r=-0.127$, $p=0.06$), but this
-is substantially an artifact of one real event: an X5.4 flare (AR11429) on
+is mostly an artifact of one real event: an X5.4 flare (AR11429) on
 2012-03-07 produced one of the largest SEP events of solar cycle 24
 ($\sim\!6530$~pfu), and RAD's raw dose rate spikes $\sim\!30\times$ above
 baseline the next day. Since this pipeline models SEP as a physically
@@ -203,7 +203,7 @@ in either direction.
 
 The multi-month trend the model \emph{is} built to capture is consistent in magnitude and direction
 (real $+17.5\%$ vs.\ modeled $+14.5\%$, first-to-last cruise decile). Because
-this RAD-anchoring is itself fit to the evaluated data, I additionally
+this RAD-anchoring is itself fit to the evaluated data, I also
 tested generalization by splitting the series in half and fitting/testing
 in both directions: held-out RMS error ($21.4\%$, $24.8\%$) is close to
 in-sample RMS error ($23.5\%$, $19.4\%$) — a $5.5$-point maximum
@@ -367,8 +367,8 @@ $\sim\!37{,}000$~mGy unshielded ($\sim\!148\times$ the 30-day BFO limit of
 250~mGy) and stays above the limit until $\sim\!32\gcm$; October~2003
 needs $\sim\!25\gcm$; January~2005 falls below the limit under $20\gcm$.
 GCR and SEP respond very differently to shielding: above $\sim\!20\gcm$,
-added aluminum barely reduces chronic GCR dose but still substantially
-cuts SEP dose. The August~1972 spectrum predates space-borne dosimetry
+added aluminum barely reduces chronic GCR dose but still cuts SEP dose
+sharply. The August~1972 spectrum predates space-borne dosimetry
 (reconstructed from ground-level neutron-monitor/riometry data
 \citep{tylka2006}) and should be read as an order-of-magnitude estimate
 ($\sim\!\pm50\%$).
@@ -569,7 +569,7 @@ During the preparation of this work the author used Claude (Anthropic) to:
   \item review and assist in debugging the Python pipeline code;
   \item source and integrate independent real-world validation datasets
         (NASA PDS and CDAWeb archives) and help design the corresponding
-        validation methodology; and
+        validation approach; and
   \item assist in the writing and revision of the manuscript.
 \end{itemize}
 After using this tool, the author reviewed and edited the content as needed
