@@ -27,10 +27,10 @@ import matplotlib.patches as mpatches
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.trajectory import generate_trajectory
-from gcr.spectrum import load_usoskin_phi, gcr_total_flux
-from gcr.dose import integrate_mission_dose, _precompute_transport_factors, _apply_transport_factors, dose_rate_from_flux
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.spectrum import load_usoskin_phi, gcr_total_flux
+from gcrisk.dose import integrate_mission_dose, _precompute_transport_factors, _apply_transport_factors, dose_rate_from_flux
+from gcrisk.utils import DEFAULT_E_GRID
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 FIGURES_DIR = os.path.join(REPO_ROOT, 'figures')
@@ -54,7 +54,7 @@ HZETRN_TABLE = {
 
 def compute_shielding_scan(traj, phi_df, thicknesses, material, n_unc_samples=50):
     """Compute D_rate central + p5/p95 uncertainty band across shielding thicknesses."""
-    from gcr.uncertainty import lhs_samples, PARAM_NAMES
+    from gcrisk.uncertainty import lhs_samples, PARAM_NAMES
     import numpy as np
 
     # LHS samples for physics uncertainty

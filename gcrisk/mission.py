@@ -1,5 +1,5 @@
 """
-gcr/mission.py — Full Mars mission radiation model.
+gcrisk/mission.py — Full Mars mission radiation model.
 
 Models a complete crewed Mars mission:
   Phase 1: Earth→Mars transit (Hohmann transfer, ~259 days)

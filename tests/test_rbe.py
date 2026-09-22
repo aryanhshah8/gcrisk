@@ -2,15 +2,15 @@
 
 import numpy as np
 
-from gcr.rbe import (
+from gcrisk.rbe import (
     dose_averaged_let,
     integrate_mission_let,
     mcnamara_rbe,
     rbe_weighted_dose,
     wedenberg_rbe,
 )
-from gcr.spectrum import gcr_total_flux
-from gcr.trajectory import generate_trajectory
+from gcrisk.spectrum import gcr_total_flux
+from gcrisk.trajectory import generate_trajectory
 
 
 def test_wedenberg_is_unity_at_zero_let():

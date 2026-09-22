@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 from pathlib import Path
 
-from gcr.topas_benchmark import (
+from gcrisk.topas_benchmark import (
     build_topas_rbe_reference_frame,
     compare_topas_rbe_reference,
     enrich_topas_rbe_frame,

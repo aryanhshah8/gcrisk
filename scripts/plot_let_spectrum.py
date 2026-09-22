@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
-from gcr import gcr_total_flux, transport_flux_through_slab, let_spectrum_by_species, force_field_modulation
+from gcrisk import gcr_total_flux, transport_flux_through_slab, let_spectrum_by_species, force_field_modulation
 
 # ── style ────────────────────────────────────────────────────────────────────
 plt.rcParams.update({

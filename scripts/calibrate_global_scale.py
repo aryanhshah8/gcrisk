@@ -9,7 +9,7 @@ applied but the absolute normalization is not yet matched to MSL/RAD.
 This script runs the pipeline at the calibration conditions and finds the
 scale factor that produces D = 1.84 mGy/day.
 
-After running, paste the printed value into gcr/spectrum.py as _GLOBAL_DOSE_SCALE.
+After running, paste the printed value into gcrisk/spectrum.py as _GLOBAL_DOSE_SCALE.
 """
 import sys
 import os
@@ -18,13 +18,13 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # ---- Temporarily override _GLOBAL_DOSE_SCALE = 1.0 before any imports ----
-import gcr.spectrum as _spec
+import gcrisk.spectrum as _spec
 _spec._GLOBAL_DOSE_SCALE = 1.0
 _spec._SPECIES_FLUX_CALIBRATION = _spec._build_species_calibration()
 
-from gcr.trajectory import generate_trajectory
-from gcr.dose import integrate_mission_dose
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.utils import DEFAULT_E_GRID
 
 TARGET_D_MGYPERDAY = 1.84   # MSL/RAD; Zeitlin et al. 2013
 CALIB_X_GCM2      = 16.0   # calibration shielding [g/cm² Al]
@@ -63,12 +63,12 @@ print(f"  D_per_day : {D_per_day:.4f} mGy/day  (target {TARGET_D_MGYPERDAY:.2f})
 print(f"  H_per_day : {H_per_day:.4f} mSv/day")
 print(f"  Q_eff     : {Q_eff:.4f}")
 print(f"\n  Required _GLOBAL_DOSE_SCALE: {scale:.6f}")
-print(f"\nPaste this into gcr/spectrum.py:")
+print(f"\nPaste this into gcrisk/spectrum.py:")
 print(f"  _GLOBAL_DOSE_SCALE = {scale:.6f}")
 
 # Show what species fractions look like at scale=1.0 and predicted scale
-from gcr.spectrum import gcr_total_flux
-from gcr.dose import dose_rate_from_flux, _precompute_transport_factors, _apply_transport_factors
+from gcrisk.spectrum import gcr_total_flux
+from gcrisk.dose import dose_rate_from_flux, _precompute_transport_factors, _apply_transport_factors
 
 E_grid = DEFAULT_E_GRID
 flux0 = gcr_total_flux(E_grid, CALIB_PHI_MV)

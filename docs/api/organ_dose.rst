@@ -1,7 +1,7 @@
-gcr.organ_dose
+gcrisk.organ_dose
 ==================
 
-.. automodule:: gcr.organ_dose
+.. automodule:: gcrisk.organ_dose
    :members:
    :undoc-members:
    :show-inheritance:

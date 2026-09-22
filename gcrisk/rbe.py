@@ -1,5 +1,5 @@
 """
-gcr/rbe.py — LET-based RBE modeling.
+gcrisk/rbe.py — LET-based RBE modeling.
 
 Dose-averaged LET summaries and two proton RBE parameterizations
 (Wedenberg and McNamara) for proton-therapy-style LET/RBE exploration.

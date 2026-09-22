@@ -1,5 +1,5 @@
 """
-gcr/utils.py — Shared constants, unit converters, and I/O helpers.
+gcrisk/utils.py — Shared constants, unit converters, and I/O helpers.
 
 Physical constants, ion species data, tissue weighting factors,
 and shielding material properties used across the pipeline.

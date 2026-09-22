@@ -43,8 +43,8 @@ cases.
 
 There are currently two uncertainty layers in the codebase:
 
-- `gcr.reid` perturbs quality-factor scaling, ERR scaling, DDREF, and EAR scaling
-- `gcr.uncertainty` runs an 8-parameter Latin Hypercube ensemble spanning both
+- `gcrisk.reid` perturbs quality-factor scaling, ERR scaling, DDREF, and EAR scaling
+- `gcrisk.uncertainty` runs an 8-parameter Latin Hypercube ensemble spanning both
   physics and biology inputs
 
 The full LHS ensemble currently varies:

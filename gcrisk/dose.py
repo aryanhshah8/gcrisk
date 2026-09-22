@@ -1,5 +1,5 @@
 """
-gcr/dose.py — Dose equivalent and effective dose.
+gcrisk/dose.py — Dose equivalent and effective dose.
 
 Converts transported particle flux into absorbed dose and dose equivalent
 using ICRP-60 quality factors. Includes neutron contribution via ICRP-74 coefficients.

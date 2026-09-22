@@ -1,9 +1,9 @@
 """
-gcr/paper2.py — Analysis layer for the Paper 2 follow-up.
+gcrisk/paper2.py — Analysis layer for the Paper 2 follow-up.
 
 Paper 2 builds on the Paper 1 pipeline without modifying any Paper 1 code
 path. This module is strictly additive: every function here imports from
-the frozen Paper 1 modules (gcr.uncertainty, gcr.reid, gcr.rbe, gcr.dose)
+the frozen Paper 1 modules (gcrisk.uncertainty, gcrisk.reid, gcrisk.rbe, gcrisk.dose)
 and composes new analyses on top of them.
 
 Three contributions, matching the Paper 2 plan:
@@ -139,7 +139,7 @@ def lhs_samples_with_priors(
 
         Any parameter not listed falls back to Paper 1's prior in
         :data:`PAPER1_PRIORS`. Passing ``None`` exactly reproduces
-        :func:`gcr.uncertainty.lhs_samples` for identical seeds and sample
+        :func:`gcrisk.uncertainty.lhs_samples` for identical seeds and sample
         counts (aside from LHS stratification over all 9 dimensions, which
         is identical by construction).
     seed
@@ -174,7 +174,7 @@ def run_ensemble_with_priors(
 ) -> dict:
     """Run the full Paper 1 pipeline ensemble under custom priors.
 
-    Mirrors :func:`gcr.uncertainty.run_uncertainty_ensemble` but replaces
+    Mirrors :func:`gcrisk.uncertainty.run_uncertainty_ensemble` but replaces
     the sampler with :func:`lhs_samples_with_priors`. The per-sample
     evaluation itself is Paper 1's :func:`_evaluate_one_sample` — no
     Paper 1 code is modified.
@@ -278,7 +278,7 @@ def let_binned_dose_contribution(
     Uses the same Bethe-Bloch LET tables as Paper 1 (:func:`let_from_energy`)
     and the same ICRP-60 Q(L) quality factor
     (:func:`quality_factor_icrp60`), so numbers are consistent with
-    :func:`gcr.dose.dose_rate_from_flux`. Neutrons are folded in via the
+    :func:`gcrisk.dose.dose_rate_from_flux`. Neutrons are folded in via the
     ICRP-74 h*(10) conversion applied at their own kinetic energies; their
     contribution is placed in the low-LET bin under the convention used by
     Paper 1 for tissue-equivalent neutron dose.
@@ -394,7 +394,7 @@ def conditioned_let_sensitivity(
     Parameters
     ----------
     ensemble_result
-        Output of :func:`gcr.uncertainty.run_uncertainty_ensemble`, i.e. a
+        Output of :func:`gcrisk.uncertainty.run_uncertainty_ensemble`, i.e. a
         dict with ``param_samples`` and ``REID_samples`` (or another
         output key named by ``output``).
     let_binned
@@ -473,7 +473,7 @@ def reid_with_custom_biological_priors(
 ) -> dict:
     """Monte Carlo REID with configurable biological prior widths.
 
-    Mirrors :func:`gcr.reid.reid_with_uncertainty` exactly for default
+    Mirrors :func:`gcrisk.reid.reid_with_uncertainty` exactly for default
     arguments; exposes ``Q_sigma``, ``DDREF_low``, ``DDREF_high``,
     ``ERR_sigma``, ``EAR_sigma`` so the caller can sweep biological
     precision without touching Paper 1 code.

@@ -1,5 +1,5 @@
 """
-gcr/sep.py — Solar Energetic Particle (SEP) event module.
+gcrisk/sep.py — Solar Energetic Particle (SEP) event module.
 
 Implements Band-function proton spectra for canonical historical SEP events
 (Tylka & Lee 2006, ApJ 646, 1319) and provides dose/dose-equivalent estimates
@@ -33,7 +33,7 @@ import numpy as np
 from scipy.integrate import trapezoid
 import pandas as pd
 
-from gcr.utils import DEFAULT_E_GRID, MATERIALS, ION_SPECIES
+from gcrisk.utils import DEFAULT_E_GRID, MATERIALS, ION_SPECIES
 
 # ---------------------------------------------------------------------------
 # Band-function SEP event parameters (Tylka & Lee 2006, Table 1)
@@ -194,8 +194,8 @@ def sep_event_dose(
     Cucinotta et al. (2013) — NASA REID and limits
     """
     # Lazy import to avoid circular dependency
-    from gcr.transport import energy_after_slab, proton_range
-    from gcr.dose import quality_factor_icrp60, let_from_energy
+    from gcrisk.transport import energy_after_slab, proton_range
+    from gcrisk.dose import quality_factor_icrp60, let_from_energy
 
     if event_key not in SEP_EVENTS:
         raise ValueError(f"Unknown event '{event_key}'. Choose from {list(SEP_EVENTS)}")
@@ -347,7 +347,7 @@ def sep_dose_with_shielding_scan(
 
 def _proton_stopping_power(material: str):
     """Return proton stopping power callable S(E_MeV) [MeV·cm²/g]."""
-    from gcr.transport import load_stopping_power
+    from gcrisk.transport import load_stopping_power
     return load_stopping_power(material)
 
 
@@ -367,7 +367,7 @@ def _transport_sep_flux(
 
     Particles that stop in the slab (R(E_in) < x) contribute zero flux.
     """
-    from gcr.transport import proton_range
+    from gcrisk.transport import proton_range
 
     # Build log-log range→energy inversion on the fly
     from scipy.interpolate import interp1d

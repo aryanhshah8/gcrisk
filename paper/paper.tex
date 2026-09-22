@@ -1,5 +1,5 @@
 %% ─────────────────────────────────────────────────────────────────────────
-%% gcrisk (repo: gcr-dosimetry-pipeline) — Life Sciences in Space Research submission
+%% gcrisk — Life Sciences in Space Research submission
 %% Built on Elsevier's cas-dc (double column) template.
 %% ─────────────────────────────────────────────────────────────────────────
 
@@ -412,7 +412,7 @@ ICRP-60 weighting ($w_T=0.12$).
 \label{sec:launchwindow}
 
 REID depends strongly on the solar modulation potential $\phi$ at launch.
-I swept \code{gcr.reid.reid\_vs\_launch\_date} over monthly launch dates
+I swept \code{gcrisk.reid.reid\_vs\_launch\_date} over monthly launch dates
 (\url{scripts/launch_window_sweep.py}); Figure~\ref{fig:launchwindow}
 separates two regions. The solid curve (2003--2022) uses real Usoskin
 $\phi$ data spanning two full solar cycles; median REID ranges from
@@ -513,7 +513,7 @@ solar cycles (2003--2022), swings median REID $3.4\times$
 (\S\ref{sec:launchwindow}) at zero engineering cost.
 
 All source code, 86 automated tests, and validation datasets are available
-at \url{https://github.com/aryanhshah8/gcr-dosimetry-pipeline}.
+at \url{https://github.com/aryanhshah8/gcrisk}.
 
 % ─────────────────────────────────────────────────────────────────────────
 \section*{Acknowledgements}
@@ -547,7 +547,7 @@ the public, commercial, or not-for-profit sectors.
 
 All source code, input datasets, validation scripts, and TOPAS benchmark
 geometry files are freely available at
-\url{https://github.com/aryanhshah8/gcr-dosimetry-pipeline}.
+\url{https://github.com/aryanhshah8/gcrisk}.
 Full methods derivations, extended parameter tables, and extended
 limitations discussion are provided as Supplementary Material.
 No proprietary datasets were used; all input data (Usoskin solar
@@ -555,7 +555,7 @@ modulation potential database, NIST stopping powers, real MSL/RAD
 cruise-phase dosimetry from NASA's PDS archive, and real ISS TEPC
 telemetry from NASA's CDAWeb) are included in the repository under
 \code{data/}, and the HZETRN neutron benchmark table is hardcoded as a
-lookup array in \code{gcr/neutron\_table.py}.
+lookup array in \code{gcrisk/neutron\_table.py}.
 Results can be fully reproduced without any proprietary software.
 
 % ─────────────────────────────────────────────────────────────────────────

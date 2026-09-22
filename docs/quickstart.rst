@@ -7,10 +7,10 @@ Mission dose report
 .. code-block:: bash
 
    # 500-day Mars mission starting 2025-06-01, 35-year-old female
-   gcr-dose mission 2025-06-01 --surface-days 500 --age 35 --sex female
+   gcrisk-dose mission 2025-06-01 --surface-days 500 --age 35 --sex female
 
    # JSON output for downstream analysis
-   gcr-dose mission 2025-06-01 --surface-days 500 --json > mission.json
+   gcrisk-dose mission 2025-06-01 --surface-days 500 --json > mission.json
 
 Proton therapy RBE
 ------------------
@@ -18,18 +18,18 @@ Proton therapy RBE
 .. code-block:: bash
 
    # Wedenberg RBE for 5 keV/µm LET, α/β = 3 Gy
-   gcr-dose rbe --dose-gy 2.0 --letd-kev-um 5.0 --alpha-beta-gy 3.0 --model wedenberg
+   gcrisk-dose rbe --dose-gy 2.0 --letd-kev-um 5.0 --alpha-beta-gy 3.0 --model wedenberg
 
    # McNamara RBE
-   gcr-dose rbe --dose-gy 2.0 --letd-kev-um 5.0 --alpha-beta-gy 3.0 --model mcnamara
+   gcrisk-dose rbe --dose-gy 2.0 --letd-kev-um 5.0 --alpha-beta-gy 3.0 --model mcnamara
 
 Python API
 ----------
 
 .. code-block:: python
 
-   from gcr.mission import run_full_mission
-   from gcr.sep import sep_event_dose, sep_mission_probability
+   from gcrisk.mission import run_full_mission
+   from gcrisk.sep import sep_event_dose, sep_mission_probability
 
    # Full Mars mission with organ-routed REID
    result = run_full_mission('2025-06-01', surface_days=500, age=35, sex='female')

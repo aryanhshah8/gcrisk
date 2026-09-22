@@ -1,9 +1,9 @@
-"""Tests for gcr/sep.py — SEP event module."""
+"""Tests for gcrisk/sep.py — SEP event module."""
 
 import numpy as np
 import pytest
 
-from gcr.sep import (
+from gcrisk.sep import (
     SEP_EVENTS,
     sep_band_spectrum,
     sep_event_dose,

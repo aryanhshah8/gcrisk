@@ -1,7 +1,7 @@
-gcr.rbe
+gcrisk.rbe
 ===========
 
-.. automodule:: gcr.rbe
+.. automodule:: gcrisk.rbe
    :members:
    :undoc-members:
    :show-inheritance:

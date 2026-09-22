@@ -35,11 +35,11 @@ import pandas as pd
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import lis_proton, force_field_modulation, load_usoskin_phi
-from gcr.transport import proton_range
-from gcr.dose import integrate_mission_dose
-from gcr.trajectory import generate_trajectory
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.spectrum import lis_proton, force_field_modulation, load_usoskin_phi
+from gcrisk.transport import proton_range
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.utils import DEFAULT_E_GRID
 
 # ---------------------------------------------------------------------------
 # Reference values

@@ -37,11 +37,11 @@ from scipy.stats import pearsonr
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import gcr_total_flux, load_usoskin_phi
-from gcr.transport import transport_flux_through_slab
-from gcr.dose import dose_equivalent_rate
-from gcr.neutron_table import h_neutron_mSv_day
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.spectrum import gcr_total_flux, load_usoskin_phi
+from gcrisk.transport import transport_flux_through_slab
+from gcrisk.dose import dose_equivalent_rate
+from gcrisk.neutron_table import h_neutron_mSv_day
+from gcrisk.utils import DEFAULT_E_GRID
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 FIG_DIR = os.path.join(os.path.dirname(__file__), '..', 'figures')

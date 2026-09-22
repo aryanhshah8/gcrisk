@@ -1,4 +1,4 @@
-# Development Log — gcr-dosimetry-pipeline
+# Development Log — gcr-dosimetry-pipeline (renamed gcrisk, 2026-09-22)
 --ARYAN H. SHAH
 
 ---

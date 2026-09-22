@@ -1,8 +1,8 @@
-"""Tests for gcr/spectrum.py"""
+"""Tests for gcrisk/spectrum.py"""
 
 import numpy as np
 import pytest
-from gcr.spectrum import (
+from gcrisk.spectrum import (
     lis_proton, lis_helium, lis_heavy,
     force_field_modulation, gcr_total_flux,
 )

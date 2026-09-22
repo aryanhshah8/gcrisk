@@ -1,7 +1,7 @@
-gcr.sep
+gcrisk.sep
 ===========
 
-.. automodule:: gcr.sep
+.. automodule:: gcrisk.sep
    :members:
    :undoc-members:
    :show-inheritance:

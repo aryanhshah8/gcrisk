@@ -1,11 +1,11 @@
-"""Tests for gcr/dose.py"""
+"""Tests for gcrisk/dose.py"""
 
 import numpy as np
 import pytest
 import pandas as pd
 from datetime import date, timedelta
 
-from gcr.dose import (
+from gcrisk.dose import (
     _apply_transport_factors,
     _precompute_transport_factors,
     let_from_energy,
@@ -15,7 +15,7 @@ from gcr.dose import (
     integrate_mission_dose,
     neutron_h10,
 )
-from gcr.spectrum import gcr_total_flux
+from gcrisk.spectrum import gcr_total_flux
 
 
 class TestDoseModule:
@@ -177,7 +177,7 @@ class TestDoseModule:
         trajectory phi variation, and the ~20% uncertainty in ACE/CRIS relative
         abundances propagated through the single-scale calibration.
         """
-        from gcr.trajectory import generate_trajectory
+        from gcrisk.trajectory import generate_trajectory
 
         E_grid = np.logspace(1, 5, 200)
         traj = generate_trajectory('2011-11-26')

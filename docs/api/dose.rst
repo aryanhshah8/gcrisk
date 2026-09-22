@@ -1,7 +1,7 @@
-gcr.dose
+gcrisk.dose
 ============
 
-.. automodule:: gcr.dose
+.. automodule:: gcrisk.dose
    :members:
    :undoc-members:
    :show-inheritance:

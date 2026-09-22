@@ -1,4 +1,4 @@
-# GCR Dosimetry Pipeline
+# gcrisk
 
 An open-source Python package for estimating galactic cosmic ray (GCR) radiation exposure and cancer risk on crewed deep-space missions. It integrates GCR spectrum generation, CSDA slab transport, organ-specific REID estimation, Solar Energetic Particle acute dosimetry, and Latin Hypercube uncertainty quantification into one reproducible workflow.
 
@@ -13,8 +13,8 @@ The point of this tool is not to claim new physics — HZETRN and Geant4 do the 
 ## Quick Start
 
 ```bash
-git clone https://github.com/aryanhshah8/gcr-dosimetry-pipeline
-cd gcr-dosimetry-pipeline
+git clone https://github.com/aryanhshah8/gcrisk
+cd gcrisk
 pip install -e .
 python scripts/download_data.py
 python scripts/validate_pipeline.py
@@ -130,7 +130,7 @@ The main takeaway: improving GCR transport physics will narrow dose uncertainty 
 - **No nuclear fragmentation transport.** Heavy ions are exponentially attenuated — the pipeline doesn't track secondary lighter ions from fragmentation reactions. Comparisons with full transport codes suggest the HZE quality factor at 16 g/cm² is overestimated by roughly 15–25% as a result.
 - **Six GCR species only.** Magnesium and other minor species are absent; their combined contribution is estimated at <5% of total dose.
 - **Slab geometry.** The spacecraft is a uniform aluminum slab. Real geometries need ray-tracing.
-- **Cucinotta (2013) REID model.** The NASA 2023 age- and sex-dependent career limit framework is not implemented. Conditional survival and baseline cancer mortality use coarse, interpolated US sex-specific lookup tables (`gcr/reid.py`), not a full CDC/SEER life-table reproduction.
+- **Cucinotta (2013) REID model.** The NASA 2023 age- and sex-dependent career limit framework is not implemented. Conditional survival and baseline cancer mortality use coarse, interpolated US sex-specific lookup tables (`gcrisk/reid.py`), not a full CDC/SEER life-table reproduction.
 - **TOPAS RBE layer is a self-consistency check, not the paper's focus.** V79 agreement against TOPAS-nBio reference data is an independent implementation check; prostate and H&N comparisons are self-consistency only. This module is retained in the codebase for a separate, forthcoming proton-therapy crossover study.
 
 ---

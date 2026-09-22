@@ -1,8 +1,8 @@
-"""Tests for gcr/reid.py"""
+"""Tests for gcrisk/reid.py"""
 
 import numpy as np
 import pytest
-from gcr.reid import (
+from gcrisk.reid import (
     baseline_cancer_mortality_rate, excess_relative_risk,
     reid_point_estimate, reid_with_uncertainty,
 )
@@ -50,7 +50,7 @@ def test_err_scaling():
 
 def test_organ_specific_ear_sum_matches_total():
     """organ_specific_ear() summed over organs should match excess_absolute_risk_per_year()."""
-    from gcr.reid import organ_specific_ear, excess_absolute_risk_per_year
+    from gcrisk.reid import organ_specific_ear, excess_absolute_risk_per_year
     H = 0.5
     age = 35
     for sex in ('male', 'female'):
@@ -63,7 +63,7 @@ def test_organ_specific_ear_sum_matches_total():
 
 def test_lung_dominates_male_ear():
     """Lung should be the largest EAR contributor for males at age 35."""
-    from gcr.reid import organ_specific_ear
+    from gcrisk.reid import organ_specific_ear
     ear = organ_specific_ear(0.5, 35, 'male')
     assert ear['lung'] == max(ear.values()), (
         f"Lung should dominate male EAR at age 35, got max={max(ear, key=ear.get)}")

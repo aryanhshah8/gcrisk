@@ -1,10 +1,10 @@
 """
-gcr/organ_dose.py — Organ-specific self-shielding and dose routing.
+gcrisk/organ_dose.py — Organ-specific self-shielding and dose routing.
 
 Bridges the transport physics to the organ-specific risk model by adding
 representative tissue-equivalent depth inside the body to the external
 spacecraft shielding. The resulting organ doses can be routed into the
-organ-specific EAR terms in gcr.reid.
+organ-specific EAR terms in gcrisk.reid.
 """
 
 from __future__ import annotations
@@ -68,7 +68,7 @@ def organ_dose_rates(
     Parameters
     ----------
     flux : dict
-        Primary modulated GCR flux from gcr.spectrum.gcr_total_flux().
+        Primary modulated GCR flux from gcrisk.spectrum.gcr_total_flux().
     E_grid : ndarray
         Per-nucleon energy grid [MeV/n].
     transport_cache : dict

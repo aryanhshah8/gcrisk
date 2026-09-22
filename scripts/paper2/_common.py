@@ -12,10 +12,10 @@ import os
 import numpy as np
 import pandas as pd
 
-from gcr.dose import integrate_mission_dose
-from gcr.spectrum import gcr_total_flux, load_usoskin_phi
-from gcr.trajectory import generate_trajectory
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.spectrum import gcr_total_flux, load_usoskin_phi
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.utils import DEFAULT_E_GRID
 
 
 REPO_ROOT = os.path.abspath(
@@ -65,7 +65,7 @@ def load_baseline() -> dict:
 
 def baseline_shielded_flux_mean(baseline: dict) -> dict:
     """Return a mission-mean shielded flux using Paper 1's transport layer."""
-    from gcr.dose import _apply_transport_factors, _precompute_transport_factors
+    from gcrisk.dose import _apply_transport_factors, _precompute_transport_factors
 
     factors = _precompute_transport_factors(
         baseline['shielding_x_gcm2'],

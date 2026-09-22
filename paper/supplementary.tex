@@ -1,5 +1,5 @@
 %% ─────────────────────────────────────────────────────────────────────────
-%% gcrisk (repo: gcr-dosimetry-pipeline) — Supplementary Material
+%% gcrisk — Supplementary Material
 %% Same Elsevier CAS template family as paper.tex (cas-sc: single column).
 %% ─────────────────────────────────────────────────────────────────────────
 
@@ -128,7 +128,7 @@ amplified by $Z^2$ stopping-power scaling.
 
 \begin{table}[t]
   \centering
-  \caption{LIS spectral parameters used in \code{gcr/spectrum.py}.
+  \caption{LIS spectral parameters used in \code{gcrisk/spectrum.py}.
            Proton and helium from Vos \& Potgieter \cite{vos2015}; heavy ions from
            Boschini et al.\ \cite{boschini2020}.}
   \label{tab:lis_params}
@@ -345,7 +345,7 @@ low-dose-rate risk, $D_\mathrm{eff}=D/\mathrm{DDREF}$: point estimates use a
 fixed DDREF of $1.75$; the uncertainty ensemble instead samples
 DDREF~$\sim$~Uniform$[1,2]$. Conditional survival and baseline cancer
 mortality use interpolated US sex-specific lookup tables in
-\code{gcr/reid.py} — a practical approximation to the NASA/Cucinotta
+\code{gcrisk/reid.py} — a practical approximation to the NASA/Cucinotta
 framework, not a full reproduction of underlying epidemiologic life tables.
 
 The REID distribution is right-skewed (REID enters an exponential,
@@ -447,7 +447,7 @@ sample counts; a proper Sobol analysis would need $\sim\!10^4$ samples
 The value-of-information sweep re-runs the $N=500$ ensemble once per
 parameter, halving that parameter's spread (sigma, or DDREF's range width
 centered on the same mean) while holding all others at baseline
-(\code{narrow} argument to \code{gcr.uncertainty.lhs\_samples},
+(\code{narrow} argument to \code{gcrisk.uncertainty.lhs\_samples},
 \url{scripts/sensitivity_narrowing_sweep.py}), recording the resulting
 change in p95 REID.
 

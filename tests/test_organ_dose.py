@@ -2,13 +2,13 @@
 
 import numpy as np
 
-from gcr.organ_dose import (
+from gcrisk.organ_dose import (
     ORGAN_DEPTHS_GCMS2,
     ORGAN_ICRP60_WEIGHTS,
     integrate_organ_dose,
 )
-from gcr.reid import reid_from_organ_doses
-from gcr.trajectory import generate_trajectory
+from gcrisk.reid import reid_from_organ_doses
+from gcrisk.trajectory import generate_trajectory
 
 
 def test_organ_depth_ordering_constant():

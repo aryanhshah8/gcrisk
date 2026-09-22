@@ -26,10 +26,10 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.dose import integrate_mission_dose
-from gcr.spectrum import load_usoskin_phi
-from gcr.trajectory import generate_trajectory
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.utils import DEFAULT_E_GRID
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'usoskin')
 

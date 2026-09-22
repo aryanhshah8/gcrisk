@@ -1,7 +1,7 @@
-gcr.topas_benchmark
+gcrisk.topas_benchmark
 =======================
 
-.. automodule:: gcr.topas_benchmark
+.. automodule:: gcrisk.topas_benchmark
    :members:
    :undoc-members:
    :show-inheritance:

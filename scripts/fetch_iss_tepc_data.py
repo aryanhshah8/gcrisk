@@ -66,7 +66,7 @@ def _fetch_month(month_start: dt.date, retries: int = 3) -> list[float]:
            f"&format=csv")
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "gcr-dosimetry-pipeline"})
+            req = urllib.request.Request(url, headers={"User-Agent": "gcrisk"})
             with urllib.request.urlopen(req, timeout=60) as resp:
                 text = resp.read().decode("utf-8", errors="replace")
             vals = []

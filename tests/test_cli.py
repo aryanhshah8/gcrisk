@@ -2,7 +2,7 @@
 
 import json
 
-from gcr.cli import main
+from gcrisk.cli import main
 
 
 def test_cli_mission_text_output(capsys):

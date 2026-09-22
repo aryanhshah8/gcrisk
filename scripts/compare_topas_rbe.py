@@ -1,4 +1,4 @@
-"""Compare compare-ready TOPAS/OpenTOPAS-RBE reference CSVs against gcr.rbe."""
+"""Compare compare-ready TOPAS/OpenTOPAS-RBE reference CSVs against gcrisk.rbe."""
 
 from __future__ import annotations
 
@@ -6,12 +6,12 @@ import argparse
 
 import pandas as pd
 
-from gcr.topas_benchmark import compare_topas_rbe_reference, enrich_topas_rbe_frame
+from gcrisk.topas_benchmark import compare_topas_rbe_reference, enrich_topas_rbe_frame
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description='Compare TOPAS/OpenTOPAS-RBE reference CSV exports against gcr.rbe outputs.'
+        description='Compare TOPAS/OpenTOPAS-RBE reference CSV exports against gcrisk.rbe outputs.'
     )
     parser.add_argument(
         'reference_csv',
@@ -23,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         '--write-enriched',
-        help='Optional output CSV containing both reference and gcr-computed columns.',
+        help='Optional output CSV containing both reference and gcrisk-computed columns.',
     )
     parser.add_argument('--tolerance-rbe', type=float, default=0.02)
     parser.add_argument('--tolerance-dose-rbe', type=float, default=0.02)

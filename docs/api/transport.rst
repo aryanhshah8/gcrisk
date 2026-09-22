@@ -1,7 +1,7 @@
-gcr.transport
+gcrisk.transport
 =================
 
-.. automodule:: gcr.transport
+.. automodule:: gcrisk.transport
    :members:
    :undoc-members:
    :show-inheritance:

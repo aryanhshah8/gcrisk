@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='gcr-dosimetry-pipeline',
+    name='gcrisk',
     version='1.0.0',
     author='Aryan Hemendra Shah',
     author_email='ahs222@miami.edu',
-    url='https://github.com/aryanhshah8/gcr-dosimetry-pipeline',
+    url='https://github.com/aryanhshah8/gcrisk',
     description='Open-source GCR mission dosimetry and organ-risk pipeline',
     license='MIT',
     packages=find_packages(),
@@ -13,7 +13,7 @@ setup(
     install_requires=[line.strip() for line in open('requirements.txt')],
     entry_points={
         'console_scripts': [
-            'gcr-dose=gcr.cli:main',
+            'gcrisk-dose=gcrisk.cli:main',
         ],
     },
     extras_require={

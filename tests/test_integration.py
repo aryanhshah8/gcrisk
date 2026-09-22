@@ -4,11 +4,11 @@ import os
 import numpy as np
 import pytest
 
-from gcr.trajectory import generate_trajectory
-from gcr.spectrum import load_usoskin_phi
-from gcr.organ_dose import integrate_organ_dose
-from gcr.reid import reid_from_organ_doses
-from gcr.sep import sep_event_dose, sep_mission_probability
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.organ_dose import integrate_organ_dose
+from gcrisk.reid import reid_from_organ_doses
+from gcrisk.sep import sep_event_dose, sep_mission_probability
 
 
 _DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'usoskin')
@@ -78,7 +78,7 @@ def test_full_mission_reid_in_plausible_range(phi_df):
 
     Uses run_full_mission which includes organ-routed REID internally.
     """
-    from gcr.mission import run_full_mission
+    from gcrisk.mission import run_full_mission
 
     result = run_full_mission(
         launch_date='2011-11-26',
@@ -138,7 +138,7 @@ def test_organ_h_effective_dose_consistency(transit_organ_result):
     This verifies that the organ routing is internally consistent with
     the total-body H estimate from integrate_mission_dose.
     """
-    from gcr.organ_dose import ORGAN_ICRP60_WEIGHTS
+    from gcrisk.organ_dose import ORGAN_ICRP60_WEIGHTS
 
     organ_H = transit_organ_result['organ_H_mSv']
     E_effective = transit_organ_result.get('E_effective_mSv')

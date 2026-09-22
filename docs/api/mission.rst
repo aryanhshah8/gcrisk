@@ -1,7 +1,7 @@
-gcr.mission
+gcrisk.mission
 ===============
 
-.. automodule:: gcr.mission
+.. automodule:: gcrisk.mission
    :members:
    :undoc-members:
    :show-inheritance:

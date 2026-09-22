@@ -1,5 +1,5 @@
 """
-gcr/neutron_table.py — Tabulated secondary neutron dose equivalent.
+gcrisk/neutron_table.py — Tabulated secondary neutron dose equivalent.
 
 2D interpolation table for H_neutron(x_gcm2, phi_MV) derived from HZETRN calculations.
 Calibration anchor: H_neutron(16 g/cm² Al, 485 MV) = 2.15 mSv/day.

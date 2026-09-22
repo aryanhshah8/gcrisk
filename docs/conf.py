@@ -4,7 +4,7 @@
 import os
 import sys
 
-# Add project root so autodoc can import the gcr package
+# Add project root so autodoc can import the gcrisk package
 sys.path.insert(0, os.path.abspath('..'))
 
 # ---------------------------------------------------------------------------

@@ -26,7 +26,7 @@ import pandas as pd
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from gcr.rbe import wedenberg_rbe, mcnamara_rbe
+from gcrisk.rbe import wedenberg_rbe, mcnamara_rbe
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 

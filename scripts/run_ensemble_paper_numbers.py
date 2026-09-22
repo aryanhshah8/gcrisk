@@ -20,9 +20,9 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import load_usoskin_phi
-from gcr.trajectory import generate_trajectory
-from gcr.uncertainty import PARAM_NAMES, run_uncertainty_ensemble
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.uncertainty import PARAM_NAMES, run_uncertainty_ensemble
 
 PHYSICS_PARAMS = {'phi_scale', 'LIS_norm', 'cross_sec', 'neutron_H', 'hze_norm_scale'}
 BIO_PARAMS     = {'Q_factor', 'DDREF', 'ERR_scale', 'EAR_scale'}

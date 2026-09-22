@@ -12,8 +12,8 @@ Install
 
 .. code-block:: bash
 
-   git clone https://github.com/aryanhshah8/gcr-dosimetry-pipeline.git
-   cd gcr-dosimetry-pipeline
+   git clone https://github.com/aryanhshah8/gcrisk.git
+   cd gcrisk
    pip install -e ".[dev]"
    python scripts/download_data.py
 

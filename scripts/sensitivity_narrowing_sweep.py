@@ -4,7 +4,7 @@ scripts/sensitivity_narrowing_sweep.py — Value-of-information sweep.
 
 For each of the 9 LHS uncertainty parameters, reruns the N=500 ensemble
 with that single parameter's spread halved (same central estimate, half
-the uncertainty; see gcr.uncertainty.lhs_samples's `narrow` argument),
+the uncertainty; see gcrisk.uncertainty.lhs_samples's `narrow` argument),
 holding every other parameter at its baseline distribution, and reports
 how much the REID p95 (and the p5-p95 width) shrinks relative to the
 all-baseline ensemble.
@@ -30,9 +30,9 @@ import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import load_usoskin_phi
-from gcr.trajectory import generate_trajectory
-from gcr.uncertainty import PARAM_NAMES, run_uncertainty_ensemble
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.uncertainty import PARAM_NAMES, run_uncertainty_ensemble
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'usoskin')
 OUT_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'sensitivity_narrowing_sweep.json')

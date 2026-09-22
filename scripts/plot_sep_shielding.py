@@ -12,7 +12,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-from gcr import sep_dose_with_shielding_scan, BFO_30DAY_LIMIT_mGy, SEP_EVENTS
+from gcrisk import sep_dose_with_shielding_scan, BFO_30DAY_LIMIT_mGy, SEP_EVENTS
 
 # ── style ────────────────────────────────────────────────────────────────────
 plt.rcParams.update({

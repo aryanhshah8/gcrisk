@@ -1,5 +1,5 @@
 """
-gcr/transport.py — Particle transport through shielding.
+gcrisk/transport.py — Particle transport through shielding.
 
 CSDA energy-loss primitives and Bradt-Peters nuclear cross sections.
 """

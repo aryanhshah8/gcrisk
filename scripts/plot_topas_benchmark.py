@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from scipy.ndimage import gaussian_filter1d
 
-from gcr import wedenberg_rbe, mcnamara_rbe
+from gcrisk import wedenberg_rbe, mcnamara_rbe
 
 # ── style ────────────────────────────────────────────────────────────────────
 plt.rcParams.update({

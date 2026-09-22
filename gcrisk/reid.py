@@ -1,5 +1,5 @@
 """
-gcr/reid.py — Cancer risk (REID) calculation.
+gcrisk/reid.py — Cancer risk (REID) calculation.
 
 Converts effective dose into cancer risk using the NASA REID model,
 combining ERR and EAR terms with Monte Carlo uncertainty propagation.

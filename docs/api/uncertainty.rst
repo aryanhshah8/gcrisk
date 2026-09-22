@@ -1,7 +1,7 @@
-gcr.uncertainty
+gcrisk.uncertainty
 ===================
 
-.. automodule:: gcr.uncertainty
+.. automodule:: gcrisk.uncertainty
    :members:
    :undoc-members:
    :show-inheritance:

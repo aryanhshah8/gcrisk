@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
-title: "gcr-dosimetry-pipeline: An open-source GCR dosimetry pipeline for Mars mission risk assessment"
+title: "gcrisk: An open-source GCR dosimetry pipeline for Mars mission risk assessment"
 type: software
 authors:
   - family-names: Shah
@@ -8,7 +8,7 @@ authors:
     email: ahs222@miami.edu
     affiliation: University of Miami
     orcid: "https://orcid.org/0009-0008-0518-428X"
-repository-code: "https://github.com/aryanhshah8/gcr-dosimetry-pipeline"
+repository-code: "https://github.com/aryanhshah8/gcrisk"
 license: MIT
 version: 1.0.0
 keywords:

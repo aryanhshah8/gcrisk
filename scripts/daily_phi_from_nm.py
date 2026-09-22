@@ -46,10 +46,10 @@ from scipy.stats import pearsonr, linregress
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import load_usoskin_phi
-from gcr.trajectory import generate_trajectory
-from gcr.dose import integrate_mission_dose
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.utils import DEFAULT_E_GRID
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 RAD_D_mGy_day = 1.84
@@ -89,7 +89,7 @@ def build_daily_phi_df(slope: float) -> pd.DataFrame:
     """Steps 2-3: monthly Usoskin baseline (linearly interpolated, same as
     the existing pipeline) + NM-derived daily perturbation, one row per day
     so phi_at_date's interpolation returns each day's own value exactly."""
-    from gcr.spectrum import phi_at_date
+    from gcrisk.spectrum import phi_at_date
 
     monthly_baseline = load_usoskin_phi(
         os.path.join(DATA_DIR, 'usoskin', 'phi_transit_frozen.csv')

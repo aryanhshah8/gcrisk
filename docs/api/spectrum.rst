@@ -1,7 +1,7 @@
-gcr.spectrum
+gcrisk.spectrum
 ================
 
-.. automodule:: gcr.spectrum
+.. automodule:: gcrisk.spectrum
    :members:
    :undoc-members:
    :show-inheritance:

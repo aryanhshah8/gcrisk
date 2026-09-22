@@ -14,7 +14,7 @@ import pandas as pd
 
 # Ensure gcr package is importable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from gcr.utils import CONSTANTS, MATERIALS, MATERIAL_COMPOSITION, ELEMENT_DATA
+from gcrisk.utils import CONSTANTS, MATERIALS, MATERIAL_COMPOSITION, ELEMENT_DATA
 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
@@ -101,7 +101,7 @@ def fetch_usoskin_phi():
     url = 'https://cosmicrays.oulu.fi/phi/phi.txt'
     try:
         print(f"  Downloading Usoskin phi from {url}...")
-        req = urllib.request.Request(url, headers={'User-Agent': 'gcr-dosimetry-pipeline/0.1'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'gcrisk/1.0'})
         with urllib.request.urlopen(req, timeout=15) as response:
             raw = response.read().decode('utf-8', errors='replace')
 

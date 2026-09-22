@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from gcr import (
+from gcrisk import (
     reid_vs_shielding, integrate_organ_dose, reid_from_organ_doses,
     load_usoskin_phi, generate_trajectory,
     ORGAN_DEPTHS_GCMS2, ORGAN_ICRP60_WEIGHTS,

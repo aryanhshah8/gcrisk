@@ -13,7 +13,7 @@ more precisely before submission.
 The draft currently describes several uncertainty parameters with distributions
 that do not match the implementation.
 
-Current code in [`gcr/uncertainty.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcr/uncertainty.py:86):
+Current code in [`gcrisk/uncertainty.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcrisk/uncertainty.py:86):
 
 - `phi_scale`: lognormal
 - `LIS_norm`: lognormal
@@ -40,8 +40,8 @@ The draft currently says the implementation uses `CDC 2020 US life tables` and
 `SEER` age-dependent background mortality in a way that sounds more detailed
 than the present code.
 
-Current code in [`gcr/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcr/reid.py:17)
-and [`gcr/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcr/reid.py:44):
+Current code in [`gcrisk/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcrisk/reid.py:17)
+and [`gcrisk/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcrisk/reid.py:44):
 
 - uses coarse hard-coded survival lookup tables with interpolation
 - uses coarse hard-coded background cancer mortality rate tables with interpolation
@@ -60,8 +60,8 @@ The draft currently discusses DDREF in a way that can imply one handling in the
 point estimate and another in the uncertainty section without clearly
 distinguishing them.
 
-Current code in [`gcr/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcr/reid.py:82)
-and [`gcr/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcr/reid.py:164):
+Current code in [`gcrisk/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcrisk/reid.py:82)
+and [`gcrisk/reid.py`](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/gcrisk/reid.py:164):
 
 - point estimate uses a fixed `_DDREF = 1.75`
 - uncertainty mode samples `DDREF ~ Uniform(1, 2)`

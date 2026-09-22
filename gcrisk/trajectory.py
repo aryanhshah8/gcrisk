@@ -1,5 +1,5 @@
 """
-gcr/trajectory.py — Orbital mechanics and solar modulation.
+gcrisk/trajectory.py — Orbital mechanics and solar modulation.
 
 Computes heliocentric distance r(t) and solar modulation potential phi(t)
 along a Mars transfer trajectory.

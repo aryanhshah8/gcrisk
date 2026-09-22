@@ -57,7 +57,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'rad')
 OUT_FILE = os.path.join(DATA_DIR, 'msl_rad_cruise_real.csv')
 
 BASE_URL = "https://pds-ppi.igpp.ucla.edu/data/MSL-M-RAD-3-RDR-V1.0/DATA/CRUISE/"
-HEADERS = {"User-Agent": "Mozilla/5.0 (research data fetch; gcr-dosimetry-pipeline)"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (research data fetch; gcrisk)"}
 
 PTR_RE = re.compile(r'\^(OBS\d+_TOT_DOSE_([BE])_ELEMENT)\s*=\s*\n?\s*\("[^"]+",\s*(\d+)\s*<BYTES>\)')
 START_TIME_RE = re.compile(r'START_TIME\s*=\s*([\d\-T:]+)')

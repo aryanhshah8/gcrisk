@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..')
 ))
 
-from gcr.paper2 import BEIR_VII_DDREF_PRIOR, run_ensemble_with_priors
+from gcrisk.paper2 import BEIR_VII_DDREF_PRIOR, run_ensemble_with_priors
 
 from scripts.paper2._common import FIGURES_DIR, ensure_dirs, load_baseline
 

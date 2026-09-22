@@ -1,4 +1,4 @@
-"""Tests for gcr/uncertainty.py — LHS ensemble and variance decomposition.
+"""Tests for gcrisk/uncertainty.py — LHS ensemble and variance decomposition.
 
 All tests in this file are marked @pytest.mark.slow because they run the
 full trajectory integration.  They are excluded from CI by default (see pytest.ini).
@@ -11,9 +11,9 @@ import os
 import numpy as np
 import pytest
 
-from gcr.uncertainty import lhs_samples, run_uncertainty_ensemble, PARAM_NAMES
-from gcr.trajectory import generate_trajectory
-from gcr.spectrum import load_usoskin_phi
+from gcrisk.uncertainty import lhs_samples, run_uncertainty_ensemble, PARAM_NAMES
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.spectrum import load_usoskin_phi
 
 
 _DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'usoskin')

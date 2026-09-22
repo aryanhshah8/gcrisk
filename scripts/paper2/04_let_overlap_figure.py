@@ -40,7 +40,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..')
 ))
 
-from gcr.paper2 import (
+from gcrisk.paper2 import (
     DEFAULT_LET_BINS_KEV_UM,
     _format_bin_labels,
     let_binned_dose_contribution,

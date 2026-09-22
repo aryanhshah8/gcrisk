@@ -2,7 +2,7 @@
 """
 scripts/launch_window_sweep.py — REID vs. launch date across the solar cycle.
 
-Uses gcr.reid.reid_vs_launch_date to sweep mission REID over monthly launch
+Uses gcrisk.reid.reid_vs_launch_date to sweep mission REID over monthly launch
 dates, showing how much a mission's cancer-risk estimate depends on WHEN in
 the solar cycle it launches (higher phi / solar maximum -> lower GCR flux
 -> lower REID; solar minimum -> the opposite).
@@ -24,7 +24,7 @@ isn't:
      generates its own explicit idealized ~11-year cosine solar-cycle
      phi(t), the same textbook approximation used elsewhere in this
      repository as a documented fallback (see
-     gcr.spectrum.load_usoskin_phi's synthetic branch), so its synthetic
+     gcrisk.spectrum.load_usoskin_phi's synthetic branch), so its synthetic
      origin is unambiguous. This panel is illustrative only -- it assumes
      a perfectly repeating, idealized solar cycle, NOT a real space-weather
      forecast (real cycles vary in amplitude and length by several years)
@@ -46,8 +46,8 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import load_usoskin_phi
-from gcr.reid import reid_vs_launch_date
+from gcrisk.spectrum import load_usoskin_phi
+from gcrisk.reid import reid_vs_launch_date
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 FIG_DIR = os.path.join(os.path.dirname(__file__), '..', 'figures')
@@ -70,7 +70,7 @@ def _monthly_dates(start: str, end: str) -> list:
 
 def _illustrative_phi_df(start: str, end: str) -> pd.DataFrame:
     """Self-generated idealized cosine phi(t) — see module docstring.
-    Same functional form as gcr.spectrum.load_usoskin_phi's synthetic
+    Same functional form as gcrisk.spectrum.load_usoskin_phi's synthetic
     fallback (700 - 300*cos(2*pi*(t-2009)/11)), generated fresh here so its
     provenance is explicit and never mixed with the real database file."""
     dates = pd.date_range(start, end, freq='MS')

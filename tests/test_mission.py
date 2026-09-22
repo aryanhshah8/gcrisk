@@ -1,8 +1,8 @@
-"""Tests for gcr/mission.py"""
+"""Tests for gcrisk/mission.py"""
 
 import numpy as np
 import pytest
-from gcr.mission import mars_surface_dose, run_full_mission
+from gcrisk.mission import mars_surface_dose, run_full_mission
 
 
 # Coarse energy grid to keep transit integration fast during testing

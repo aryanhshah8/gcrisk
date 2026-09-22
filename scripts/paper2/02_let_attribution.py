@@ -12,7 +12,7 @@ Produces:
     REID sensitivity budget is attributed across LET bins.
 
 The attribution is first-order and framed explicitly as such. See
-``gcr/paper2.py:conditioned_let_sensitivity`` for the mathematical
+``gcrisk/paper2.py:conditioned_let_sensitivity`` for the mathematical
 definition and caveats.
 """
 
@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..')
 ))
 
-from gcr.paper2 import (
+from gcrisk.paper2 import (
     DEFAULT_LET_BINS_KEV_UM,
     _format_bin_labels,
     conditioned_let_sensitivity,

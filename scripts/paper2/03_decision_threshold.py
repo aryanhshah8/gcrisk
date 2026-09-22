@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..')
 ))
 
-from gcr.paper2 import (
+from gcrisk.paper2 import (
     HISTORICAL_NASA_REID_THRESHOLD,
     decision_threshold_sweep,
 )

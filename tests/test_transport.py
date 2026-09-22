@@ -1,8 +1,8 @@
-"""Tests for gcr/transport.py"""
+"""Tests for gcrisk/transport.py"""
 
 import numpy as np
 import pytest
-from gcr.transport import (
+from gcrisk.transport import (
     effective_charge, load_stopping_power, bethe_bloch, proton_range,
     energy_after_slab, bradt_peters_cross_section,
 )

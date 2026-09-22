@@ -1,4 +1,4 @@
-"""Tests for gcr/paper2.py — all additive layer, no Paper 1 changes.
+"""Tests for gcrisk/paper2.py — all additive layer, no Paper 1 changes.
 
 Fast tests only (no full-pipeline ensemble runs) unless marked ``slow``.
 """
@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from gcr.paper2 import (
+from gcrisk.paper2 import (
     BEIR_VII_DDREF_PRIOR,
     BIOLOGICAL_PARAM_NAMES,
     DEFAULT_LET_BINS_KEV_UM,
@@ -24,9 +24,9 @@ from gcr.paper2 import (
     reid_with_custom_biological_priors,
     run_ensemble_with_priors,
 )
-from gcr.spectrum import gcr_total_flux
-from gcr.uncertainty import PARAM_NAMES, lhs_samples
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.spectrum import gcr_total_flux
+from gcrisk.uncertainty import PARAM_NAMES, lhs_samples
+from gcrisk.utils import DEFAULT_E_GRID
 
 
 # ---------------------------------------------------------------------------
@@ -190,7 +190,7 @@ def test_custom_priors_reproduce_paper1_defaults():
     Cannot assert sample-by-sample equality because the NumPy RNG call
     ordering differs, but the aggregate statistics should be extremely close.
     """
-    from gcr.reid import reid_with_uncertainty
+    from gcrisk.reid import reid_with_uncertainty
     out_paper1 = reid_with_uncertainty(
         H_total_Sv=1.0, age_at_exposure=35, sex='male', n_samples=5000,
     )
@@ -239,8 +239,8 @@ def test_decision_threshold_reports_3pct_benchmark():
 @pytest.mark.slow
 def test_run_ensemble_with_priors_smoke():
     """One-sample smoke test — confirms the ensemble wrapper wires correctly."""
-    from gcr.spectrum import load_usoskin_phi
-    from gcr.trajectory import generate_trajectory
+    from gcrisk.spectrum import load_usoskin_phi
+    from gcrisk.trajectory import generate_trajectory
 
     data_dir = os.path.join(
         os.path.dirname(__file__), '..', '..', 'data', 'usoskin',

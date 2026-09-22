@@ -1,7 +1,7 @@
-gcr.utils
+gcrisk.utils
 =============
 
-.. automodule:: gcr.utils
+.. automodule:: gcrisk.utils
    :members:
    :undoc-members:
    :show-inheritance:

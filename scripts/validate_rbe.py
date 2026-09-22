@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from gcr.rbe import mcnamara_rbe, wedenberg_rbe
+from gcrisk.rbe import mcnamara_rbe, wedenberg_rbe
 
 
 REFERENCE_CASES = [

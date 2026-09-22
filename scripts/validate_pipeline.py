@@ -16,11 +16,11 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from gcr.spectrum import lis_proton, force_field_modulation, load_usoskin_phi
-from gcr.transport import proton_range
-from gcr.dose import integrate_mission_dose
-from gcr.trajectory import generate_trajectory
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.spectrum import lis_proton, force_field_modulation, load_usoskin_phi
+from gcrisk.transport import proton_range
+from gcrisk.dose import integrate_mission_dose
+from gcrisk.trajectory import generate_trajectory
+from gcrisk.utils import DEFAULT_E_GRID
 
 
 def main():
@@ -114,8 +114,8 @@ def main():
     print(f"  Pipeline result: {D_rate_mean:.2f} mGy/day")
 
     # Compute pipeline species-resolved dose breakdown (single representative day)
-    from gcr.spectrum import gcr_total_flux
-    from gcr.dose import _precompute_transport_factors, _apply_transport_factors, dose_rate_from_flux
+    from gcrisk.spectrum import gcr_total_flux
+    from gcrisk.dose import _precompute_transport_factors, _apply_transport_factors, dose_rate_from_flux
     phi_mid = float(traj['phi_MV'].iloc[len(traj) // 2])
     flux_mid = gcr_total_flux(E_grid, phi_mid)
     tfactors = _precompute_transport_factors(16.0, 'aluminum', E_grid)

@@ -1,5 +1,5 @@
 """
-gcr/spectrum.py — GCR flux generation.
+gcrisk/spectrum.py — GCR flux generation.
 
 Computes modulated GCR flux for all ion species using the force-field approximation.
 Species normalizations are constrained by ACE/CRIS and PAMELA composition measurements

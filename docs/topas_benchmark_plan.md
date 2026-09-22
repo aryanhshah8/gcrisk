@@ -33,7 +33,7 @@ This command:
 2. writes raw scorer outputs into `topas/rbe_v79_proton_water/results/`
 3. merges the outputs into:
    - [data/topas/proton_water_v79_reference.csv](/Users/aryan/Documents/Code/Astrobiology/gcr-dosimetry-pipeline/data/topas/proton_water_v79_reference.csv)
-4. compares the merged CSV against `gcr.rbe`
+4. compares the merged CSV against `gcrisk.rbe`
 
 ## Follow-On Comparison
 

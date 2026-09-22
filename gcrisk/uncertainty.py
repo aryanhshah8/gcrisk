@@ -1,5 +1,5 @@
 """
-gcr/uncertainty.py — Global uncertainty quantification for the GCR pipeline.
+gcrisk/uncertainty.py — Global uncertainty quantification for the GCR pipeline.
 
 Performs Latin Hypercube Sampling (LHS) over 9 physics and biology parameters,
 runs the full pipeline for each sample, and returns variance decomposition.
@@ -42,10 +42,10 @@ import pandas as pd
 from scipy.stats.qmc import LatinHypercube
 from scipy.stats import norm, lognorm
 
-from gcr.utils import DEFAULT_E_GRID
+from gcrisk.utils import DEFAULT_E_GRID
 
 _LN2 = np.log(2.0)
-_ICRP60_Q_MAX = 30.0  # peak of gcr.dose.quality_factor_icrp60 at L=100 keV/um
+_ICRP60_Q_MAX = 30.0  # peak of gcrisk.dose.quality_factor_icrp60 at L=100 keV/um
 
 PARAM_NAMES: list[str] = [
     'phi_scale',
@@ -174,9 +174,9 @@ def _evaluate_one_sample(
     phi_df: pd.DataFrame | None,
 ) -> tuple[float, float, float]:
     """Run one pipeline evaluation with perturbed parameters. Returns (D_mGy, H_mSv, REID)."""
-    from gcr.dose import integrate_mission_dose, dose_equivalent_rate, quality_factor_icrp60
-    from gcr.neutron_table import h_neutron_mSv_day
-    from gcr.spectrum import gcr_total_flux
+    from gcrisk.dose import integrate_mission_dose, dose_equivalent_rate, quality_factor_icrp60
+    from gcrisk.neutron_table import h_neutron_mSv_day
+    from gcrisk.spectrum import gcr_total_flux
 
     traj_perturbed = trajectory_df.copy()
     traj_perturbed['phi_MV'] = traj_perturbed['phi_MV'] * phi_scale
@@ -197,7 +197,7 @@ def _evaluate_one_sample(
 
     # Clip Q_factor so the sample's effective quality factor (H/D) cannot
     # exceed the ICRP-60 Q(L) physical maximum (Q=30 at L=100 keV/um,
-    # gcr.dose.quality_factor_icrp60). Without this, the unbounded
+    # gcrisk.dose.quality_factor_icrp60). Without this, the unbounded
     # LogNormal[1.0, ln2] prior occasionally implies Q_eff > 30, which is
     # not reachable by any ICRP-60 mixed-field weighting.
     Q_eff_unscaled = H_mSv / D_mGy if D_mGy > 0 else 0.0
@@ -217,18 +217,18 @@ def _evaluate_one_sample(
 
 
 def _perturbed_ERR(H_eff_Sv: float, sex: str) -> float:
-    from gcr.reid import excess_relative_risk
+    from gcrisk.reid import excess_relative_risk
     return excess_relative_risk(H_eff_Sv, sex)
 
 
 def _perturbed_EAR(H_eff_Sv: float, age: int, sex: str) -> float:
-    from gcr.reid import excess_absolute_risk_per_year
+    from gcrisk.reid import excess_absolute_risk_per_year
     return excess_absolute_risk_per_year(H_eff_Sv, age, sex)
 
 
 def _compute_reid_from_components(ERR: float, EAR_rate: float, age: int, sex: str) -> float:
     """Compute REID from pre-scaled ERR and EAR values."""
-    from gcr.reid import baseline_cancer_mortality_rate, _SURVIVAL_TABLE, _FC
+    from gcrisk.reid import baseline_cancer_mortality_rate, _SURVIVAL_TABLE, _FC
 
     sex_key = sex.lower()
     life_expectancy = 80 if sex_key == 'female' else 78
