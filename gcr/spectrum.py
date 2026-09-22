@@ -2,6 +2,9 @@
 gcr/spectrum.py — GCR flux generation.
 
 Computes modulated GCR flux for all ion species using the force-field approximation.
+Species normalizations are constrained by ACE/CRIS and PAMELA composition measurements
+at the calibration conditions (200 MeV/n, phi = 481 MV), with a single global scale
+fitted to the MSL/RAD absorbed dose measurement of 1.84 mGy/day at 16 g/cm² Al.
 """
 
 import os
@@ -11,16 +14,36 @@ import pandas as pd
 from .utils import CONSTANTS, ION_SPECIES
 
 
-# Per-species flux calibration (fit against MSL transit validation geometry)
-_SPECIES_FLUX_CALIBRATION = {
-    'H': 0.58956807,
-    'He': 0.08218729,
-    'C': 1.98038404,
-    'O': 0.01632120,
-    'Si': 0.02461265,
-    'Fe': 0.00199702,
+# ---------------------------------------------------------------------------
+# ACE/CRIS + PAMELA composition reference
+# Measured particle flux ratios relative to H = 1.0 at ~200 MeV/n,
+# solar modulation phi ~ 481 MV (2011–2012 MSL cruise epoch).
+# Sources:
+#   Protons/He: Adriani et al. 2014, ApJL 791, L14 (PAMELA 2011–2012)
+#   C, O, Si, Fe: George et al. 2009, ApJ 698, 1666 (ACE/CRIS 2003–2008,
+#     interpolated to phi = 481 MV using the force-field ratio)
+_ACE_CRIS_COMPOSITION = {
+    'H':  1.0000,
+    'He': 0.0660,   # PAMELA; Adriani et al. 2014
+    'C':  1.80e-3,  # ACE/CRIS; George et al. 2009
+    'O':  2.20e-3,  # ACE/CRIS; George et al. 2009  (C/O = 0.82, well-established)
+    'Si': 1.80e-4,  # ACE/CRIS; George et al. 2009
+    'Fe': 1.40e-4,  # ACE/CRIS; George et al. 2009
 }
 
+# Reference conditions for the composition constraint
+_CALIB_E_REF_MEV  = 200.0   # kinetic energy per nucleon [MeV/n]
+_CALIB_PHI_REF_MV = 481.0   # MSL cruise mean modulation potential [MV]
+
+# Global dose-matching scale: fitted so the composition-constrained model reproduces
+# the MSL/RAD absorbed dose rate of 1.84 mGy/day at 16 g/cm² Al, phi = 481 MV.
+# Recompute with: python scripts/calibrate_global_scale.py
+# This single free parameter replaces the previous 6-factor unconstrained calibration.
+_GLOBAL_DOSE_SCALE = 0.894438  # fitted: D = 1.84 mGy/day at 16 g/cm² Al, phi = 481 MV
+
+
+# ---------------------------------------------------------------------------
+# LIS functions
 
 def lis_proton(E_MeV_per_n: np.ndarray) -> np.ndarray:
     """
@@ -186,11 +209,65 @@ def force_field_modulation(
     return np.maximum(j_mod, 0.0)
 
 
+# ---------------------------------------------------------------------------
+# Composition-constrained calibration
+
+def _build_species_calibration() -> dict:
+    """
+    Build per-species calibration factors constrained by ACE/CRIS measurements.
+
+    For each species s, the factor corrects the LIS model's predicted modulated
+    flux ratio (species/H) to match the ACE/CRIS measured ratio at the
+    reference conditions (200 MeV/n, phi = 481 MV).  A single global scale
+    _GLOBAL_DOSE_SCALE then shifts all species together to match the MSL/RAD
+    absorbed dose of 1.84 mGy/day.
+
+    This replaces the previous six-free-parameter calibration (fit to total
+    dose only) with a one-parameter calibration that preserves the physical
+    GCR inter-species composition.
+    """
+    E_ref = np.array([_CALIB_E_REF_MEV])
+    phi = _CALIB_PHI_REF_MV
+
+    # Modulated LIS flux at reference conditions
+    lis_flux = {}
+    for sp_key, sp in ION_SPECIES.items():
+        Z, A = sp['Z'], sp['A']
+        lis_func = _get_lis_func(Z, A)
+        j = force_field_modulation(E_ref, phi, lis_func, Z, A)
+        lis_flux[sp_key] = float(j[0])
+
+    j_H_lis = lis_flux['H']
+    factors = {}
+    for sp_key in ION_SPECIES:
+        ace_ratio = _ACE_CRIS_COMPOSITION.get(sp_key, None)
+        if ace_ratio is None or j_H_lis <= 0:
+            factors[sp_key] = _GLOBAL_DOSE_SCALE
+            continue
+        lis_ratio = lis_flux[sp_key] / j_H_lis
+        if lis_ratio > 0:
+            factors[sp_key] = (ace_ratio / lis_ratio) * _GLOBAL_DOSE_SCALE
+        else:
+            factors[sp_key] = _GLOBAL_DOSE_SCALE
+
+    return factors
+
+
+# Calibration factors: ACE/CRIS-constrained composition × global dose scale.
+# The relative inter-species ratios are fixed by measurements; the overall
+# magnitude is the single free parameter matched to MSL/RAD.
+_SPECIES_FLUX_CALIBRATION = _build_species_calibration()
+
+
+# ---------------------------------------------------------------------------
+# Flux generation
+
 def gcr_total_flux(
     E_MeV_per_n: np.ndarray,
     phi_MV: float,
     species: list = None,
     lis_norm_scale: float = 1.0,
+    hze_norm_scale: float = 1.0,
 ) -> dict:
     """
     Compute modulated GCR flux for all (or specified) ion species.
@@ -200,7 +277,9 @@ def gcr_total_flux(
     E_MeV_per_n : energy grid [MeV/nucleon]
     phi_MV : solar modulation potential [MV]
     species : list of species keys to include; defaults to all
-    lis_norm_scale : multiplicative scale on all LIS fluxes
+    lis_norm_scale : multiplicative scale on all LIS fluxes (uncertainty hook)
+    hze_norm_scale : additional multiplicative scale on Z > 2 species only
+                     (captures HZE composition uncertainty; uncertainty hook)
 
     Returns
     -------
@@ -218,7 +297,8 @@ def gcr_total_flux(
         Z, A = sp['Z'], sp['A']
         lis_func = _get_lis_func(Z, A)
         flux = force_field_modulation(E_MeV_per_n, phi_MV, lis_func, Z, A)
-        flux = flux * _SPECIES_FLUX_CALIBRATION.get(sp_key, 1.0) * lis_norm_scale
+        hze_factor = hze_norm_scale if Z > 2 else 1.0
+        flux = flux * _SPECIES_FLUX_CALIBRATION.get(sp_key, 1.0) * lis_norm_scale * hze_factor
         result[sp_key] = flux
         total += flux
 

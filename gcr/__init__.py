@@ -22,7 +22,7 @@ Benchmark:    read_topas_scorer_csv, build_topas_rbe_reference_frame,
               enrich_topas_rbe_frame, compare_topas_rbe_reference
 """
 
-__version__ = "0.2.0"
+__version__ = "1.0.0"
 
 # Spectrum
 from .spectrum import (

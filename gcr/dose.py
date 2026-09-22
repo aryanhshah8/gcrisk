@@ -244,6 +244,7 @@ def _precompute_transport_factors(
     x_gcm2: float,
     material: str,
     E_grid_MeV: np.ndarray,
+    alpha_geo: float = 0.5,
 ) -> dict:
     """
     Precompute transport energy-mapping and Jacobian factors for constant shielding.
@@ -273,8 +274,6 @@ def _precompute_transport_factors(
     _, _, _, E_from_R_interp = _range_cache[material]
 
     S_func = load_stopping_power(material)
-
-    alpha_geo = 0.5
 
     for sp_key, sp in _ION_SPECIES.items():
         Z, A = sp['Z'], sp['A']
@@ -531,6 +530,8 @@ def integrate_mission_dose(
     E_grid_MeV: np.ndarray = None,
     lis_norm_scale: float = 1.0,
     neutron_yield_scale: float = 1.0,
+    hze_norm_scale: float = 1.0,
+    alpha_geo: float = 0.5,
 ) -> dict:
     """
     Integrate dose over a full mission trajectory.
@@ -555,42 +556,45 @@ def integrate_mission_dose(
     D_total = 0.0
     H_total = 0.0
 
-    # Precompute transport factors once (shielding is constant)
+    # Precompute transport factors once (shielding is constant across the mission)
     if shielding_x_gcm2 > 0:
         transport_factors = _precompute_transport_factors(
-            shielding_x_gcm2, shielding_material, E_grid_MeV)
+            shielding_x_gcm2, shielding_material, E_grid_MeV,
+            alpha_geo=alpha_geo)
     else:
         transport_factors = {}
 
-    for i in range(n_days):
-        phi = float(trajectory_df['phi_MV'].iloc[i])
+    # Cache dose rates by phi, quantised to 5 MV bins.
+    # Phi is daily-interpolated from monthly data so a ~260-day trajectory
+    # spans ~26 unique 5 MV bins rather than 260 unique values.  The maximum
+    # rounding error is ±2.5 MV (≤0.5% of phi), producing <0.2% flux change —
+    # well below the LHS phi_scale uncertainty of ±15%.
+    _PHI_BIN_MV = 5.0
+    phi_array = trajectory_df['phi_MV'].values.astype(float)
+    phi_binned = np.round(phi_array / _PHI_BIN_MV) * _PHI_BIN_MV
+    unique_phis = np.unique(phi_binned)
 
-        # Step 1: GCR flux
-        flux = gcr_total_flux(E_grid_MeV, phi, lis_norm_scale=lis_norm_scale)
-
-        # Step 2: Transport
+    _phi_cache: dict[float, tuple[float, float]] = {}
+    for phi in unique_phis:
+        raw_flux = gcr_total_flux(E_grid_MeV, float(phi),
+                                   lis_norm_scale=lis_norm_scale,
+                                   hze_norm_scale=hze_norm_scale)
         if shielding_x_gcm2 > 0:
-            flux = _apply_transport_factors(flux, E_grid_MeV, transport_factors)
-
-        # Step 3: Absorbed dose rate
-        dose_result = dose_rate_from_flux(flux, E_grid_MeV)
-        D_rate = dose_result['dose_rate_total']
-
-        # Step 4: Dose equivalent rate
-        H_result = dose_equivalent_rate(flux, E_grid_MeV)
-        H_rate = H_result['H_rate_Sv_s']
-
-        # Step 5: Equilibrium neutron contribution
-        eq_neutron_flux = _equilibrium_neutron_flux(
-            E_grid_MeV, shielding_x_gcm2, phi,
+            raw_flux = _apply_transport_factors(raw_flux, E_grid_MeV,
+                                                transport_factors)
+        D_r = dose_rate_from_flux(raw_flux, E_grid_MeV)['dose_rate_total']
+        H_r = dose_equivalent_rate(raw_flux, E_grid_MeV)['H_rate_Sv_s']
+        eq_n = _equilibrium_neutron_flux(
+            E_grid_MeV, shielding_x_gcm2, float(phi),
             material=shielding_material,
             neutron_yield_scale=neutron_yield_scale)
-        eq_H_result = dose_equivalent_rate({'neutron': eq_neutron_flux}, E_grid_MeV)
-        H_rate += eq_H_result['H_rate_Sv_s']
+        H_r += dose_equivalent_rate({'neutron': eq_n}, E_grid_MeV)['H_rate_Sv_s']
+        _phi_cache[float(phi)] = (D_r, H_r)
 
+    for i in range(n_days):
+        D_rate, H_rate = _phi_cache[phi_binned[i]]
         D_rate_daily[i] = D_rate * dt_s * 1000.0
         H_rate_daily[i] = H_rate * dt_s * 1000.0
-
         D_total += D_rate * dt_s
         H_total += H_rate * dt_s
 

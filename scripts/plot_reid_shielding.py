@@ -27,7 +27,7 @@ plt.rcParams.update({
     'figure.dpi': 150,
 })
 
-THICKNESSES = np.array([0, 2, 5, 10, 16, 20, 30, 40])
+THICKNESSES = np.array([0, 2, 5, 10, 16, 20, 30, 40, 50])
 LAUNCH_DATE = '2031-01-01'
 
 # ── Load trajectory ──────────────────────────────────────────────────────────

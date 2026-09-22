@@ -28,8 +28,8 @@
 
 I am submitting for your consideration the manuscript
 \textbf{``An open-source GCR dosimetry pipeline for Mars mission risk
-assessment: organ-specific REID, SEP acute hazard, and dual-use proton
-therapy RBE benchmarking''} for publication in \textit{Life Sciences in
+assessment: organ-specific REID, SEP acute hazard, and global uncertainty
+quantification''} for publication in \textit{Life Sciences in
 Space Research}.
 
 \medskip
@@ -39,30 +39,24 @@ The manuscript presents an open-source Python package
 generation, CSDA slab transport, organ-specific cancer risk (REID),
 Solar Energetic Particle acute dosimetry, and global uncertainty
 quantification via Latin Hypercube Sampling into a single reproducible
-workflow with 82 automated tests and a public repository.
+workflow with 86 automated tests and a public repository.
 
 \medskip
 \textbf{What is new.}
 I am transparent that the individual components — force-field
 modulation, CSDA transport, REID estimation — are established methods.
-The contributions are threefold.
+The contributions are twofold.
 
 First, no currently available open tool combines organ-specific REID,
 SEP acute risk, and global uncertainty propagation in a single workflow
-reproducible from a standard \texttt{pip install}.
+reproducible from a standard \texttt{pip install}, with inter-species
+flux ratios constrained to ACE/CRIS and PAMELA measurements rather than
+fit freely to a single total-dose calibration point.
 
-Second, the per-species LET decomposition shows that carbon ions account
-for approximately 59\% of unshielded GCR absorbed dose at a field LET
-of 18.7~keV/$\mu$m — the same LET range that governs Bragg-peak RBE
-uncertainty in clinical proton therapy.
-The pipeline computes Wedenberg and McNamara RBE for both GCR and
-clinical proton beam geometries from one codebase, enabling direct
-comparison of quality factors across both fields.
-To my knowledge this connection has not been demonstrated quantitatively
-in an open tool.
-
-Third, the Latin Hypercube Sampling ensemble shows that DDREF and excess
-risk scaling together account for more than 70\% of REID output variance,
+Second, the Latin Hypercube Sampling ensemble shows that the radiobiological
+parameters (quality factor scale, DDREF, and the excess risk/absolute risk
+scaling factors) together account for approximately 88\% of REID output
+variance, while GCR physics parameters contribute approximately 12\%,
 quantifying why physics improvements alone cannot close mission risk
 uncertainty. This is a directly actionable finding for research
 prioritization.
@@ -78,20 +72,21 @@ independent prediction, and the validation evidence is presented
 accordingly.
 The REID framework follows Cucinotta (2013); the 2023 NASA update is
 noted as a limitation for future work.
+The repository also contains a separate LET/RBE proton-therapy
+benchmarking layer, reported here only as a brief implementation
+self-consistency check rather than a central contribution, since it
+is the foundation of a distinct follow-up study.
 
 \medskip
 \textbf{Relevance to \textit{Life Sciences in Space Research}.}
 This manuscript is squarely within the journal's scope: human
 spaceflight radiation risk, Mars mission planning, and space radiation
 biology.
-The dual-use LET framing (space radiation $\leftrightarrow$ proton
-therapy) additionally connects to an emerging readership interested in
-high-LET radiobiology across both domains.
 
 \medskip
 \textbf{Data and code availability.}
-All source code, input data, validation scripts, and TOPAS benchmark
-geometries are openly available on GitHub at the repository
+All source code, input data, and validation scripts are openly available
+on GitHub at the repository
 \href{https://github.com/aryanhshah8/gcr-dosimetry-pipeline}{aryanhshah8/gcr-dosimetry-pipeline},
 and no proprietary datasets are required to reproduce any results.
 

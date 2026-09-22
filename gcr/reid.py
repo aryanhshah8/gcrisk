@@ -144,6 +144,14 @@ def reid_point_estimate(
     NASA REID point estimate combining ERR and EAR.
 
     REID = integral over remaining life of [ERR * lambda_c(a) + EAR(a_e)] * S(a|a_e) da
+
+    This is a simplified deterministic estimate that applies a single fixed
+    DDREF (`_DDREF = 1.75`, a commonly cited central value). It is provided
+    as a quick scalar API and is independent of the Monte Carlo pathways
+    (`reid_with_uncertainty`, `reid_from_organ_doses`) used to generate every
+    REID value reported in the manuscript, which instead sample
+    DDREF ~ Uniform(1.0, 2.0) per BEIR VII / ICRP-103. No number reported in
+    the paper is computed via this function.
     """
     sex_key = sex.lower()
     life_expectancy = 80 if sex_key == 'female' else 78

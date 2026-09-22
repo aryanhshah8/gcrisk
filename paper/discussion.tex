@@ -1,5 +1,5 @@
 % ─────────────────────────────────────────────────────────────────────────────
-% DISCUSSION — detailed, honest, biology-forward
+% DISCUSSION (condensed — extended limitations in Supplementary Material)
 % ─────────────────────────────────────────────────────────────────────────────
 
 \section{Discussion}
@@ -8,329 +8,145 @@
 \subsection{What the Validation Does and Does Not Show}
 \label{sec:discuss_validation}
 
-The three independent validation checks described in
-Section~\ref{sec:validation} (shielding curve shape, material ratio, and
-temporal modulation) each test a different aspect of the model that was
-not constrained by the single-point calibration to MSL/RAD at
-$16\,\mathrm{g\,cm^{-2}}$.
-Together they support characterizing the pipeline as \emph{calibrated to
-one flight measurement and consistent with available benchmarks within
-their stated uncertainties} — rather than independently predicting the
-flight result.
-This distinction matters for how the uncertainty analysis should be
-interpreted: the $\pm25$--$50\%$ spread in the LHS ensemble
-(Section~\ref{sec:uq}) is not a contradiction of the calibration; it
-reflects the range of outcomes possible under plausible variations in
-the physics and biology inputs, and is the more honest representation
-of what the pipeline actually knows.
+The independent checks in \S\ref{sec:validation}--\ref{sec:iss_crosscheck}
+(shielding curve shape, material ratio, the real MSL/RAD cruise trend, and
+the real ISS multi-year trend) each probe an aspect of the model not
+constrained by the single-point MSL/RAD calibration. Together they support
+characterizing the pipeline as \emph{calibrated to one flight measurement
+and consistent with independent benchmarks within their stated
+uncertainties}, not as independently predicting the flight result. The
+near-zero daily-resolution correlation, the SEP-event confound behind it,
+and the held-out cross-validation of the RAD anchoring (\S\ref{sec:validation})
+are reported for the same reason: an honest, non-circular account of what
+this monthly-resolution model can and cannot claim is worth more than an
+artificially strong number. That discipline paid off here: chasing the
+daily correlation initially suggested a resolution gap in the solar-modulation
+physics, but a genuine daily-resolution reconstruction (real neutron-monitor
+data, independently calibrated) did not improve it, and the actual
+explanation turned out to be a documented SEP event contaminating the
+comparison for a few days, not a physics deficiency in the chronic-GCR model.
 
-\subsection{Implications for Mars Mission Shielding Design}
+\subsection{Implications for Mission Shielding Design}
 \label{sec:discuss_shielding}
 
-The shielding effectiveness curves (Figure~\ref{fig:shielding}) show a clear
-diminishing-returns plateau above approximately $20\,\mathrm{g\,cm^{-2}}$
-aluminum.
-This behavior is well-established \citep{cucinotta2006, slaba2014} and arises
-from two competing effects: HZE ion dose decreases with shielding, but
-secondary neutron dose grows as spallation products accumulate.
-For the mission parameters studied here, increasing aluminum shielding from
-$16$ to $40\,\mathrm{g\,cm^{-2}}$ reduces GCR absorbed dose by only
-$\sim\!42\%$ while roughly doubling the mass fraction of the spacecraft wall.
+Turning from validation to what these numbers imply operationally, the
+shielding curve (Fig.~\ref{fig:shielding_scan}) plateaus above
+$\sim\!20\gcm$ aluminum as secondary-neutron growth offsets HZE
+attenuation: going from $16$ to $40\gcm$ cuts GCR dose only
+$\sim\!42\%$ while roughly doubling wall mass, consistent with prior
+literature \citep{cucinotta2006, slaba2014} that bulk aluminum shielding
+is mass-inefficient against chronic GCR. SEP shielding is the opposite
+case: the October~2003 event drops from $\sim\!35\times$ the BFO limit
+unshielded to below it by $\sim\!25\gcm$ (Fig.~\ref{fig:sep}). This
+asymmetry supports a compact, heavily-shielded SEP storm shelter over
+whole-vehicle HZE shielding as the more mass-efficient architecture
+\citep{durante2011, cucinotta2010}.
 
-This suggests that bulk passive shielding is not an efficient solution to
-GCR chronic exposure, and the community consensus \citep{durante2011} is
-that pharmacological countermeasures, mission timing (solar maximum launch),
-or advanced shielding materials (polyethylene, liquid hydrogen, water walls)
-may offer better mass-efficiency trade-offs.
-Polyethylene at $16\,\mathrm{g\,cm^{-2}}$ delivers $\sim\!26\%$ lower
-dose than aluminum at the same areal density, primarily because its hydrogen
-content fragments HZE ions more effectively.
-Detailed material optimization was beyond the scope of this work.
-
-In contrast, the SEP analysis (Figure~\ref{fig:sep}) shows that shielding
-is \emph{highly effective} against the softer proton spectra of SEP events:
-the October~2003 Halloween event drops from $\sim\!35\times$ the BFO limit
-at zero shielding to below the limit at $\sim\!25\,\mathrm{g\,cm^{-2}}$ Al.
-This asymmetry (GCR poorly shielded, SEP well shielded) strongly suggests
-that the most mass-efficient architectural choice is a compact, heavily shielded
-storm shelter for SEP events rather than whole-vehicle HZE shielding.
-The August~1972 event, if encountered without a shelter, would be
-potentially lethal; its spectrum requires $>30\,\mathrm{g\,cm^{-2}}$
-for sub-limit protection.
-These numbers are consistent with prior analyses \citep{cucinotta2010}
-and are reproduced here with an open, reproducible implementation.
-
-\subsection{REID Interpretation and Limitations}
+\subsection{REID Interpretation: Biology, Not Physics, Dominates}
 \label{sec:discuss_reid}
 
-The median REID of $5.0\%$ (male) and $5.4\%$ (female) for a 35-year-old
-crew member on a 259-day transit at $16\,\mathrm{g\,cm^{-2}}$ aluminum
-exceeds the historical NASA $3\%$ career limit \citep{cucinotta2013}.
-However, several caveats are required.
+The shielding trade-offs above are only as meaningful as the risk number
+they are designed around, so it is worth scrutinizing that number directly.
+Median REID ($6.5\%$ male, $8.3\%$ female at $16\gcm$) exceeds the
+historical NASA $3\%$ limit \citep{nasa2014}, though NASA's updated
+age/sex-dependent framework \citep{nasa2023} is not implemented here and
+the comparison should be read as indicative. Because the
+composition-constrained pipeline overestimates $\Qeff$ by $\sim\!27\%$
+(\S\ref{sec:calib}), these values are conservative upper estimates;
+correcting for that ratio would put male median REID at $\sim\!5.1\%$ —
+still above the historical limit. The p5--p95 band spans a factor of
+$\sim\!12\times$: this REID should be read as "the mission dose likely
+carries meaningful cancer risk, with the exact value uncertain by an
+order of magnitude," not as a precise prediction.
 
-First, the uncertainty bands are wide: the p5--p95 range spans
-approximately $1.3\%$--$16.9\%$ (male), a factor of $\sim\!13\times$ spread.
-A REID estimate of $5.0\%$ median with this spread should not be read as
-a precise prediction; it should be read as: \emph{the mission dose is likely
-to produce a meaningful cancer mortality risk, with the exact value uncertain
-by an order of magnitude under reasonable assumptions about the radiobiology}.
+Most importantly, this uncertainty is overwhelmingly biological. The four
+radiobiological parameters contribute $\gtrsim\!85\%$ of REID's normalized
+sensitivity, all five physics parameters combined $<15\%$ (Supplementary
+Table~S4) — consistent with Cucinotta et al.\ \cite{cucinotta2013} and the
+broader literature \citep{durante2011}. No direct human data constrain the
+HZE LET range that dominates unshielded GCR dose equivalent; extrapolating
+from mouse and atomic-bomb-survivor data to this regime is the single
+largest source of uncertainty in this calculation, and no amount of
+improved transport physics can resolve it. Strikingly, \code{phi\_scale}
+drives $79\%$ of absorbed-dose variance but only $8\%$ of REID variance:
+solar-modulation uncertainty strongly affects physical dose but has almost
+no leverage on mortality probability once biology enters. The
+value-of-information sweep (\S\ref{sec:vov}) makes this actionable rather
+than qualitative.
 
-Second, the Cucinotta (2013) model was NASA's primary risk model at the
-time of this work, but NASA has since updated its career limit framework
-to be age- and sex-dependent rather than a fixed $3\%$ threshold
-\citep{nasa2023}.
-Under the updated framework, mission go/no-go determinations require
-age- and sex-specific analysis; the pre-2023 $3\%$ threshold shown in
-Figure~\ref{fig:reid} is a historical reference only and should not be
-used to draw operational conclusions from the median REID values
-reported here.
-We do not implement the updated framework because it postdates the
-primary literature we built against; this is a meaningful limitation
-for any operational application of these results, and readers should
-treat the limit comparison as indicative rather than prescriptive.
+\subsection{Scope of the LET/RBE Layer}
 
-Third, and most importantly, the dominant uncertainty in REID is biological,
-not physical.
-The variance decomposition from the LHS ensemble consistently shows that
-the DDREF (dose and dose-rate effectiveness factor) and the ERR/EAR scale
-parameters together account for $>70\%$ of the output variance in REID,
-while physics parameters (solar modulation, LIS normalization,
-cross-sections) contribute $<30\%$ combined.
-This result is consistent with Cucinotta et al.\ \cite{cucinotta2013} and with the broader
-literature on space radiation risk \citep{durante2011}:
-reducing measurement uncertainty in GCR spectra (through improved LIS models
-or better solar modulation databases) will have limited impact on REID
-uncertainty without matching progress in our understanding of
-high-LET human radiobiology.
-There is currently no direct in vivo human data for the iron-ion LET range
-($\sim\!400$~keV/$\mu$m) that contributes meaningfully to GCR dose equivalent
-in unshielded or lightly shielded geometries.
-The extrapolation from mouse tumor data and atomic-bomb survivor epidemiology
-to the HZE component of the GCR field is the most uncertain aspect of the
-entire risk calculation, and no amount of improved transport modeling can
-address it.
-
-The sensitivity decomposition reveals an additional, interpretively
-important asymmetry.
-The solar modulation scale parameter (\code{phi\_scale}) accounts for
-$72\%$ of absorbed dose variance but only $3.5\%$ of REID variance
-(Table~\ref{tab:sensitivity}).
-This means that uncertainty in $\phi$ — which is substantial
-($\pm 50$--$100$~MV from neutron monitor inter-station offsets,
-Section~\ref{sec:phi}) — strongly influences how much physical dose a
-crew member receives but has almost no leverage on the probability that
-they die from it.
-Once dose is converted to REID through the organ EAR/ERR functions and
-life tables, the radiobiological scale parameters dominate by a wide
-margin and wash out the physics spread.
-Investment in better solar modulation databases or improved GCR spectral
-measurements will therefore reduce uncertainty in mission dose planning
-but will not narrow cancer risk estimates until the high-LET radiobiology
-is better constrained.
-
-\subsection{Per-Species LET and the Bridge to Proton Therapy}
-\label{sec:discuss_bridge}
-
-The LET decomposition in Figure~\ref{fig:let} illustrates the physical
-mechanism behind the GCR effective quality factor.
-At $\phi = 481$~MV with no shielding, carbon ions (though contributing only
-$\sim\!1\%$ of the GCR particle fluence) account for approximately $58.6\%$
-of the total absorbed dose.
-This arises because carbon LET ($\sim\!25$~keV/$\mu$m at transit energies)
-is high enough to deposit significant dose per unit fluence, but the carbon
-flux is still large enough (relative to heavier ions like Fe and Si) to
-dominate the dose integral.
-The result is a field $\overline{L}_D \approx 18.7$~keV/$\mu$m, yielding
-$Q_\mathrm{eff} = 2.60$ via the ICRP-60 quality factor curve, consistent
-with the MSL/RAD measured value of $2.62 \pm 0.14$ \citep{zeitlin2013}.
-
-After $16\,\mathrm{g\,cm^{-2}}$ of aluminum, nuclear fragmentation
-preferentially removes the heavy ions (longer mean free paths,
-higher cross-sections), and the carbon dose fraction drops to $31.2\%$
-while the proton fraction rises to $49.4\%$.
-The field $\overline{L}_D$ falls to $4.1$~keV/$\mu$m.
-
-Proton therapy beams in the plateau region have
-$\overline{L}_D \sim 0.5$--$2$~keV/$\mu$m, giving
-RBE $\approx 1.05$--$1.10$ under the Wedenberg and McNamara models.
-Near the Bragg peak ($\overline{L}_D \sim 10$--$25$~keV/$\mu$m),
-proton RBE rises to $1.4$--$1.8$ (Figure~\ref{fig:topas}) — the same
-LET range as the dominant GCR HZE dose regime at moderate shielding.
-The LET-RBE relationship that determines Q(L) for astronaut risk is the same
-one that governs RBE uncertainty in proton therapy Bragg peak delivery,
-particularly for CNS and late-responding tissues where $\alpha/\beta \approx 3$~Gy
-\citep{paganetti2014}.
-
-The transport physics for a clinical proton beam (monoenergetic, narrow
-field, tissue-equivalent phantom) and for GCR (isotropic, broad spectrum,
-shielded spacecraft) are quite different, and the pipeline does not bridge
-that physical gap.
-What it does show is that the same LET-dependent RBE formalism can be
-evaluated consistently for both scenarios from a single codebase,
-enabling direct numerical comparison of quality factors across the two
-fields — a starting point for more unified treatments of high-LET
-radiation biology in space and clinical contexts.
+Separately from the REID interpretation above, it is worth being explicit
+about what the pipeline's LET/RBE layer does and does not claim. The
+per-species LET decomposition (Fig.~\ref{fig:let}) traces $\Qeff$'s
+physical origin to specific ion contributions; the residual $27\%$
+$\Qeff$ excess over the RAD measurement is attributed to CSDA's missing
+fragmentation (\S\ref{sec:calib}). The repository also contains a proton
+RBE self-consistency layer (\S\ref{sec:rbemethods}) reported only as a
+implementation check (Table~\ref{tab:validation}); it is the foundation
+for a planned, separate proton-therapy crossover study and is not a
+central contribution here.
 
 \subsection{Limitations}
 \label{sec:discuss_limits}
 
-The primary limitations of the pipeline are collected here; several have
-been noted briefly in the methods.
+The main structural limitation is CSDA transport without nuclear
+fragmentation, which by my order-of-magnitude estimate overestimates
+$\Qeff$ (and correspondingly REID) at $16\gcm$ by roughly
+$15$--$25\%$ \citep{wilson1991, slaba2014} — well within the $12\times$
+uncertainty band but not negligible relative to the median. Other
+significant approximations include: a uniform-slab spacecraft geometry
+(no ray-tracing); six modeled GCR species (unmodeled species $<5\%$ of
+dose); the force-field modulation's monthly resolution, which limits
+daily-scale claims and is the reason the ISS cross-check tests trend, not
+absolute dose, and does not extend to near-Earth or trapped-radiation
+environments; the pre-2023 Cucinotta NASA risk framework rather than the
+updated age/sex-dependent limits; and cancer-only risk (no CNS,
+cataract, or cardiovascular endpoints). The full itemized discussion of
+each limitation, with supporting estimates, is provided in Supplementary
+\S{}S2.
 
-\subsubsection{Transport Model Approximations}
+\subsection{Future Work}
+\label{sec:future_work}
 
-The CSDA + exponential attenuation transport model does not account for:
+Each limitation above points to a concrete next step, roughly in order of
+expected impact on REID. \textbf{Nuclear fragmentation}: replacing the
+Bradt-Peters fluence-removal model with tabulated fragmentation
+cross-sections \citep{wilson1991} would let secondary light-ion production
+be tracked explicitly, closing the $15$--$25\%$ $\Qeff$ overestimate
+(\S\ref{sec:discuss_limits}) rather than only bounding it. \textbf{Risk
+framework}: adopting NASA's 2023 age/sex-dependent career-limit framework
+\citep{nasa2023} in place of the pre-2023 Cucinotta model would remove the
+main caveat on the REID-vs-NASA-limit comparison in
+\S\ref{sec:discuss_reid}. \textbf{Geometry}: ray-traced, non-uniform
+spacecraft shielding (as in OLTARIS or Geant4) would replace the
+uniform-slab approximation, most relevant for real vehicle interiors with
+mass concentrated unevenly around the crew. \textbf{Non-cancer endpoints}:
+CNS, cataract, and cardiovascular risk models are not yet implemented; CNS
+effects in particular have rodent-study support for a cognitive-impairment
+threshold below the cancer risk threshold modeled here. \textbf{Proton
+RBE}: the dose-averaged LET/RBE self-consistency layer
+(\S\ref{sec:rbemethods}) is the foundation for a planned, separate
+proton-therapy crossover study, not yet a contribution of the present
+paper.
 
-\begin{itemize}
-  \item \textbf{Nuclear fragmentation secondaries.}
-        When a heavy ion (e.g., Fe) undergoes a nuclear interaction with
-        an Al nucleus, it fragments into lighter ions (C, O, N, He, p)
-        that continue propagating with lower LET.
-        The current model treats the interaction as simple fluence removal
-        (exponential attenuation), not as a source of lighter-ion secondaries.
-        This leads to underestimation of secondary proton and helium flux
-        at depth, and overestimation of iron fluence attenuation.
-        The effect is largest at $>30\,\mathrm{g\,cm^{-2}}$, where the
-        pipeline's shielding curve may underestimate dose reduction
-        relative to a full fragmentation model.
-        Comparisons between simplified transport and full fragmentation
-        codes in the literature \citep{wilson1991, slaba2014} suggest
-        that omitting secondary production overestimates the effective
-        quality factor at $16\,\mathrm{g\,cm^{-2}}$ by approximately
-        $15$--$25\%$, because fragmentation progressively converts
-        high-LET primary ions into lower-LET secondaries.
-        The resulting overestimation of REID is likely of similar
-        fractional magnitude — well within the $13\times$ p5--p95
-        uncertainty band, but not negligible relative to the median.
-
-  \item \textbf{Delta-ray production.}
-        Energetic secondary electrons (delta rays) from ion tracks are not
-        tracked. For dose and dose equivalent at the macroscopic level,
-        this is a small correction; for microscopic track structure
-        calculations relevant to DNA damage models, it would matter.
-
-  \item \textbf{Geometry simplification.}
-        The spacecraft is modeled as a uniform aluminum slab of fixed
-        areal density.
-        Real crew vehicle geometries are inhomogeneous: walls vary in
-        thickness and material across directions, equipment provides
-        additional shielding in some directions, and crew members are
-        not at the geometric center.
-        Ray-tracing geometry models (as in OLTARIS or Geant4) would be
-        needed to address this.
-
-  \item \textbf{Stopping power uncertainties.}
-        The NIST PSTAR/ASTAR stopping powers for aluminum and tissue are
-        accurate to $\sim\!1$--$2\%$ above 1 MeV/n, but less certain at
-        lower energies where shell corrections become important.
-        This introduces a small systematic uncertainty in CSDA range
-        calculations for low-energy ions near the end of their range.
-\end{itemize}
-
-\subsubsection{Spectrum and Modulation}
-
-\begin{itemize}
-  \item \textbf{Force-field approximation.}
-        The Gleeson--Axford force-field model ignores charge-sign-dependent
-        drift and diffusion anisotropy.
-        During solar minimum, these effects can modify the GCR spectrum
-        below $\sim\!500$~MeV/n at the $10$--$20\%$ level
-        \citep{potgieter2013}, which is within the LIS normalization
-        uncertainty we propagate but is not explicitly modeled.
-
-  \item \textbf{Missing species: Magnesium.}
-        The pipeline currently models H, He, C, O, Si, and Fe.
-        Magnesium (Z=12, A=24) is a minor GCR contributor with an LIS
-        spectral index and abundance tabulated in Boschini et al.\ \cite{boschini2020}
-        but not yet implemented.
-        Its contribution to total absorbed dose is estimated at $<3\%$,
-        based on the Boschini (2020) Mg LIS normalization scaled by
-        its $Z^2$-weighted stopping power relative to the six modeled
-        species at $\sim\!500$~MeV/n.
-
-  \item \textbf{Anomalous cosmic rays.}
-        At energies below $\sim\!100$~MeV/n, anomalous cosmic rays
-        (ACRs, singly-ionized interstellar neutrals accelerated at the
-        solar wind termination shock) can contribute meaningfully during
-        solar minimum.
-        ACRs are not modeled here.
-\end{itemize}
-
-\subsubsection{Biological and Risk Model}
-\label{sec:discuss_biology}
-
-\begin{itemize}
-  \item \textbf{NASA 2023 risk framework.}
-        The pipeline implements the Cucinotta (2013) risk model.
-        NASA's 2023 update introduces age- and sex-dependent career limits
-        and revised tissue weighting factors.
-        Quantitative comparison with the updated framework is left to
-        future work.
-
-  \item \textbf{High-LET extrapolation uncertainty.}
-        The EAR and ERR functions in the REID model were fit primarily to
-        low-LET (photon) epidemiological data (atomic-bomb survivors)
-        with high-LET scaling from rodent experiments.
-        The HZE component of GCR has no direct human epidemiological
-        data to constrain risk models.
-        The DDREF, which bridges the low-dose-rate space environment
-        and the acute exposures in the underlying datasets, is one of
-        the most debated parameters in space radiation risk assessment
-        \citep{durant2013}.
-
-  \item \textbf{Non-cancer risks.}
-        The REID framework models cancer mortality only.
-        Central nervous system (CNS) effects from HZE ions, cataracts,
-        cardiovascular risk, and heritable genetic effects are not
-        quantified here.
-        CNS effects in particular have received increased attention
-        following rodent studies showing cognitive impairment at doses
-        well below the cancer threshold \citep{cucinotta2014cns}.
-
-  \item \textbf{Sex and age scope.}
-        Results are shown for a 35-year-old male and female.
-        The age dependence of REID is significant: a 25-year-old female
-        has approximately $1.5$--$2\times$ higher REID than a 45-year-old
-        male for the same exposure, because she has more remaining life years
-        in which cancer can develop and because female breast and ovarian
-        tissues have high tissue weighting factors.
-        The pipeline supports arbitrary age and sex inputs;
-        broader demographic analysis is left for future work.
-\end{itemize}
-
-\subsubsection{TOPAS Benchmark Scope}
-
-The TOPAS benchmark in this paper tests whether the pipeline computes the
-same RBE values as OpenTOPAS-RBE given the same LETd input. It does not
-test the physical transport.
-The LETd profiles used as input were generated from the TOPAS-nBio V79
-reference dataset for V79, and from the V79 LETd spectrum propagated
-through the clinical cell line parameters for prostate and H\&N.
-The small mean absolute errors reported ($<10^{-3}$) therefore reflect
-numerical accuracy of the implementation, not independent physical
-validation.
-A full benchmark comparing pipeline-predicted versus TOPAS-Monte-Carlo
-depth-dose and LETd profiles in the same phantom geometry is left for
-future work when a TOPAS binary is available in the CI environment.
-
-\subsection{Comparison with Existing Tools}
+\subsection{Comparison with Existing Tools and Reproducibility}
 \label{sec:discuss_comparison}
 
-Table~\ref{tab:tool_comparison} summarizes the principal differences between
-this pipeline and the major existing GCR dosimetry tools.
-The pipeline is not intended to replace these tools for high-fidelity
-mission analysis; it is intended as a transparent, reproducible starting
-point for researchers who want to understand the physics or run
-uncertainty analyses without access to proprietary codes.
+Set against the alternatives, Table~\ref{tab:tool_comparison} compares
+this pipeline against HZETRN, OLTARIS, Geant4, and TOPAS: it is not a
+replacement for these at high fidelity, but is, to my knowledge, the only
+one that is simultaneously open/pip-installable and includes
+organ-specific REID, an SEP library, and LHS uncertainty quantification.
 
-\begin{table}[H]
+\begin{table}[t]
   \centering
-  \small
   \caption{Comparison of GCR dosimetry tools. \checkmark\ = present,
            $\triangle$ = partial, $\times$ = absent.}
   \label{tab:tool_comparison}
-  \setlength{\tabcolsep}{5pt}
-  \begin{tabular}{lccccc}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\tblwidth}{@{}lccccc@{}}
     \toprule
     Feature & Ours & HZETRN & OLTARIS & Geant4 & TOPAS \\
     \midrule
@@ -342,25 +158,11 @@ uncertainty analyses without access to proprietary codes.
     Clinical RBE         & \checkmark & $\times$    & $\times$    & $\triangle$ & \checkmark \\
     CI test suite        & \checkmark & $\times$    & $\times$    & $\times$    & $\times$   \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
-\subsection{Reproducibility}
-\label{sec:reproducibility}
-
-All results in this paper can be reproduced by cloning the repository
-and running:
-\begin{verbatim}
-pip install -e .[dev]
-python scripts/validate_pipeline.py
-python scripts/validate_extended.py
-pytest
-\end{verbatim}
-The five publication figures are generated by the scripts in
-\code{scripts/plot\_*.py}.
-The full N=500 uncertainty ensemble requires approximately 90 minutes
-on a single CPU core; a reduced N=20 version runs in under 2 minutes
-and is used in the automated CI pipeline.
-Input data (Usoskin $\phi$ database, NIST stopping powers, HZETRN neutron table)
-are included in the repository under \code{data/}.
-No proprietary datasets are required.
+All results reproduce via \texttt{pip install -e .[dev]},
+\texttt{validate\_pipeline.py}, \texttt{validate\_extended.py}, and
+\texttt{pytest}; the full $N=500$ ensemble takes $\sim\!90$ minutes
+single-core, with a reduced $N=20$ path used in CI. No proprietary
+datasets are required.

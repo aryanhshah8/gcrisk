@@ -44,6 +44,7 @@ def mars_surface_dose(
     spacecraft_shielding_x_gcm2: float = 0.0,
     shielding_material: str = 'aluminum',
     phi_df: pd.DataFrame = None,
+    surface_rate_scale: float = 1.0,
 ) -> dict:
     """
     Compute radiation dose during Mars surface stay using RAD surface measurements.
@@ -64,6 +65,10 @@ def mars_surface_dose(
         Material of additional shielding.
     phi_df : pd.DataFrame, optional
         Solar modulation potential database. Loaded from default path if None.
+    surface_rate_scale : float
+        Multiplicative scale on the RAD baseline dose rates (default 1.0).
+        Use this to propagate uncertainty in the Hassler et al. (2014) measurement
+        (±20% from RAD instrument calibration and spatial variability).
 
     Returns
     -------
@@ -114,8 +119,8 @@ def mars_surface_dose(
     # Each 10 g/cm² reduces dose by ~8% for GCR on Mars surface
     shielding_reduction = np.exp(-spacecraft_shielding_x_gcm2 * 0.008)
 
-    D_rate_daily = D_rate_base * phi_factor * shielding_reduction
-    H_rate_daily = H_rate_base * phi_factor * shielding_reduction
+    D_rate_daily = D_rate_base * phi_factor * shielding_reduction * surface_rate_scale
+    H_rate_daily = H_rate_base * phi_factor * shielding_reduction * surface_rate_scale
 
     D_total = float(np.sum(D_rate_daily))
     H_total = float(np.sum(H_rate_daily))
@@ -151,6 +156,7 @@ def run_full_mission(
     sex: str = 'male',
     phi_df: pd.DataFrame = None,
     E_grid_MeV: np.ndarray = None,
+    surface_rate_scale: float = 1.0,
 ) -> dict:
     """
     Compute total radiation dose for a complete Mars mission.
@@ -221,7 +227,8 @@ def run_full_mission(
     )
     dose_surface = mars_surface_dose(
         surface_days, arrival_date,
-        habitat_shielding_x_gcm2, shielding_material, phi_df)
+        habitat_shielding_x_gcm2, shielding_material, phi_df,
+        surface_rate_scale=surface_rate_scale)
 
     # Phase 3: Mars → Earth return transit
     # Return launch: after surface stay. Mars-Earth synodic period ≈ 779 days.
@@ -322,6 +329,7 @@ def run_full_mission(
             'habitat_shielding_gcm2': habitat_shielding_x_gcm2,
             'age': age,
             'sex': sex,
+            'surface_rate_scale': surface_rate_scale,
             'surface_dose_reference': 'Hassler et al. (2014)',
         },
         'organ_risk': organ_risk,

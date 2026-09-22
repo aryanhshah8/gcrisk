@@ -168,14 +168,55 @@ def fetch_usoskin_phi():
 
 
 # ---------------------------------------------------------------------------
+# 2b. Frozen solar modulation potential for the MSL cruise transit window
+# ---------------------------------------------------------------------------
+
+def freeze_transit_window():
+    """
+    Extract the MSL cruise-phase (2011-11-26 to 2012-08-06) months from
+    phi_monthly.csv and write them as a frozen snapshot.
+
+    This file pins the solar modulation history used for the headline
+    mission calculations so that re-running fetch_usoskin_phi() (which can
+    pick up newly published months from cosmicrays.oulu.fi) does not change
+    the reported transit-window results.
+    """
+    indir = os.path.join(DATA_DIR, 'usoskin')
+    in_path = os.path.join(indir, 'phi_monthly.csv')
+    out_path = os.path.join(indir, 'phi_transit_frozen.csv')
+
+    df = pd.read_csv(in_path)
+    mask = ((df['year'] == 2011) & (df['month'] == 11)) | \
+           ((df['year'] == 2012) & (df['month'].between(1, 8))) | \
+           ((df['year'] == 2011) & (df['month'] == 12))
+    transit = df[mask].sort_values(['year', 'month']).reset_index(drop=True)
+
+    transit.to_csv(out_path, index=False)
+    print(f"  Wrote {out_path} ({len(transit)} months, "
+          f"{transit['date'].iloc[0]} to {transit['date'].iloc[-1]})")
+
+
+# ---------------------------------------------------------------------------
 # 3. MSL RAD transit dose rate (Zeitlin et al. 2013 published statistics)
 # ---------------------------------------------------------------------------
 
-def generate_msl_rad_data():
-    """Generate MSL RAD transit dataset reconstructed from published mission statistics."""
+def generate_msl_rad_synthetic_demo():
+    """
+    Generate a SYNTHETIC demo MSL RAD transit dataset, statistically reconstructed
+    from the published Zeitlin et al. (2013) mean dose/H rate and SPE timing —
+    NOT real flight telemetry.
+
+    This exists only as an offline-friendly fallback/demo dataset (e.g. for a
+    first `pip install` smoke test with no network access). It must never be
+    used for validation claims: real cruise-phase daily dosimetry is fetched
+    separately by scripts/fetch_real_rad_cruise_data.py from NASA's PDS
+    archive (MSL-M-RAD-3-RDR-V1.0) and written to
+    data/rad/msl_rad_cruise_real.csv, which is what scripts/validate_extended.py
+    and the paper's day-by-day comparison actually use.
+    """
     outdir = os.path.join(DATA_DIR, 'rad')
     os.makedirs(outdir, exist_ok=True)
-    filepath = os.path.join(outdir, 'msl_rad_transit.csv')
+    filepath = os.path.join(outdir, 'msl_rad_transit_synthetic_demo.csv')
 
     np.random.seed(42)
 
@@ -238,10 +279,18 @@ if __name__ == '__main__':
     for mat in ['water', 'aluminum', 'polyethylene']:
         generate_stopping_power_table(mat)
 
-    print("\n[2/3] Fetching Usoskin solar modulation potential database...")
+    print("\n[2/4] Fetching Usoskin solar modulation potential database...")
     fetch_usoskin_phi()
 
-    print("\n[3/3] Generating MSL RAD transit data (Zeitlin et al. 2013)...")
-    generate_msl_rad_data()
+    print("\n[3/4] Freezing MSL transit-window modulation potential...")
+    freeze_transit_window()
+
+    print("\n[4/4] Generating synthetic offline-demo MSL RAD dataset "
+          "(Zeitlin et al. 2013 statistics; NOT used for validation)...")
+    generate_msl_rad_synthetic_demo()
 
     print("\nAll data files generated successfully.")
+    print("\nNote: real MSL/RAD cruise-phase dosimetry (used for validation and")
+    print("the paper's day-by-day comparison) is fetched separately — see")
+    print("scripts/fetch_real_rad_cruise_data.py. The dataset it produces is")
+    print("already committed at data/rad/msl_rad_cruise_real.csv.")

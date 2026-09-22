@@ -7,6 +7,7 @@ setup(
     author_email='ahs222@miami.edu',
     url='https://github.com/aryanhshah8/gcr-dosimetry-pipeline',
     description='Open-source GCR mission dosimetry and organ-risk pipeline',
+    license='MIT',
     packages=find_packages(),
     python_requires='>=3.10',
     install_requires=[line.strip() for line in open('requirements.txt')],
@@ -21,6 +22,9 @@ setup(
             'hypothesis>=6.0',
             'sphinx>=7.0',
             'sphinx-rtd-theme>=1.3',
+        ],
+        'notebooks': [
+            'jupyter>=1.0.0',
         ],
     },
 )

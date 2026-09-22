@@ -1,0 +1,30 @@
+I describe \textsc{gcrisk}, an open-source Python package
+for estimating galactic cosmic ray (GCR) radiation exposure and cancer
+risk on crewed deep-space missions. GCR flux, generated via force-field
+solar modulation with inter-species composition constrained to ACE/CRIS
+and PAMELA measurements, is transported through slab shielding via the
+continuous-slowing-down approximation; organ-specific cancer risk (REID)
+is estimated across eleven organs. A single global scale is fit to the
+MSL/RAD cruise-phase absorbed dose ($1.84$~mGy/day at $16\gcm$ aluminum).
+Independent checks (shielding-depth dependence, material ratio, real
+MSL/RAD and ISS telemetry) agree within benchmark uncertainties;
+day-to-day correlation against real telemetry is confounded by a documented
+SEP event and is consistent with zero once it is excluded, but the
+multi-month trend is consistent, including against eight years of
+independent ISS data ($r=0.62$). A Solar Energetic Particle module
+estimates acute organ dose for three historical events.
+
+Global uncertainty is propagated via Latin Hypercube Sampling over nine
+physics and radiobiological parameters, giving a median REID of
+$6.5\%$ for a 35-year-old male on a 259-day Earth--Mars transit at
+$16\gcm$ aluminum (p5--p95: $1.7$--$20.0\%$). Radiobiological parameters
+dominate REID variance ($>\!85\%$) over GCR physics ($<\!15\%$). A
+value-of-information sweep shows halving the ICRP-60 quality-factor
+uncertainty alone would cut p95 REID by $33.5\%$, more than every physics
+parameter combined. Sweeping launch date over two real solar
+cycles (2003--2022) shows median REID varies $3.4\times$ from launch
+timing alone. The composition-constrained HZE fraction ($13.0\%$ at
+$16\gcm$ Al) is $1.7\times$ the NSRL reference, attributed to the absence
+of nuclear fragmentation in the transport model; the pipeline's
+$\Qeff=3.32$ is correspondingly $27\%$ above the MSL/RAD measured value.
+Source code, tests, and validation data are freely available on GitHub.

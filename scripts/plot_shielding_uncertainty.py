@@ -140,48 +140,51 @@ def make_figure(n_samples=50):
     frac_al = compute_species_fractions(phi_mid, bar_depths, 'aluminum')
 
     # -----------------------------------------------------------------------
-    # Plot
+    # Plot -- two SEPARATE figures (previously one combined two-panel figure;
+    # split so each gets its own caption/results discussion in the paper).
     # -----------------------------------------------------------------------
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5.5))
-    fig.suptitle(
-        'GCR Absorbed Dose vs Shielding Thickness — MSL Transit (2011-11-26)',
-        fontsize=12, fontweight='bold'
-    )
-
-    # --- Left panel: shielding scan with uncertainty bands ---
     color_al = '#1f77b4'
     color_pe = '#d62728'
 
-    ax1.fill_between(thick_arr, p5_al, p95_al, color=color_al, alpha=0.20,
-                     label='Al physics uncertainty (p5–p95)')
-    ax1.fill_between(thick_arr, p5_pe, p95_pe, color=color_pe, alpha=0.20,
-                     label='PE physics uncertainty (p5–p95)')
-    ax1.plot(thick_arr, D_al, '-o', color=color_al, lw=2, ms=5,
-             label='Aluminum (pipeline)')
-    ax1.plot(thick_arr, D_pe, '-s', color=color_pe, lw=2, ms=5,
-             label='Polyethylene (pipeline)')
+    # --- Figure A: shielding scan with uncertainty bands ---
+    figA, axA = plt.subplots(figsize=(6.5, 5.5))
 
-    # HZETRN envelope
+    axA.fill_between(thick_arr, p5_al, p95_al, color=color_al, alpha=0.20,
+                      label='Al physics uncertainty (p5–p95)')
+    axA.fill_between(thick_arr, p5_pe, p95_pe, color=color_pe, alpha=0.20,
+                      label='PE physics uncertainty (p5–p95)')
+    axA.plot(thick_arr, D_al, '-o', color=color_al, lw=2, ms=5,
+              label='Aluminum (pipeline)')
+    axA.plot(thick_arr, D_pe, '-s', color=color_pe, lw=2, ms=5,
+              label='Polyethylene (pipeline)')
+
     hzetrn_x  = sorted(HZETRN_TABLE.keys())
     hzetrn_lo = [HZETRN_TABLE[x][0] for x in hzetrn_x]
     hzetrn_hi = [HZETRN_TABLE[x][1] for x in hzetrn_x]
-    ax1.fill_between(hzetrn_x, hzetrn_lo, hzetrn_hi, color='gray', alpha=0.25,
-                     label='HZETRN envelope')
+    axA.fill_between(hzetrn_x, hzetrn_lo, hzetrn_hi, color='gray', alpha=0.25,
+                      label='HZETRN envelope')
 
-    # MSL RAD measurement
-    ax1.errorbar([MSL_RAD_X], [MSL_RAD_D],
-                 yerr=[[MSL_RAD_D * MSL_RAD_UNCERT], [MSL_RAD_D * MSL_RAD_UNCERT]],
-                 fmt='k*', ms=12, capsize=5, lw=2, label='MSL RAD')
+    axA.errorbar([MSL_RAD_X], [MSL_RAD_D],
+                  yerr=[[MSL_RAD_D * MSL_RAD_UNCERT], [MSL_RAD_D * MSL_RAD_UNCERT]],
+                  fmt='k*', ms=12, capsize=5, lw=2, label='MSL RAD')
 
-    ax1.set_xlabel('Shielding thickness [g/cm²]', fontsize=11)
-    ax1.set_ylabel('Absorbed dose rate [mGy/day]', fontsize=11)
-    ax1.set_title('(a) Shielding effectiveness + uncertainty')
-    ax1.legend(fontsize=8.5, loc='upper right')
-    ax1.set_xlim(-1, 42)
-    ax1.set_ylim(0, None)
-    ax1.grid(True, alpha=0.3)
+    axA.set_xlabel('Shielding thickness [g/cm²]', fontsize=11)
+    axA.set_ylabel('Absorbed dose rate [mGy/day]', fontsize=11)
+    axA.set_title('GCR Absorbed Dose vs Shielding Thickness — MSL Transit (2011-11-26)',
+                   fontsize=10.5, fontweight='bold')
+    axA.legend(fontsize=8.5, loc='upper right')
+    axA.set_xlim(-1, 42)
+    axA.set_ylim(0, None)
+    axA.grid(True, alpha=0.3)
 
-    # --- Right panel: species dose fractions ---
+    plt.tight_layout()
+    for ext in ('png', 'pdf'):
+        out = os.path.join(FIGURES_DIR, f'shielding_scan.{ext}')
+        figA.savefig(out, dpi=150, bbox_inches='tight')
+        print(f"Saved: {out}")
+    plt.close(figA)
+
+    # --- Figure B: species dose fractions ---
     species_colors = {
         'H':  '#1f77b4',
         'He': '#2ca02c',
@@ -193,36 +196,37 @@ def make_figure(n_samples=50):
     species_labels = {'H': 'Proton', 'He': 'He', 'C': 'C', 'O': 'O', 'Si': 'Si', 'Fe': 'Fe'}
     species_order = ['H', 'He', 'C', 'O', 'Si', 'Fe']
 
+    figB, axB = plt.subplots(figsize=(6.5, 5.5))
     x_pos = np.arange(len(bar_depths))
     bar_width = 0.12
     offsets = np.linspace(-0.3, 0.3, len(species_order))
 
     for i, sp in enumerate(species_order):
         vals = frac_al[sp]
-        ax2.bar(x_pos + offsets[i], vals, bar_width,
+        axB.bar(x_pos + offsets[i], vals, bar_width,
                 color=species_colors[sp], label=species_labels[sp], alpha=0.85)
 
-    ax2.set_xticks(x_pos)
-    ax2.set_xticklabels([f'{d} g/cm²\nAl' for d in bar_depths], fontsize=10)
-    ax2.set_ylabel('Dose fraction', fontsize=11)
-    ax2.set_title('(b) Species dose breakdown at 3 shielding depths')
-    ax2.legend(fontsize=9, ncol=3, loc='upper right')
-    ax2.set_ylim(0, 0.7)
-    ax2.grid(True, alpha=0.3, axis='y')
+    axB.set_xticks(x_pos)
+    axB.set_xticklabels([f'{d} g/cm²\nAl' for d in bar_depths], fontsize=10)
+    axB.set_ylabel('Dose fraction', fontsize=11)
+    axB.set_title('Species Dose Breakdown at 3 Shielding Depths',
+                   fontsize=10.5, fontweight='bold')
+    axB.legend(fontsize=9, ncol=3, loc='upper right')
+    axB.set_ylim(0, 0.7)
+    axB.grid(True, alpha=0.3, axis='y')
 
-    # Add HZETRN reference fractions as text annotation
-    ax2.text(0.02, 0.97,
-             'HZETRN ref. (16 g/cm²):\nH~49%  He~17%  HZE~34%',
-             transform=ax2.transAxes, fontsize=8,
-             verticalalignment='top',
-             bbox=dict(boxstyle='round,pad=0.3', facecolor='lightyellow', alpha=0.8))
+    axB.text(0.02, 0.97,
+              'HZETRN ref. (16 g/cm²):\nH~49%  He~17%  HZE~34%',
+              transform=axB.transAxes, fontsize=8,
+              verticalalignment='top',
+              bbox=dict(boxstyle='round,pad=0.3', facecolor='lightyellow', alpha=0.8))
 
     plt.tight_layout()
     for ext in ('png', 'pdf'):
-        out = os.path.join(FIGURES_DIR, f'shielding_uncertainty.{ext}')
-        plt.savefig(out, dpi=150, bbox_inches='tight')
+        out = os.path.join(FIGURES_DIR, f'species_fractions.{ext}')
+        figB.savefig(out, dpi=150, bbox_inches='tight')
         print(f"Saved: {out}")
-    plt.close()
+    plt.close(figB)
 
 
 if __name__ == '__main__':

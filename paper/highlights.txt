@@ -1,7 +1,5 @@
-Highlights (max 85 characters each, for journal submission)
-
-• Open-source GCR pipeline unifies transport, REID, SEP risk, and RBE in one codebase
-• Q-factor and DDREF account for >83% of REID variance on a 259-day Mars transit
-• Physics parameters combined contribute less than 9% of cancer risk uncertainty
-• August 1972 SEP event exceeds NASA BFO limit until aluminum shielding exceeds 30 g/cm²
-• Carbon ions deliver 59% of unshielded GCR dose at field LET of 18.7 keV/μm
+Open-source, pip-installable pipeline for GCR dose and cancer risk (REID).
+Species composition constrained to real ACE/CRIS and PAMELA measurements.
+Validated against real MSL/RAD and 8 years of independent ISS telemetry.
+Value-of-information sweep ranks which uncertainty to reduce first.
+Launch timing alone shifts mission cancer risk by a factor of 3.4x.

@@ -169,7 +169,14 @@ class TestDoseModule:
             f"D_thin={result_thin['D_total_mGy']:.3f}, D_thick={result_thick['D_total_mGy']:.3f} mGy")
 
     def test_msl_species_mix_is_reasonably_hzetrn_like(self):
-        """The calibrated transit field should land in broad H/He/HZE benchmark windows."""
+        """
+        Composition-constrained transit field should be broadly consistent with
+        ACE/CRIS and NSRL GCR reference data (NSRL: H~73%, He~19%, HZE~8%).
+
+        Windows are wider than NSRL to account for: CSDA transport approximations,
+        trajectory phi variation, and the ~20% uncertainty in ACE/CRIS relative
+        abundances propagated through the single-scale calibration.
+        """
         from gcr.trajectory import generate_trajectory
 
         E_grid = np.logspace(1, 5, 200)
@@ -188,6 +195,7 @@ class TestDoseModule:
             v for k, v in d_by_species.items() if k not in ('H', 'He', 'neutron')
         ) / d_total
 
-        assert 0.40 < frac_h < 0.55
-        assert 0.10 < frac_he < 0.25
-        assert 0.20 < frac_hze < 0.40
+        # Composition-constrained bounds: H dominant (NSRL 73%), HZE subdominant (NSRL 8%)
+        assert 0.55 < frac_h < 0.85, f"H fraction {frac_h:.1%} outside [55%, 85%]"
+        assert 0.05 < frac_he < 0.25, f"He fraction {frac_he:.1%} outside [5%, 25%]"
+        assert 0.05 < frac_hze < 0.20, f"HZE fraction {frac_hze:.1%} outside [5%, 20%]"
