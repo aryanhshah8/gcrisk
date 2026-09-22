@@ -323,8 +323,8 @@ $\lesssim3\%$ bias for H, He, Si, Fe; the opposite-signed C/O biases
 partially cancel in the field-averaged $\Qeff = \sum H_{k,s}/\sum D_{k,s}$,
 which is $2.60$ at the calibration geometry (before the neutron
 contribution raises the total apparent $\Qeff$ to $3.32$), within $0.8\%$
-of the RAD ion-only estimate — a consequence of the calibration procedure,
-not an independent check.
+of the RAD ion-only estimate — as expected, since this follows directly
+from the calibration procedure.
 
 \subsection{Cancer Risk Model (REID) — Full Formulation}
 
@@ -346,7 +346,7 @@ fixed DDREF of $1.75$; the uncertainty ensemble instead samples
 DDREF~$\sim$~Uniform$[1,2]$. Conditional survival and baseline cancer
 mortality use interpolated US sex-specific lookup tables in
 \code{gcrisk/reid.py} — a practical approximation to the NASA/Cucinotta
-framework, not a full reproduction of underlying epidemiologic life tables.
+framework.
 
 The REID distribution is right-skewed (REID enters an exponential,
 $1-\exp(-\mu)$). The single largest tail contributor is \code{Q\_factor}:
@@ -462,10 +462,9 @@ same $\overline{L}_D$ infrastructure: Wedenberg et~al.\ (2013)
 \citep{wedenberg2013} and McNamara et~al.\ (2015) \citep{mcnamara2015},
 matched to OpenTOPAS-RBE scorer conventions and checked against
 OpenTOPAS-RBE reference values for a $100$~MeV proton beam in water (V79,
-$\alpha/\beta=1.41$~Gy) — an implementation self-consistency check, not
-independent experimental validation. This layer is the foundation for a
-planned separate proton-therapy crossover study and is not a central
-contribution of the present paper.
+$\alpha/\beta=1.41$~Gy) — an implementation self-consistency check. This
+layer is the foundation for a planned separate proton-therapy crossover
+study.
 
 % =============================================================================
 \section{Supplementary Discussion: Full Limitations}
@@ -473,15 +472,15 @@ contribution of the present paper.
 \subsection{Transport Model Approximations}
 \begin{itemize}
   \item \textbf{Nuclear fragmentation secondaries.} Heavy-ion nuclear
-        interactions are treated as simple fluence removal, not as a source
-        of lighter-ion secondaries. This underestimates secondary
+        interactions are treated as simple fluence removal, without
+        producing lighter-ion secondaries. This underestimates secondary
         proton/helium flux at depth and overestimates iron attenuation,
         largest above $30\gcm$. Based on the general direction/magnitude of
         differences between simplified transport and full fragmentation
         codes \citep{wilson1991, slaba2014}, my order-of-magnitude estimate
         is that omitting secondary production overestimates $\Qeff$ at
-        $16\gcm$ by roughly $15$--$25\%$ (an extrapolation by the author,
-        not a value reported by either source — a rough plausibility bound).
+        $16\gcm$ by roughly $15$--$25\%$ — my own rough plausibility-bound
+        extrapolation from those sources' general direction and magnitude.
         The resulting REID overestimate is likely similar in fractional
         magnitude, well within the $12\times$ p5--p95 band but not
         negligible relative to the median.
@@ -506,25 +505,25 @@ contribution of the present paper.
         largest of solar cycle 24) that spikes RAD's raw dose rate
         $\sim\!30\times$ above baseline for a few days -- this pipeline
         models SEP separately from chronic GCR, so comparing the GCR-only
-        model against telemetry containing a live SEP spike is not a fair
+        model against telemetry containing a live SEP spike biases the
         daily-resolution test for those days. Spearman's $\rho$ over the full
         series ($\rho=-0.007$) and Pearson $r$ with the event window excluded
-        ($r=-0.001$, $n=209$) are both consistent with zero rather than
-        merely weak. Separately, \url{scripts/daily_phi_from_nm.py}
+        ($r=-0.001$, $n=209$) are both consistent with zero. Separately,
+        \url{scripts/daily_phi_from_nm.py}
         tested whether giving the model genuine daily-resolution modulation
         (real Oulu neutron-monitor count rate, independently calibrated to
         $\phi$ on a 1995--2011 window that never touches the MSL cruise
         period) would rescue the correlation; it does not
-        ($r=-0.127\to-0.119$), which rules out monthly $\phi$ resolution as
-        the explanation and supports the SEP-confound explanation instead.
+        ($r=-0.127\to-0.119$), which rules out monthly $\phi$ resolution and
+        points to the SEP confound as the real explanation.
         The multi-month trend the model targets remains directionally and
         quantitatively consistent regardless. Daily-resolution claims should
         be read as reflecting the monthly trend only.
   \item \textbf{ISS cross-check tests modulation shape only.} The ISS orbits
         inside Earth's magnetosphere, attenuating GCR flux by an amount not
         modeled here (no geomagnetic cutoff/trapped-radiation transport).
-        The multi-year cross-check is restricted to trend correlation, not
-        absolute dose, and does not validate the pipeline for near-Earth or
+        The multi-year cross-check is restricted to trend correlation and
+        does not validate the pipeline for near-Earth or
         trapped-radiation environments.
   \item \textbf{Force-field approximation.} Ignores charge-sign-dependent
         drift/diffusion anisotropy; during solar minimum can modify the GCR

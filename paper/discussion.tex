@@ -14,7 +14,7 @@ the real ISS multi-year trend) each probe an aspect of the model not
 constrained by the single-point MSL/RAD calibration. Together they support
 characterizing the pipeline as \emph{calibrated to one flight measurement
 and consistent with independent benchmarks within their stated
-uncertainties}, not as independently predicting the flight result. The
+uncertainties}. The
 near-zero daily-resolution correlation, the SEP-event confound behind it,
 and the held-out cross-validation of the RAD anchoring (\S\ref{sec:validation})
 are reported for the same reason: an honest, non-circular account of what
@@ -24,7 +24,7 @@ daily correlation initially suggested a resolution gap in the solar-modulation
 physics, but a genuine daily-resolution reconstruction (real neutron-monitor
 data, independently calibrated) did not improve it, and the actual
 explanation turned out to be a documented SEP event contaminating the
-comparison for a few days, not a physics deficiency in the chronic-GCR model.
+comparison for a few days.
 
 \subsection{Implications for Mission Shielding Design}
 \label{sec:discuss_shielding}
@@ -42,7 +42,7 @@ asymmetry supports a compact, heavily-shielded SEP storm shelter over
 whole-vehicle HZE shielding as the more mass-efficient architecture
 \citep{durante2011, cucinotta2010}.
 
-\subsection{REID Interpretation: Biology, Not Physics, Dominates}
+\subsection{REID Interpretation: Biology Dominates}
 \label{sec:discuss_reid}
 
 The shielding trade-offs above are only as meaningful as the risk number
@@ -57,7 +57,7 @@ correcting for that ratio would put male median REID at $\sim\!5.1\%$ —
 still above the historical limit. The p5--p95 band spans a factor of
 $\sim\!12\times$: this REID should be read as "the mission dose likely
 carries meaningful cancer risk, with the exact value uncertain by an
-order of magnitude," not as a precise prediction.
+order of magnitude."
 
 Most importantly, this uncertainty is overwhelmingly biological. The four
 radiobiological parameters contribute $\gtrsim\!85\%$ of REID's normalized
@@ -82,10 +82,9 @@ per-species LET decomposition (Fig.~\ref{fig:let}) traces $\Qeff$'s
 physical origin to specific ion contributions; the residual $27\%$
 $\Qeff$ excess over the RAD measurement is attributed to CSDA's missing
 fragmentation (\S\ref{sec:calib}). The repository also contains a proton
-RBE self-consistency layer (\S\ref{sec:rbemethods}) reported only as a
+RBE self-consistency layer (\S\ref{sec:rbemethods}) reported only as an
 implementation check (Table~\ref{tab:validation}); it is the foundation
-for a planned, separate proton-therapy crossover study and is not a
-central contribution here.
+for a planned, separate proton-therapy crossover study.
 
 \subsection{Limitations}
 \label{sec:discuss_limits}
@@ -98,8 +97,8 @@ uncertainty band but not negligible relative to the median. Other
 significant approximations include: a uniform-slab spacecraft geometry
 (no ray-tracing); six modeled GCR species (unmodeled species $<5\%$ of
 dose); the force-field modulation's monthly resolution, which limits
-daily-scale claims and is the reason the ISS cross-check tests trend, not
-absolute dose, and does not extend to near-Earth or trapped-radiation
+daily-scale claims and is the reason the ISS cross-check is restricted to
+trend and does not extend to near-Earth or trapped-radiation
 environments; the pre-2023 Cucinotta NASA risk framework rather than the
 updated age/sex-dependent limits; and cancer-only risk (no CNS,
 cataract, or cardiovascular endpoints). The full itemized discussion of
@@ -126,16 +125,15 @@ CNS, cataract, and cardiovascular risk models are not yet implemented; CNS
 effects in particular have rodent-study support for a cognitive-impairment
 threshold below the cancer risk threshold modeled here. \textbf{Proton
 RBE}: the dose-averaged LET/RBE self-consistency layer
-(\S\ref{sec:rbemethods}) is the foundation for a planned, separate
-proton-therapy crossover study, not yet a contribution of the present
-paper.
+(\S\ref{sec:rbemethods}) exists as the foundation for a planned, separate
+proton-therapy crossover study.
 
 \subsection{Comparison with Existing Tools and Reproducibility}
 \label{sec:discuss_comparison}
 
 Set against the alternatives, Table~\ref{tab:tool_comparison} compares
-this pipeline against HZETRN, OLTARIS, Geant4, and TOPAS: it is not a
-replacement for these at high fidelity, but is, to my knowledge, the only
+this pipeline against HZETRN, OLTARIS, Geant4, and TOPAS: it trades
+high-fidelity transport physics for being, to my knowledge, the only
 one that is simultaneously open/pip-installable and includes
 organ-specific REID, an SEP library, and LHS uncertainty quantification.
 

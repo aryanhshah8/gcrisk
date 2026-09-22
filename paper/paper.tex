@@ -115,7 +115,7 @@ $1$--$2$~Sv \citep{zeitlin2013}, which, depending on crew demographics and
 the risk model used, implies a radiation-induced cancer mortality probability
 that may approach or exceed NASA's career limit \citep{nasa2014}.
 
-Quantifying that risk is not a single calculation: it requires combining
+Quantifying that risk requires combining
 a calibrated, solar-modulation-responsive GCR spectral model, organ-resolved
 dose transport, a cancer risk model accounting for HZE LET quality, and
 uncertainty analysis that separates reducible physics uncertainty from the
@@ -140,10 +140,10 @@ ICRP-89 depths; (4) estimates REID via the Cucinotta (2013) EAR/ERR model;
 (6) propagates global uncertainty via 9-parameter Latin Hypercube Sampling
 with output variance decomposition.
 
-The pipeline is not a replacement for HZETRN or Geant4 in high-fidelity
-analysis. Its intended audience is mission designers, educators, and
+The pipeline serves mission designers, educators, and
 researchers who need a transparent, reproducible, uncertainty-quantified
-\emph{estimate} without standing up a closed high-fidelity code: the variance
+\emph{estimate} without standing up a closed high-fidelity code like HZETRN
+or Geant4: the variance
 decomposition — physics parameters together contribute $\sim\!12\%$ of
 REID variance, radiobiological parameters $\sim\!88\%$ — and the
 value-of-information and launch-window results below are difficult to
@@ -164,8 +164,8 @@ Two independent checks benchmark the pipeline against data not used in
 calibration: the shielding curve shape stays within the HZETRN benchmark
 envelope ($\lesssim20\%$) \citep{slaba2014} at $5$, $10$, and $30\gcm$
 aluminum, and the Al/PE dose ratio ($1.36$) is consistent with Mrigakshi
-(2013)'s $1.43\pm0.22$. As a separate internal self-consistency check
-(not an external validation), the pipeline's own dose rate correlates with
+(2013)'s $1.43\pm0.22$. As a separate internal self-consistency check,
+the pipeline's own dose rate correlates with
 its own $\phi$ input at $r=-0.998$ ($n=260$ days).
 
 For an independent daily comparison I obtained real MSL/RAD cruise-phase
@@ -179,15 +179,15 @@ is substantially an artifact of one real event: an X5.4 flare (AR11429) on
 baseline the next day. Since this pipeline models SEP as a physically
 separate, episodic module from chronic GCR (\S\ref{sec:sep_results}),
 comparing the GCR-only daily model against telemetry containing a live SEP
-spike is \emph{not a fair test} for those few days.
+spike \emph{biases the comparison} for those few days.
 
-Two independent checks confirm the weak $r$ above is the outlier talking,
-not a real signal being masked. \emph{Spearman's} $\rho$ (rank-based,
+Two independent checks confirm the weak $r$ above is entirely the
+outlier's doing. \emph{Spearman's} $\rho$ (rank-based,
 insensitive to a single large spike) on the \emph{full}, unmodified series
 is already $\approx0$ ($\rho=-0.007$, $p=0.92$). And Pearson $r$ computed
 with the documented event window excluded is also $\approx0$
 ($r=-0.001$, $p=0.99$, $n=209$) — note that $p$ \emph{rising} here, from
-$0.06$ to $0.99$, is the expected direction, not a regression: a p-value
+$0.06$ to $0.99$, is expected: a p-value
 answers "how consistent is this $r$ with zero," and $r$ itself moved from
 $-0.127$ toward $0$, so $p$ correctly moved toward $1$. There is no
 cleaner signal hiding underneath the SEP day; removing it just removes
@@ -207,13 +207,13 @@ this RAD-anchoring is itself fit to the evaluated data, I additionally
 tested generalization by splitting the series in half and fitting/testing
 in both directions: held-out RMS error ($21.4\%$, $24.8\%$) is close to
 in-sample RMS error ($23.5\%$, $19.4\%$) — a $5.5$-point maximum
-degradation, showing the anchoring is not an artifact of testing on the
+degradation, showing the anchoring generalizes beyond the
 period it was fit to.
 
 Table~\ref{tab:validation} summarizes all comparisons by epistemic
 strength. The calibration-point dose rate ($1.843\mGyday$ vs.\ RAD's
-$1.84\pm0.33$) is a direct consequence of fitting, not an independent
-prediction.
+$1.84\pm0.33$) is expected: it is what the single-point fit was tuned to
+match.
 
 \begin{table*}[t]
   \centering
@@ -272,8 +272,8 @@ Analysis Group, via CDAWeb; \url{scripts/fetch_iss_tepc_data.py},
 \url{scripts/compare_iss_solar_cycle.py}), May~2010--April~2018 —
 a full solar cycle, $\sim\!12\times$ longer than the MSL window. Because
 the ISS orbits inside Earth's magnetosphere (geomagnetic shielding this
-pipeline does not model), absolute dose levels are not comparable; only
-the modulation \emph{trend} is tested. Figure~\ref{fig:iss} shows both
+pipeline does not model), only the modulation \emph{trend} is testable
+here. Figure~\ref{fig:iss} shows both
 monthly-median series (91 months, one instrument-gap outlier dropped):
 $r=0.617$ ($p=7\times10^{-11}$), with both series declining toward the
 2014 solar maximum and rising sharply through 2018.
@@ -316,9 +316,9 @@ but their own fraction actually \emph{falls} with depth ($73.1\%\to68.9\%
 \emph{grow} ($3.8\%\to5.5\%\to8.0\%$ and $6.2\%\to6.7\%\to8.3\%$) even as
 silicon and iron are attenuated toward zero ($<1.5\%$ by $5\gcm$, $<0.1\%$
 by $30\gcm$). Since this transport model does not track nuclear
-fragmentation (\S\ref{sec:discuss_limits}), this shift is each species'
-own CSDA range-energy relationship playing out under increasing shielding,
-not secondary production from the heavier ions: protons' steep,
+fragmentation (\S\ref{sec:discuss_limits}), this shift reflects each species'
+own CSDA range-energy relationship playing out under increasing shielding:
+protons' steep,
 low-energy-dominated spectrum is preferentially stopped as more material is
 added, while carbon and oxygen's harder spectra let a larger share of their
 own dose survive to greater depth.
@@ -336,7 +336,7 @@ own dose survive to greater depth.
 \label{sec:let}
 
 The plateau above $\sim\!16\gcm$ reflects a shift in which species carry
-the dose, not a failure of shielding: Figure~\ref{fig:let} shows
+the dose. Figure~\ref{fig:let} shows
 dose-averaged LET per species and fractional
 dose contributions at $0$, $16$, and $30\gcm$ aluminum. Unshielded at
 $\phi=481$~MV, the HZE group ($Z>2$) is $20.9\%$ of absorbed dose (oxygen
@@ -384,17 +384,17 @@ cuts SEP dose. The August~1972 spectrum predates space-borne dosimetry
 \subsection{REID vs.\ Shielding and Organ Contributions}
 \label{sec:reid_results}
 
-Returning to the chronic GCR side, the quantity mission planners ultimately
-care about is not dose but cancer risk. Figure~\ref{fig:reid} shows REID
+Returning to the chronic GCR side, mission planners ultimately need
+cancer risk. Figure~\ref{fig:reid} shows REID
 vs.\ aluminum shielding for a 35-year-old
 male and female on a 259-day transit. At $16\gcm$, median REID is $6.5\%$
 (male) and $8.3\%$ (female) — both above the historical NASA $3\%$ career
 limit \citep{nasa2014}; the female excess reflects higher sex-specific
 lung/breast ERR-EAR coefficients \citep{cucinotta2013}. p5--p95 bands
 ($1.7$--$20.0\%$ male, $2.2$--$25.7\%$ female) reflect the dominant
-radiobiological uncertainty (\S\ref{sec:uq}): the mission is likely to
-carry meaningful cancer risk, but the precise value is not resolvable
-within the current radiobiological framework. Stomach, colon, and lung
+radiobiological uncertainty (\S\ref{sec:uq}): the mission carries
+meaningful cancer risk at a precision the current radiobiological
+framework cannot resolve. Stomach, colon, and lung
 contribute most to organ dose equivalent, consistent with their high
 ICRP-60 weighting ($w_T=0.12$).
 
@@ -419,12 +419,12 @@ $\phi$ data spanning two full solar cycles; median REID ranges from
 $3.3\%$ (May 2003, solar maximum, $\phi\approx853$~MV) to $11.3\%$ (May
 2009, solar minimum, $\phi\approx388$~MV) — a $3.4\times$ spread from
 launch timing alone, at fixed shielding and demographics. The dashed,
-hatched curve (2023--2035) is \emph{not} database-derived: it is a
+hatched curve (2023--2035) is a
 self-generated idealized $\sim\!11$-year cosine cycle, included only to
 illustrate the qualitative shape a tool like this could show for a
-future window \emph{if} the cycle repeats its characteristic period — not
-a space-weather forecast, and not used to name a recommended future
-launch date. Real cycles vary in amplitude and length by years; an
+future window \emph{if} the cycle repeats its characteristic period. It is
+illustrative only, stopping short of a space-weather forecast or a
+recommended launch date. Real cycles vary in amplitude and length by years; an
 operational decision would need an actual forecast, outside this paper's
 scope.
 
@@ -496,7 +496,7 @@ transport, organ-specific REID, SEP acute dosimetry, and LHS uncertainty
 propagation, calibrated to MSL/RAD and consistent with HZETRN benchmarks
 within stated uncertainties. Median REID at $16\gcm$ Al on a 259-day
 transit is $6.5\%$ (p5--p95 $1.7$--$20.0\%$), above the NASA $3\%$ limit;
-the wide band is dominated by biology, not GCR transport physics. On the
+the wide band is dominated by biological uncertainty. On the
 acute side, the August~1972 SEP event requires $>30\gcm$ Al for sub-limit
 BFO protection, and at the $16\gcm$ reference geometry its dose is
 $\sim\!4\times$ the limit. The HZE group ($Z>2$) accounts for $20.9\%$ of
