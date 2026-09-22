@@ -550,7 +550,7 @@ def reid_with_custom_biological_priors(
         reid_ear = _FC * float(np.trapezoid(EAR_rate * conditional, ages))
         samples[i] = reid_err + reid_ear
 
-    samples = np.maximum(samples, 0.0)
+    samples = np.clip(samples, 0.0, 1.0)
     thr = HISTORICAL_NASA_REID_THRESHOLD
     return {
         'median': float(np.median(samples)),

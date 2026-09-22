@@ -402,9 +402,11 @@ ICRP-60 weighting ($w_T=0.12$).
   \centering
   \includegraphics[width=0.85\textwidth]{figures/reid_shielding.pdf}
   \caption{Left: REID (\%) vs.\ Al shielding, male/female, p5--p95 bands;
-    line = NASA 3\% limit. p95 at $<5\gcm$ exceeds physically meaningful
-    values (LHS not clipped); $>10\gcm$ is more reliable. Right: organ
-    dose equivalent at $16\gcm$ Al, $w_T$ annotated.}
+    line = NASA 3\% limit. Individual samples are capped at $100\%$ (REID is
+    a probability); the wide band below $\sim\!5\gcm$ reflects genuinely
+    large compounding radiobiological uncertainty at high unshielded dose,
+    not an artifact. Right: organ dose equivalent at $16\gcm$ Al, $w_T$
+    annotated.}
   \label{fig:reid}
 \end{figure*}
 
@@ -567,9 +569,6 @@ During the preparation of this work the author used Claude (Anthropic) to:
 \begin{itemize}
   \item organize project files and directory structure;
   \item review and assist in debugging the Python pipeline code;
-  \item source and integrate independent real-world validation datasets
-        (NASA PDS and CDAWeb archives) and help design the corresponding
-        validation approach; and
   \item assist in the writing and revision of the manuscript.
 \end{itemize}
 After using this tool, the author reviewed and edited the content as needed

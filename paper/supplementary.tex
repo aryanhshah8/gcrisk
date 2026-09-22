@@ -332,6 +332,7 @@ REID integral:
 \begin{equation}
   \mathrm{REID}(a_e, s) = \int_{a_e + L}^{a_\mathrm{LT}}
     \frac{\mu_c(a, s) \cdot S(a \mid a_e, s)}{S(a_e \mid s)} \, da,
+  \label{eq:reidintegral}
 \end{equation}
 $a_e$=age at exposure, $L=10$~yr minimum latency, $S(a|a_e,s)$=conditional
 survival. Excess mortality combines EAR and ERR:
@@ -348,9 +349,9 @@ mortality use interpolated US sex-specific lookup tables in
 \code{gcrisk/reid.py} — a practical approximation to the NASA/Cucinotta
 framework.
 
-The REID distribution is right-skewed (REID enters an exponential,
-$1-\exp(-\mu)$). The single largest tail contributor is \code{Q\_factor}:
-its LogNormal[1.0,$\ln 2$] draws reach a sampled maximum of $\sim\!8.2\times$
+The REID distribution is right-skewed, driven by \code{Q\_factor}'s
+heavy-tailed lognormal draws: its LogNormal[1.0,$\ln 2$] draws reach a
+sampled maximum of $\sim\!8.2\times$
 in the $N=500$ ensemble, corresponding to $\Qeff\approx27$ at the
 calibration point — approaching but not exceeding the ICRP-60 physical
 maximum of $30$ ($L=100\keVum$). Every LHS sample's \code{Q\_factor} is
@@ -358,6 +359,20 @@ therefore clipped so effective $Q$ cannot exceed $30$; for the reported
 $N=500$ ensemble this clip does not bind, so reported percentiles are
 unchanged, but it removes any possibility of an unphysical excursion at
 larger $N$ or different seeds.
+
+Separately: REID here is a direct hazard-rate integral
+(Eq.~\ref{eq:reidintegral}), not a self-bounding $1-\exp(-\mu)$ transform,
+so individual Monte Carlo samples are not automatically confined to
+$[0,1]$ the way a survival-curve formulation would be. Each sample is
+therefore also clipped to $[0,1]$ post hoc, since REID represents a
+probability and cannot exceed $100\%$ by definition. This second clip
+barely binds at the reported calibration-geometry ensemble (1 of 500
+samples, unclipped maximum $101.3\%$) and does not move any reported
+percentile, but it removes draws that are more frequently, and more
+severely, unphysical at low shielding (REID vs.\ shielding figure, main
+text), where the unshielded dose is large enough that the heavy-tailed
+\code{Q\_factor} draws alone could otherwise push individual samples to
+$200$--$300\%$.
 
 \subsection{Solar Energetic Particle Acute Risk}
 

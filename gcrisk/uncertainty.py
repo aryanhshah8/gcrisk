@@ -248,7 +248,10 @@ def _compute_reid_from_components(ERR: float, EAR_rate: float, age: int, sex: st
     reid_err = _FC * float(np.trapezoid(ERR * lambda_vals * conditional, ages))
     reid_ear = _FC * float(np.trapezoid(EAR_rate * conditional, ages))
 
-    return max(reid_err + reid_ear, 0.0)
+    # REID is an excess probability: physically bounded to [0, 1] regardless
+    # of what combination of upstream parameter draws produced it (same clip
+    # as gcrisk.reid.reid_with_uncertainty).
+    return float(np.clip(reid_err + reid_ear, 0.0, 1.0))
 
 
 def run_uncertainty_ensemble(

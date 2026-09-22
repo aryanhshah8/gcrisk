@@ -177,7 +177,10 @@ def reid_point_estimate(
     reid_err = _FC * float(np.trapezoid(ERR * lambda_vals * conditional, ages))
     reid_ear = _FC * float(np.trapezoid(EAR_rate * conditional, ages))
 
-    return max(reid_err + reid_ear, 0.0)
+    return float(np.clip(reid_err + reid_ear, 0.0, 1.0))
+
+
+_ICRP60_Q_MAX = 30.0  # peak of gcrisk.dose.quality_factor_icrp60 at L=100 keV/um
 
 
 def reid_with_uncertainty(
@@ -185,6 +188,7 @@ def reid_with_uncertainty(
     age_at_exposure: int,
     sex: str,
     n_samples: int = 10000,
+    D_total_Gy: float | None = None,
 ) -> dict:
     """
     Monte Carlo REID with uncertainty propagation.
@@ -194,6 +198,16 @@ def reid_with_uncertainty(
     2. ERR scale: normal(1.0, 0.30)
     3. DDREF: uniform(1.0, 2.0)
     4. EAR scale: normal(1.0, 0.35)
+
+    D_total_Gy, if given, is the same-mission absorbed dose (unshielded H/D
+    ratio), used to clip each sample's Q_scale so the effective quality
+    factor H/D cannot exceed the ICRP-60 physical maximum of 30 (no ICRP-60
+    mixed-field weighting can produce a larger value) -- the same clip
+    gcrisk.uncertainty.run_uncertainty_ensemble applies to the headline LHS
+    results. Without D_total_Gy the unbounded LogNormal[1.0, ln2] prior's
+    tail is left unclipped, which is why REID p5/p95 from this path can
+    read as unphysically high at low shielding; callers with a real dose
+    breakdown (reid_vs_shielding, reid_vs_launch_date) should always pass it.
     """
     sex_key = sex.lower()
     life_expectancy = 80 if sex_key == 'female' else 78
@@ -206,6 +220,11 @@ def reid_with_uncertainty(
     ERR_scale = rng.normal(1.0, 0.30, size=n_samples)
     DDREF = rng.uniform(1.0, 2.0, size=n_samples)
     EAR_scale = rng.normal(1.0, 0.35, size=n_samples)
+
+    if D_total_Gy is not None and D_total_Gy > 0:
+        Q_eff_unscaled = H_total_Sv / D_total_Gy
+        if Q_eff_unscaled > 0:
+            Q_scale = np.minimum(Q_scale, _ICRP60_Q_MAX / Q_eff_unscaled)
 
     if age_risk_start >= life_expectancy:
         return {'median': 0.0, 'p5': 0.0, 'p95': 0.0, 'mean': 0.0, 'std': 0.0,
@@ -232,7 +251,9 @@ def reid_with_uncertainty(
 
         samples[i] = reid_err + reid_ear
 
-    samples = np.maximum(samples, 0.0)
+    # REID is an excess probability: physically bounded to [0, 1] regardless
+    # of what combination of upstream parameter draws produced it.
+    samples = np.clip(samples, 0.0, 1.0)
 
     return {
         'median': float(np.median(samples)),
@@ -354,7 +375,8 @@ def reid_vs_shielding(
     for x in thicknesses_gcm2:
         dose = integrate_mission_dose(trajectory_df, x, material, phi_df)
         H_Sv = dose['H_total_mSv'] / 1000.0
-        reid = reid_with_uncertainty(H_Sv, age, sex)
+        D_Gy = dose['D_total_mGy'] / 1000.0
+        reid = reid_with_uncertainty(H_Sv, age, sex, D_total_Gy=D_Gy)
         results.append({
             'thickness_gcm2': x,
             'D_mGy': dose['D_total_mGy'],
@@ -380,7 +402,8 @@ def reid_vs_launch_date(
         traj = generate_trajectory(date, phi_df=phi_df)
         dose = integrate_mission_dose(traj, shielding_x_gcm2, material, phi_df)
         H_Sv = dose['H_total_mSv'] / 1000.0
-        reid = reid_with_uncertainty(H_Sv, age, sex)
+        D_Gy = dose['D_total_mGy'] / 1000.0
+        reid = reid_with_uncertainty(H_Sv, age, sex, D_total_Gy=D_Gy)
         from .spectrum import phi_at_date
         phi_launch = phi_at_date(date, phi_df)
         results.append({

@@ -63,10 +63,12 @@ The field effective quality factor is $\Qeff = \sum H_{k,s}/\sum D_{k,s}$
 using interpolated US sex-specific survival and baseline-mortality lookup
 tables as a practical approximation to the full NASA/Cucinotta framework.
 Point estimates use a fixed DDREF of $1.75$; the uncertainty ensemble
-instead samples DDREF~$\sim$~Uniform$[1,2]$. Because REID enters an
-exponential, its distribution is right-skewed, with \code{Q\_factor}
-(\S\ref{sec:uq}) the dominant tail driver, clipped at the ICRP-60 physical
-maximum of $30$ (Supplementary \S{}S1.6).
+instead samples DDREF~$\sim$~Uniform$[1,2]$. REID's distribution is
+right-skewed because \code{Q\_factor} (\S\ref{sec:uq}), the dominant tail
+driver, is drawn from a heavy-tailed lognormal; the effective quality
+factor is clipped at the ICRP-60 physical maximum of $30$, and the
+resulting REID sample is separately clipped to $[0,1]$ since it represents
+a probability (Supplementary \S{}S1.6).
 
 \textbf{SEP acute risk.} Event fluence spectra use the Band function
 \citep{tylka2006} for three canonical events (August~1972, October~2003,
