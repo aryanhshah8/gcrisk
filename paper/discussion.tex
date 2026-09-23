@@ -62,7 +62,7 @@ order of magnitude."
 Most importantly, this uncertainty is overwhelmingly biological. The four
 radiobiological parameters contribute $\gtrsim\!85\%$ of REID's normalized
 sensitivity, all five physics parameters combined $<15\%$ (Supplementary
-Table~S4) — consistent with Cucinotta et al.\ \cite{cucinotta2013} and the
+Table~S4). This is consistent with Cucinotta et al.\ \cite{cucinotta2013} and the
 broader literature \citep{durante2011}. No direct human data constrain the
 HZE LET range that dominates unshielded GCR dose equivalent; extrapolating
 from mouse and atomic-bomb-survivor data to this regime is the single
@@ -92,7 +92,7 @@ for a planned, separate proton-therapy crossover study.
 The main structural limitation is CSDA transport without nuclear
 fragmentation, which by my order-of-magnitude estimate overestimates
 $\Qeff$ (and correspondingly REID) at $16\gcm$ by roughly
-$15$--$25\%$ \citep{wilson1991, slaba2014} — well within the $12\times$
+$15$--$25\%$ \citep{wilson1991, slaba2014}. That is well within the $12\times$
 uncertainty band but not negligible relative to the median. Other
 major approximations include: a uniform-slab spacecraft geometry
 (no ray-tracing); six modeled GCR species (unmodeled species $<5\%$ of
@@ -108,25 +108,31 @@ each limitation, with supporting estimates, is provided in Supplementary
 \subsection{Future Work}
 \label{sec:future_work}
 
-Each limitation above points to a concrete next step, roughly in order of
-expected impact on REID. \textbf{Nuclear fragmentation}: replacing the
-Bradt-Peters fluence-removal model with tabulated fragmentation
-cross-sections \citep{wilson1991} would let secondary light-ion production
-be tracked explicitly, closing the $15$--$25\%$ $\Qeff$ overestimate
-(\S\ref{sec:discuss_limits}) rather than only bounding it. \textbf{Risk
-framework}: adopting NASA's 2023 age/sex-dependent career-limit framework
-\citep{nasa2023} in place of the pre-2023 Cucinotta model would remove the
-main caveat on the REID-vs-NASA-limit comparison in
-\S\ref{sec:discuss_reid}. \textbf{Geometry}: ray-traced, non-uniform
-spacecraft shielding (as in OLTARIS or Geant4) would replace the
-uniform-slab approximation, most relevant for real vehicle interiors with
-mass concentrated unevenly around the crew. \textbf{Non-cancer endpoints}:
-CNS, cataract, and cardiovascular risk models are not yet implemented; CNS
-effects in particular have rodent-study support for a cognitive-impairment
-threshold below the cancer risk threshold modeled here. \textbf{Proton
-RBE}: the dose-averaged LET/RBE self-consistency layer
-(\S\ref{sec:rbemethods}) exists as the foundation for a planned, separate
-proton-therapy crossover study.
+Each limitation above points to a concrete next step, listed roughly in
+order of expected impact on REID.
+\begin{itemize}
+  \item \textbf{Nuclear fragmentation}: replacing the
+        Bradt-Peters fluence-removal model with tabulated fragmentation
+        cross-sections \citep{wilson1991} would let secondary light-ion
+        production be tracked explicitly, closing the $15$--$25\%$
+        $\Qeff$ overestimate (\S\ref{sec:discuss_limits}) rather than
+        only bounding it.
+  \item \textbf{Risk framework}: adopting NASA's 2023 age/sex-dependent
+        career-limit framework \citep{nasa2023} in place of the pre-2023
+        Cucinotta model would remove the main caveat on the
+        REID-vs-NASA-limit comparison in \S\ref{sec:discuss_reid}.
+  \item \textbf{Geometry}: ray-traced, non-uniform spacecraft shielding
+        (as in OLTARIS or Geant4) would replace the uniform-slab
+        approximation, most relevant for real vehicle interiors with mass
+        concentrated unevenly around the crew.
+  \item \textbf{Non-cancer endpoints}: CNS, cataract, and cardiovascular
+        risk models are not yet implemented; CNS effects in particular
+        have rodent-study support for a cognitive-impairment threshold
+        below the cancer risk threshold modeled here.
+  \item \textbf{Proton RBE}: the dose-averaged LET/RBE self-consistency
+        layer (\S\ref{sec:rbemethods}) exists as the foundation for a
+        planned, separate proton-therapy crossover study.
+\end{itemize}
 
 \subsection{Comparison with Existing Tools and Reproducibility}
 \label{sec:discuss_comparison}

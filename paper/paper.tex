@@ -119,7 +119,7 @@ Quantifying that risk requires combining
 a calibrated, solar-modulation-responsive GCR spectral model, organ-resolved
 dose transport, a cancer risk model accounting for HZE LET quality, and
 uncertainty analysis that separates reducible physics uncertainty from the
-larger radiobiological unknowns — and none of these combine trivially.
+larger radiobiological unknowns.
 Tools such as HZETRN \citep{wilson1991}, OLTARIS, and Geant4/TOPAS each
 address subsets of these requirements with greater physical rigor,
 particularly nuclear fragmentation, but none is simultaneously openly
@@ -129,25 +129,28 @@ tool combines GCR spectral modeling, organ-specific REID, SEP acute risk,
 and global uncertainty propagation in one reproducible, pip-installable
 workflow.
 
-Here I present \code{gcrisk}, a Python package that,
-within the limitations in \S\ref{sec:discuss_limits}: (1) generates
-six-species GCR spectra with force-field modulation and ACE/CRIS/PAMELA-constrained
-composition, calibrated to MSL/RAD; (2) transports spectra through slab
-shielding via CSDA and nuclear attenuation with tabulated secondary
-neutrons; (3) computes organ-specific dose and dose equivalent at eleven
-ICRP-89 depths; (4) estimates REID via the Cucinotta (2013) EAR/ERR model;
-(5) quantifies SEP acute BFO dose for three canonical events; and
-(6) propagates global uncertainty via 9-parameter Latin Hypercube Sampling
-with output variance decomposition.
+Here I present \code{gcrisk}, a Python package that, within the
+limitations in \S\ref{sec:discuss_limits}:
+\begin{enumerate}
+  \item generates six-species GCR spectra with force-field modulation and
+        ACE/CRIS/PAMELA-constrained composition, calibrated to MSL/RAD;
+  \item transports spectra through slab shielding via CSDA and nuclear
+        attenuation with tabulated secondary neutrons;
+  \item computes organ-specific dose and dose equivalent at eleven
+        ICRP-89 depths;
+  \item estimates REID via the Cucinotta (2013) EAR/ERR model;
+  \item quantifies SEP acute BFO dose for three canonical events; and
+  \item propagates global uncertainty via 9-parameter Latin Hypercube
+        Sampling with output variance decomposition.
+\end{enumerate}
 
 The pipeline serves mission designers, educators, and
 researchers who need a transparent, reproducible, uncertainty-quantified
 \emph{estimate} without standing up a closed high-fidelity code like HZETRN
-or Geant4: the variance
-decomposition — physics parameters together contribute $\sim\!12\%$ of
-REID variance, radiobiological parameters $\sim\!88\%$ — and the
-value-of-information and launch-window results below are difficult to
-extract from existing closed tools.
+or Geant4. Physics parameters together contribute $\sim\!12\%$ of
+REID variance; radiobiological parameters contribute $\sim\!88\%$. The
+value-of-information and launch-window results below follow directly from
+that split, and are difficult to extract from existing closed tools.
 
 % ─────────────────────────────────────────────────────────────────────────
 % Methods — include detailed section from separate file
@@ -186,17 +189,20 @@ outlier's doing. \emph{Spearman's} $\rho$ (rank-based,
 insensitive to a single large spike) on the \emph{full}, unmodified series
 is already $\approx0$ ($\rho=-0.007$, $p=0.92$). And Pearson $r$ computed
 with the documented event window excluded is also $\approx0$
-($r=-0.001$, $p=0.99$, $n=209$) — note that $p$ \emph{rising} here, from
-$0.06$ to $0.99$, is expected: a p-value
+($r=-0.001$, $p=0.99$, $n=209$). Note that $p$ \emph{rising} here, from
+$0.06$ to $0.99$, is expected. A p-value
 answers "how consistent is this $r$ with zero," and $r$ itself moved from
 $-0.127$ toward $0$, so $p$ correctly moved toward $1$. There is no
 cleaner signal hiding underneath the SEP day; removing it just removes
-the one thing that was pulling $r$ away from zero. (I also tested whether
-giving the model genuine daily-resolution modulation — a real Oulu
+the one thing that was pulling $r$ away from zero.
+
+I also tested whether
+giving the model genuine daily-resolution modulation would produce a real
+signal instead. That modulation was a real Oulu
 neutron-monitor daily count rate, calibrated to $\phi$ on an independent
-1995--2011 window — would produce a real signal instead; it does not,
+1995--2011 window. It does not,
 $r=-0.127\to-0.119$, ruling out "$\phi$ needs finer resolution" as an
-explanation too.) Taken together, this is the honest ceiling for a
+explanation too. Taken together, this is the honest ceiling for a
 monthly-resolution force-field model against real telemetry that also
 carries its own counting-statistics noise: no daily-resolution signal,
 in either direction.
@@ -206,8 +212,8 @@ The multi-month trend the model \emph{is} built to capture is consistent in magn
 this RAD-anchoring is itself fit to the evaluated data, I also
 tested generalization by splitting the series in half and fitting/testing
 in both directions: held-out RMS error ($21.4\%$, $24.8\%$) is close to
-in-sample RMS error ($23.5\%$, $19.4\%$) — a $5.5$-point maximum
-degradation, showing the anchoring generalizes beyond the
+in-sample RMS error ($23.5\%$, $19.4\%$), a $5.5$-point maximum
+degradation. This shows the anchoring generalizes beyond the
 period it was fit to.
 
 Table~\ref{tab:validation} summarizes all comparisons by epistemic
@@ -388,8 +394,8 @@ Returning to the chronic GCR side, mission planners ultimately need
 cancer risk. Figure~\ref{fig:reid} shows REID
 vs.\ aluminum shielding for a 35-year-old
 male and female on a 259-day transit. At $16\gcm$, median REID is $6.5\%$
-(male) and $8.3\%$ (female) — both above the historical NASA $3\%$ career
-limit \citep{nasa2014}; the female excess reflects higher sex-specific
+(male) and $8.3\%$ (female), both above the historical NASA $3\%$ career
+limit \citep{nasa2014}. The female excess reflects higher sex-specific
 lung/breast ERR-EAR coefficients \citep{cucinotta2013}. p5--p95 bands
 ($1.7$--$20.0\%$ male, $2.2$--$25.7\%$ female) reflect the dominant
 radiobiological uncertainty (\S\ref{sec:uq}): the mission carries
@@ -419,7 +425,7 @@ I swept \code{gcrisk.reid.reid\_vs\_launch\_date} over monthly launch dates
 separates two regions. The solid curve (2003--2022) uses real Usoskin
 $\phi$ data spanning two full solar cycles; median REID ranges from
 $3.3\%$ (May 2003, solar maximum, $\phi\approx853$~MV) to $11.3\%$ (May
-2009, solar minimum, $\phi\approx388$~MV) — a $3.4\times$ spread from
+2009, solar minimum, $\phi\approx388$~MV). That is a $3.4\times$ spread from
 launch timing alone, at fixed shielding and demographics. The dashed,
 hatched curve (2023--2035) is a
 self-generated idealized $\sim\!11$-year cosine cycle, included only to
@@ -505,7 +511,7 @@ $\sim\!4\times$ the limit. The HZE group ($Z>2$) accounts for $20.9\%$ of
 unshielded dose ($\LETd=3.9\keVum$), falling to $13.0\%$ at $16\gcm$ Al,
 and the model's solar-modulation trend independently tracks 8 years of
 real ISS telemetry across a full solar cycle ($r=0.62$, $p=7\times10^{-11}$,
-$n=91$) — a longer, separately-sourced cross-check than the MSL
+$n=91$). This is a longer, separately-sourced cross-check than the MSL
 calibration window it was fit to. Two results point toward what would
 most improve the estimate: halving \code{Q\_factor} uncertainty alone cuts
 p95 REID by $33.5\%$, $\sim\!7\times$ more than any other parameter or all
