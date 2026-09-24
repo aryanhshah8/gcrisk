@@ -1,7 +1,3 @@
-%% ─────────────────────────────────────────────────────────────────────────
-%% gcrisk — Life Sciences in Space Research submission
-%% Built on Elsevier's cas-dc (double column) template.
-%% ─────────────────────────────────────────────────────────────────────────
 
 \documentclass[a4paper,fleqn]{cas-dc}
 
@@ -10,7 +6,6 @@
 \usepackage{siunitx}
 \usepackage{verbatim}
 
-% ── Custom commands ─────────────────────────────────────────────────────
 \newcommand{\gcm}{\,\mathrm{g\,cm^{-2}}}
 \newcommand{\mGyday}{\,\mathrm{mGy\,day^{-1}}}
 \newcommand{\mSvday}{\,\mathrm{mSv\,day^{-1}}}
@@ -94,7 +89,6 @@ solar energetic particles \sep uncertainty quantification
 
 \maketitle
 
-% ─────────────────────────────────────────────────────────────────────────
 \section{Introduction}
 \label{sec:intro}
 
@@ -152,11 +146,8 @@ REID variance; radiobiological parameters contribute $\sim\!88\%$. The
 value-of-information and launch-window results below follow directly from
 that split, and are difficult to extract from existing closed tools.
 
-% ─────────────────────────────────────────────────────────────────────────
-% Methods — include detailed section from separate file
 \input{methodology}
 
-% ─────────────────────────────────────────────────────────────────────────
 \section{Results}
 \label{sec:results}
 
@@ -490,11 +481,8 @@ more than every other parameter here combined.
   \end{tabular*}
 \end{table}
 
-% ─────────────────────────────────────────────────────────────────────────
-% Discussion — include from separate file
 \input{discussion}
 
-% ─────────────────────────────────────────────────────────────────────────
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -523,7 +511,6 @@ solar cycles (2003--2022), swings median REID $3.4\times$
 All source code, 86 automated tests, and validation datasets are available
 at \url{https://github.com/aryanhshah8/gcrisk}.
 
-% ─────────────────────────────────────────────────────────────────────────
 \section*{Acknowledgements}
 
 The author thanks the MSL/RAD team (C.~Zeitlin and collaborators) for making
@@ -539,18 +526,15 @@ The Usoskin et~al.\ solar modulation potential database, the Vos \&
 Potgieter LIS parametrizations, and the HZETRN benchmark datasets of
 Slaba et~al.\ are gratefully acknowledged.
 
-% ─────────────────────────────────────────────────────────────────────────
 \section*{Declaration of Competing Interests}
 
 The author declares no competing interests.
 
-% ─────────────────────────────────────────────────────────────────────────
 \section*{Funding}
 
 This research did not receive any specific grant from funding agencies in
 the public, commercial, or not-for-profit sectors.
 
-% ─────────────────────────────────────────────────────────────────────────
 \section*{Data Availability Statement}
 
 All source code, input datasets, validation scripts, and TOPAS benchmark
@@ -566,7 +550,6 @@ telemetry from NASA's CDAWeb) are included in the repository under
 lookup array in \code{gcrisk/neutron\_table.py}.
 Results can be fully reproduced without any proprietary software.
 
-% ─────────────────────────────────────────────────────────────────────────
 \section*{Declaration of Generative AI and AI-Assisted
 Technologies in the
 Manuscript Preparation Process}
@@ -580,7 +563,6 @@ During the preparation of this work the author used Claude (Anthropic) to:
 After using this tool, the author reviewed and edited the content as needed
 and takes full responsibility for the content of the published article.
 
-% ─────────────────────────────────────────────────────────────────────────
 \printcredits
 
 \bibliographystyle{cas-model2-names}
