@@ -21,7 +21,7 @@ keywords:
   - open-source
 preferred-citation:
   type: article
-  title: "An open-source GCR dosimetry pipeline for Mars mission risk assessment: organ-specific REID, SEP acute hazard, and global uncertainty quantification"
+  title: "An open-source GCR dosimetry pipeline for Mars mission risk assessment: organ-specific cancer risk, acute solar particle events, and global uncertainty quantification"
   authors:
     - family-names: Shah
       given-names: Aryan Hemendra

@@ -24,8 +24,8 @@
 \shortauthors{A.H.~Shah}
 
 \title[mode=title]{An open-source GCR dosimetry pipeline for Mars mission
-risk assessment: organ-specific REID, SEP acute hazard, and global
-uncertainty quantification}
+risk assessment: organ-specific cancer risk, acute solar particle events,
+and global uncertainty quantification}
 
 \author[1]{Aryan Hemendra Shah}[orcid=0009-0008-0518-428X]
 \cormark[1]
@@ -508,21 +508,6 @@ geometry, crew roster, or updated risk model, and get a reproducible,
 uncertainty-quantified radiation estimate without needing a closed,
 high-fidelity code.
 
-\section*{Acknowledgements}
-
-The author thanks the MSL/RAD team (C.~Zeitlin and collaborators) for making
-the cruise-phase dosimetry data publicly available, without which calibration
-of the pipeline would not have been possible, and NASA's Planetary Data
-System (PDS PPI Node, dataset MSL-M-RAD-3-RDR-V1.0, producer S.~Rafkin) for
-archiving the daily cruise-phase telemetry used in the independent
-day-by-day comparison in Section~\ref{sec:validation}, and the NASA Space
-Radiation Analysis Group (dataset ISS\_DOSANL\_TEPC, via NASA's CDAWeb)
-for the ISS radiation telemetry used in the multi-year solar-cycle
-cross-check (Section~\ref{sec:iss_crosscheck}).
-The Usoskin et~al.\ solar modulation potential database, the Vos \&
-Potgieter LIS parametrizations, and the HZETRN benchmark datasets of
-Slaba et~al.\ are gratefully acknowledged.
-
 \section*{Declaration of Competing Interests}
 
 The author declares no competing interests.
@@ -546,6 +531,21 @@ telemetry from NASA's CDAWeb) are included in the repository under
 \code{data/}, and the HZETRN neutron benchmark table is hardcoded as a
 lookup array in \code{gcrisk/neutron\_table.py}.
 Results can be fully reproduced without any proprietary software.
+
+\section*{Acknowledgements}
+
+The author thanks the MSL/RAD team (C.~Zeitlin and collaborators) for making
+the cruise-phase dosimetry data publicly available, without which calibration
+of the pipeline would not have been possible, and NASA's Planetary Data
+System (PDS PPI Node, dataset MSL-M-RAD-3-RDR-V1.0, producer S.~Rafkin) for
+archiving the daily cruise-phase telemetry used in the independent
+day-by-day comparison in Section~\ref{sec:validation}, and the NASA Space
+Radiation Analysis Group (dataset ISS\_DOSANL\_TEPC, via NASA's CDAWeb)
+for the ISS radiation telemetry used in the multi-year solar-cycle
+cross-check (Section~\ref{sec:iss_crosscheck}).
+The Usoskin et~al.\ solar modulation potential database, the Vos \&
+Potgieter LIS parametrizations, and the HZETRN benchmark datasets of
+Slaba et~al.\ are gratefully acknowledged.
 
 \section*{Declaration of Generative AI and AI-Assisted
 Technologies in the
