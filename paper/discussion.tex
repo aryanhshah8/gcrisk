@@ -16,17 +16,12 @@ near-zero daily-resolution correlation, the SEP-event confound behind it,
 and the held-out cross-validation of the RAD anchoring (\S\ref{sec:validation})
 are reported for the same reason: an honest, non-circular account of what
 this monthly-resolution model can and cannot claim is worth more than an
-artificially strong number. That discipline paid off here: chasing the
-daily correlation initially suggested a resolution gap in the solar-modulation
-physics, but a genuine daily-resolution reconstruction (real neutron-monitor
-data, independently calibrated) did not improve it, and the actual
-explanation turned out to be a documented SEP event contaminating the
-comparison for a few days.
+artificially strong number.
 
 \subsection{Implications for Mission Shielding Design}
 \label{sec:discuss_shielding}
 
-Turning from validation to what these numbers imply operationally, the
+Operationally, the
 shielding curve (Fig.~\ref{fig:shielding_scan}) plateaus above
 $\sim\!20\gcm$ aluminum as secondary-neutron growth offsets HZE
 attenuation: going from $16$ to $40\gcm$ cuts GCR dose only
@@ -43,8 +38,7 @@ whole-vehicle HZE shielding as the more mass-efficient architecture
 \label{sec:discuss_reid}
 
 The shielding trade-offs above are only as meaningful as the risk number
-they are designed around, so it is worth scrutinizing that number directly.
-Median REID ($6.5\%$ male, $8.3\%$ female at $16\gcm$) exceeds the
+behind them. Median REID ($6.5\%$ male, $8.3\%$ female at $16\gcm$) exceeds the
 historical NASA $3\%$ limit \citep{nasa2014}, though NASA's updated
 age/sex-dependent framework \citep{nasa2023} is not implemented here and
 the comparison should be read as indicative. Because the
@@ -75,8 +69,8 @@ than qualitative.
 
 \subsection{Scope of the LET/RBE Layer}
 
-Separately from the REID interpretation above, it is worth being explicit
-about what the pipeline's LET/RBE layer does and does not claim. The
+The pipeline's LET/RBE layer has a narrower scope than the REID
+interpretation above. The
 per-species LET decomposition (Fig.~\ref{fig:let}) traces $\Qeff$'s
 physical origin to specific ion contributions; the residual $27\%$
 $\Qeff$ excess over the RAD measurement is attributed to CSDA's missing
@@ -98,8 +92,8 @@ major approximations include: a uniform-slab spacecraft geometry
 dose); the force-field modulation's monthly resolution, which limits
 daily-scale claims and is the reason the ISS cross-check is restricted to
 trend and does not extend to near-Earth or trapped-radiation
-environments; the pre-2023 Cucinotta NASA risk framework rather than the
-updated age/sex-dependent limits; and cancer-only risk (no central nervous
+environments; the pre-2023 Cucinotta risk framework, not NASA's 2023
+update; and cancer-only risk (no central nervous
 system (CNS), cataract, or cardiovascular endpoints). The full itemized
 discussion of
 each limitation, with supporting estimates, is provided in Supplementary

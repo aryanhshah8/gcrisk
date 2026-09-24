@@ -38,6 +38,7 @@ Writing -- review and editing, Visualization}
             addressline={University of Miami},
             city={Miami},
             state={FL},
+            postcode={33146},
             country={USA}}
 
 \cortext[1]{Corresponding author}
@@ -51,11 +52,10 @@ and PAMELA measurements, is transported through slab shielding via the
 continuous-slowing-down approximation (CSDA); organ-specific cancer risk (REID)
 is estimated across eleven organs. A single global scale is fit to the
 MSL/RAD cruise-phase absorbed dose ($1.84$~mGy/day at $16\gcm$ aluminum).
-Independent checks (shielding-depth dependence, material ratio, real
-MSL/RAD and ISS telemetry) agree within benchmark uncertainties;
-day-to-day correlation against real telemetry is confounded by a documented
-solar energetic particle (SEP) event and is consistent with zero once it is
-excluded, but the multi-month trend is consistent, including against eight
+Independent checks (shielding depth, material ratio, MSL/RAD
+and ISS telemetry) agree within benchmark uncertainties; daily
+correlation is confounded by a documented solar energetic particle (SEP)
+event, but the multi-month trend holds, including across eight
 years of independent ISS data ($r=0.62$). A SEP module
 estimates acute organ dose for three historical events.
 
@@ -64,18 +64,14 @@ physics and radiobiological parameters, giving a median REID of
 $6.5\%$ for a 35-year-old male on a 259-day Earth--Mars transit at
 $16\gcm$ aluminum (p5--p95: $1.7$--$20.0\%$). Radiobiological parameters
 dominate REID variance ($>\!85\%$) over GCR physics ($<\!15\%$). A
-value-of-information sweep shows halving the International Commission on
-Radiological Protection (ICRP)-60 quality-factor
-uncertainty alone would cut p95 REID by $33.5\%$, more than every physics
+value-of-information sweep shows halving ICRP-60 quality-factor
+uncertainty alone cuts p95 REID $33.5\%$, more than every physics
 parameter combined. Sweeping launch date over two real solar
-cycles (2003--2022) shows median REID varies $3.4\times$ from launch
-timing alone. The composition-constrained high-charge, high-energy (HZE)
-fraction ($13.0\%$ at
-$16\gcm$ Al) is $1.7\times$ the NASA Space Radiation Laboratory (NSRL)
-reference, attributed to the absence
-of nuclear fragmentation in the transport model; the pipeline's
-$\Qeff=3.32$ is correspondingly $27\%$ above the MSL/RAD measured value.
-Source code, tests, and validation data are freely available on GitHub.
+cycles (2003--2022) shows median REID varies $3.4\times$. The HZE
+fraction ($13.0\%$ at $16\gcm$ Al) is $1.7\times$ the NSRL reference,
+from missing fragmentation; $\Qeff=3.32$ is $27\%$
+above the RAD measurement.
+Source code, tests, and validation data are available on GitHub.
 \end{abstract}
 
 \begin{highlights}
@@ -83,7 +79,7 @@ Source code, tests, and validation data are freely available on GitHub.
 \item Species composition constrained to real ACE/CRIS and PAMELA measurements.
 \item Validated against real MSL/RAD and 8 years of independent ISS telemetry.
 \item Value-of-information sweep ranks which uncertainty to reduce first.
-\item Launch timing alone, across two real historical solar cycles, shifts mission cancer risk by a factor of 3.4x.
+\item Launch timing alone, across two real solar cycles, shifts cancer risk 3.4x.
 \end{highlights}
 
 \begin{keywords}
@@ -103,8 +99,8 @@ vehicles. GCR is the chronic, unavoidable component of this exposure and
 sets the dose baseline for any multi-year mission, while SEP is episodic
 but can deliver an acute dose in hours; this paper's pipeline centers on
 the former, with a dedicated module for the latter (\S\ref{sec:sep_results}).
-The GCR environment at 1--1.5~AU consists of protons, helium, and heavier
-HZE ions spanning kinetic energies from a few
+The GCR environment at 1--1.5~AU consists of protons, helium, and heavier,
+high-charge, high-energy (HZE) ions spanning kinetic energies from a few
 hundred MeV/n to tens of GeV/n. Biological effectiveness peaks near the
 energy range where stopping power is highest.
 A round-trip crewed Mars mission (transit + surface stay) of
@@ -123,10 +119,7 @@ Tools such as HZETRN \citep{wilson1991}, OLTARIS, and Geant4/TOPAS each
 address subsets of these requirements with greater physical rigor,
 particularly nuclear fragmentation, but none is simultaneously openly
 available, pip-installable, and integrated into one
-uncertainty-quantified workflow. To my knowledge, there is no single
-open-source tool that combines GCR spectral modeling, organ-specific REID,
-SEP acute risk, and global uncertainty propagation in one reproducible,
-pip-installable workflow.
+uncertainty-quantified workflow.
 
 Here I present \code{gcrisk}, a Python package that, within the
 limitations in \S\ref{sec:discuss_limits}:
@@ -171,8 +164,7 @@ its own $\phi$ input at $r=-0.998$ ($n=260$ days).
 
 For an independent daily comparison I obtained real MSL/RAD cruise-phase
 telemetry from NASA's PDS archive (MSL-M-RAD-3-RDR-V1.0; $218$ of $253$
-cruise days; \url{scripts/fetch_real_rad_cruise_data.py}), replacing
-the statistically-reconstructed proxy used in earlier drafts. Day-to-day
+cruise days; \url{scripts/fetch_real_rad_cruise_data.py}). Day-to-day
 Pearson agreement over all 218 days is weak ($r=-0.127$, $p=0.06$), but this
 is mostly an artifact of one real event: an X5.4 flare (AR11429) on
 2012-03-07 produced one of the largest SEP events of solar cycle 24
@@ -187,12 +179,10 @@ outlier's doing. \emph{Spearman's} $\rho$ (rank-based,
 insensitive to a single large spike) on the \emph{full}, unmodified series
 is already $\approx0$ ($\rho=-0.007$, $p=0.92$). And Pearson $r$ computed
 with the documented event window excluded is also $\approx0$
-($r=-0.001$, $p=0.99$, $n=209$). Note that $p$ \emph{rising} here, from
-$0.06$ to $0.99$, is expected. A p-value
-answers "how consistent is this $r$ with zero," and $r$ itself moved from
-$-0.127$ toward $0$, so $p$ correctly moved toward $1$. There is no
-cleaner signal hiding underneath the SEP day; removing it just removes
-the one thing that was pulling $r$ away from zero.
+($r=-0.001$, $p=0.99$, $n=209$). This rise in $p$, from $0.06$ to $0.99$, is
+expected: $r$ itself moved from $-0.127$ toward $0$, so $p$ correctly moved
+toward $1$. There is no cleaner signal hiding underneath the SEP day;
+removing it just removes the one thing that was pulling $r$ away from zero.
 
 I also tested whether
 giving the model genuine daily-resolution modulation would produce a real
@@ -200,10 +190,9 @@ signal instead. That modulation was a real Oulu
 neutron-monitor daily count rate, calibrated to $\phi$ on an independent
 1995--2011 window. It does not,
 $r=-0.127\to-0.119$, ruling out "$\phi$ needs finer resolution" as an
-explanation too. Taken together, this is the honest ceiling for a
-monthly-resolution force-field model against real telemetry that also
-carries its own counting-statistics noise: no daily-resolution signal,
-in either direction.
+explanation too. Taken together, this is the ceiling for a
+monthly-resolution model against noisy real telemetry: no daily-resolution
+signal in either direction.
 
 The multi-month trend the model \emph{is} built to capture is consistent in magnitude and direction
 (real $+17.5\%$ vs.\ modeled $+14.5\%$, first-to-last cruise decile). Because
@@ -211,8 +200,7 @@ this RAD-anchoring is itself fit to the evaluated data, I also
 tested generalization by splitting the series in half and fitting/testing
 in both directions: held-out RMS error ($21.4\%$, $24.8\%$) is close to
 in-sample RMS error ($23.5\%$, $19.4\%$), a $5.5$-point maximum
-degradation. This shows the anchoring generalizes beyond the
-period it was fit to.
+degradation.
 
 Table~\ref{tab:validation} summarizes all comparisons by epistemic
 strength. The calibration-point dose rate ($1.843\mGyday$ vs.\ RAD's
@@ -294,8 +282,7 @@ $r=0.617$ ($p=7\times10^{-11}$), with both series declining toward the
 \subsection{Shielding Effectiveness and Uncertainty Bounds}
 \label{sec:shielding_results}
 
-Having validated the model's response to solar modulation, the next
-question is how added shielding mass actually converts into dose.
+The next question is how added shielding mass converts into dose.
 Figure~\ref{fig:shielding_scan} shows absorbed dose rate vs.\ aluminum and
 polyethylene shielding (259-day transit, $\phi=481$~MV) with p5--p95 LHS
 bands. Dose decreases steeply to $\sim\!10\gcm$, then flattens above
@@ -322,10 +309,9 @@ silicon and iron are attenuated toward zero ($<1.5\%$ by $5\gcm$, $<0.1\%$
 by $30\gcm$). Since this transport model does not track nuclear
 fragmentation (\S\ref{sec:discuss_limits}), this shift reflects each species'
 own CSDA range-energy relationship playing out under increasing shielding:
-protons' steep,
-low-energy-dominated spectrum is preferentially stopped as more material is
-added, while carbon and oxygen's harder spectra let a larger share of their
-own dose survive to greater depth.
+protons' steep, low-energy spectrum is preferentially stopped as shielding
+is added, while carbon and oxygen's harder spectra let more of their dose
+survive to greater depth.
 
 \begin{figure*}[t]
   \centering
@@ -429,10 +415,9 @@ hatched curve (2023--2035) is a
 self-generated idealized $\sim\!11$-year cosine cycle, included only to
 illustrate the qualitative shape a tool like this could show for a
 future window \emph{if} the cycle repeats its characteristic period. It is
-illustrative only, stopping short of a space-weather forecast or a
-recommended launch date. Real cycles vary in amplitude and length by years; an
-operational decision would need an actual forecast, outside this paper's
-scope.
+illustrative only, not a space-weather forecast: real cycles vary in
+amplitude and length by years, and an operational launch decision would
+need an actual forecast, outside this paper's scope.
 
 \begin{figure*}[t]
   \centering

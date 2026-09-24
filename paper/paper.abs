@@ -6,11 +6,10 @@ and PAMELA measurements, is transported through slab shielding via the
 continuous-slowing-down approximation (CSDA); organ-specific cancer risk (REID)
 is estimated across eleven organs. A single global scale is fit to the
 MSL/RAD cruise-phase absorbed dose ($1.84$~mGy/day at $16\gcm$ aluminum).
-Independent checks (shielding-depth dependence, material ratio, real
-MSL/RAD and ISS telemetry) agree within benchmark uncertainties;
-day-to-day correlation against real telemetry is confounded by a documented
-solar energetic particle (SEP) event and is consistent with zero once it is
-excluded, but the multi-month trend is consistent, including against eight
+Independent checks (shielding depth, material ratio, MSL/RAD
+and ISS telemetry) agree within benchmark uncertainties; daily
+correlation is confounded by a documented solar energetic particle (SEP)
+event, but the multi-month trend holds, including across eight
 years of independent ISS data ($r=0.62$). A SEP module
 estimates acute organ dose for three historical events.
 
@@ -19,15 +18,11 @@ physics and radiobiological parameters, giving a median REID of
 $6.5\%$ for a 35-year-old male on a 259-day Earth--Mars transit at
 $16\gcm$ aluminum (p5--p95: $1.7$--$20.0\%$). Radiobiological parameters
 dominate REID variance ($>\!85\%$) over GCR physics ($<\!15\%$). A
-value-of-information sweep shows halving the International Commission on
-Radiological Protection (ICRP)-60 quality-factor
-uncertainty alone would cut p95 REID by $33.5\%$, more than every physics
+value-of-information sweep shows halving ICRP-60 quality-factor
+uncertainty alone cuts p95 REID $33.5\%$, more than every physics
 parameter combined. Sweeping launch date over two real solar
-cycles (2003--2022) shows median REID varies $3.4\times$ from launch
-timing alone. The composition-constrained high-charge, high-energy (HZE)
-fraction ($13.0\%$ at
-$16\gcm$ Al) is $1.7\times$ the NASA Space Radiation Laboratory (NSRL)
-reference, attributed to the absence
-of nuclear fragmentation in the transport model; the pipeline's
-$\Qeff=3.32$ is correspondingly $27\%$ above the MSL/RAD measured value.
-Source code, tests, and validation data are freely available on GitHub.
+cycles (2003--2022) shows median REID varies $3.4\times$. The HZE
+fraction ($13.0\%$ at $16\gcm$ Al) is $1.7\times$ the NSRL reference,
+from missing fragmentation; $\Qeff=3.32$ is $27\%$
+above the RAD measurement.
+Source code, tests, and validation data are available on GitHub.
