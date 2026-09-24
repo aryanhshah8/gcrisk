@@ -34,7 +34,8 @@ uncertainty quantification}
 analysis, Investigation, Data curation, Writing -- original draft,
 Writing -- review and editing, Visualization}
 
-\affiliation[1]{organization={University of Miami},
+\affiliation[1]{organization={College of Arts and Sciences},
+            addressline={University of Miami},
             city={Miami},
             state={FL},
             country={USA}}
@@ -47,28 +48,31 @@ for estimating galactic cosmic ray (GCR) radiation exposure and cancer
 risk on crewed deep-space missions. GCR flux, generated via force-field
 solar modulation with inter-species composition constrained to ACE/CRIS
 and PAMELA measurements, is transported through slab shielding via the
-continuous-slowing-down approximation; organ-specific cancer risk (REID)
+continuous-slowing-down approximation (CSDA); organ-specific cancer risk (REID)
 is estimated across eleven organs. A single global scale is fit to the
 MSL/RAD cruise-phase absorbed dose ($1.84$~mGy/day at $16\gcm$ aluminum).
 Independent checks (shielding-depth dependence, material ratio, real
 MSL/RAD and ISS telemetry) agree within benchmark uncertainties;
 day-to-day correlation against real telemetry is confounded by a documented
-SEP event and is consistent with zero once it is excluded, but the
-multi-month trend is consistent, including against eight years of
-independent ISS data ($r=0.62$). A Solar Energetic Particle module
+solar energetic particle (SEP) event and is consistent with zero once it is
+excluded, but the multi-month trend is consistent, including against eight
+years of independent ISS data ($r=0.62$). A SEP module
 estimates acute organ dose for three historical events.
 
-Global uncertainty is propagated via Latin Hypercube Sampling over nine
+Global uncertainty is propagated via Latin Hypercube Sampling (LHS) over nine
 physics and radiobiological parameters, giving a median REID of
 $6.5\%$ for a 35-year-old male on a 259-day Earth--Mars transit at
 $16\gcm$ aluminum (p5--p95: $1.7$--$20.0\%$). Radiobiological parameters
 dominate REID variance ($>\!85\%$) over GCR physics ($<\!15\%$). A
-value-of-information sweep shows halving the ICRP-60 quality-factor
+value-of-information sweep shows halving the International Commission on
+Radiological Protection (ICRP)-60 quality-factor
 uncertainty alone would cut p95 REID by $33.5\%$, more than every physics
 parameter combined. Sweeping launch date over two real solar
 cycles (2003--2022) shows median REID varies $3.4\times$ from launch
-timing alone. The composition-constrained HZE fraction ($13.0\%$ at
-$16\gcm$ Al) is $1.7\times$ the NSRL reference, attributed to the absence
+timing alone. The composition-constrained high-charge, high-energy (HZE)
+fraction ($13.0\%$ at
+$16\gcm$ Al) is $1.7\times$ the NASA Space Radiation Laboratory (NSRL)
+reference, attributed to the absence
 of nuclear fragmentation in the transport model; the pipeline's
 $\Qeff=3.32$ is correspondingly $27\%$ above the MSL/RAD measured value.
 Source code, tests, and validation data are freely available on GitHub.
@@ -93,14 +97,14 @@ solar energetic particles \sep uncertainty quantification
 \label{sec:intro}
 
 Deep-space human exploration beyond low-Earth orbit exposes crew members to
-galactic cosmic rays (GCR) and solar energetic particles (SEP) at fluence
+GCR and SEP at fluence
 rates and energies far exceeding the shielding capacity of current crew
 vehicles. GCR is the chronic, unavoidable component of this exposure and
 sets the dose baseline for any multi-year mission, while SEP is episodic
 but can deliver an acute dose in hours; this paper's pipeline centers on
 the former, with a dedicated module for the latter (\S\ref{sec:sep_results}).
 The GCR environment at 1--1.5~AU consists of protons, helium, and heavier
-ions (the so-called HZE particles) spanning kinetic energies from a few
+HZE ions spanning kinetic energies from a few
 hundred MeV/n to tens of GeV/n. Biological effectiveness peaks near the
 energy range where stopping power is highest.
 A round-trip crewed Mars mission (transit + surface stay) of
@@ -111,7 +115,8 @@ that may approach or exceed NASA's career limit \citep{nasa2014}.
 
 Quantifying that risk requires combining
 a calibrated, solar-modulation-responsive GCR spectral model, organ-resolved
-dose transport, a cancer risk model accounting for HZE LET quality, and
+dose transport, a cancer risk model accounting for HZE linear energy
+transfer (LET) quality, and
 uncertainty analysis that separates reducible physics uncertainty from the
 larger radiobiological unknowns.
 Tools such as HZETRN \citep{wilson1991}, OLTARIS, and Geant4/TOPAS each
@@ -132,8 +137,10 @@ limitations in \S\ref{sec:discuss_limits}:
         attenuation with tabulated secondary neutrons;
   \item computes organ-specific dose and dose equivalent at eleven
         ICRP-89 depths;
-  \item estimates REID via the Cucinotta (2013) EAR/ERR model;
-  \item quantifies SEP acute BFO dose for three canonical events; and
+  \item estimates REID via the Cucinotta (2013) excess relative risk /
+        excess absolute risk (ERR/EAR) model;
+  \item quantifies SEP acute blood-forming organ (BFO) dose for three
+        canonical events; and
   \item propagates global uncertainty via 9-parameter Latin Hypercube
         Sampling with output variance decomposition.
 \end{enumerate}
@@ -469,7 +476,7 @@ more than every other parameter here combined.
     Parameter & Narrowed p95 & $\Delta$ p95 & \% of baseline \\
     \midrule
     \code{Q\_factor}       & 13.3\% & $-$6.7 pts & $-$33.5\% \\
-    \code{DDREF}           & 19.1\% & $-$0.9 pts & $-$4.5\%  \\
+    \code{DDREF}           & 19.1\% & $-$0.9 pts & $ -$4.5\%  \\
     \code{phi\_scale}      & 19.5\% & $-$0.5 pts & $-$2.7\%  \\
     \code{ERR\_scale}      & 19.8\% & $-$0.3 pts & $-$1.3\%  \\
     \code{LIS\_norm}       & 19.8\% & $-$0.2 pts & $-$1.1\%  \\
@@ -482,6 +489,7 @@ more than every other parameter here combined.
 \end{table}
 
 \input{discussion}
+\\
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -509,7 +517,11 @@ solar cycles (2003--2022), swings median REID $3.4\times$
 (\S\ref{sec:launchwindow}) at zero engineering cost.
 
 All source code, 86 automated tests, and validation datasets are available
-at \url{https://github.com/aryanhshah8/gcrisk}.
+at \url{https://github.com/aryanhshah8/gcrisk}. In practice, mission
+planners can use \textsc{gcrisk} directly: swap in a real vehicle
+geometry, crew roster, or updated risk model, and get a reproducible,
+uncertainty-quantified radiation estimate without needing a closed,
+high-fidelity code.
 
 \section*{Acknowledgements}
 

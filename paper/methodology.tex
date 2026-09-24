@@ -6,7 +6,8 @@ All computation is implemented in Python~3.9+ as the open-source package
 \code{gcrisk}. The pipeline is a
 sequence of composable modules: spectrum generation, slab transport, organ
 dose, cancer risk (REID), SEP acute hazard, and uncertainty propagation, plus
-a separate proton RBE self-consistency check. Full equations, parameter
+a separate proton relative biological effectiveness (RBE) self-consistency
+check. Full equations, parameter
 tables, and derivations for every subsection below are given in
 Supplementary Methods (Sections~S1.1--S1.9); only the essential physics and
 the numbers needed to interpret the Results are summarized here.
@@ -23,8 +24,8 @@ epoch, $\phi \approx 481\pm50$~MV. Neutron-monitor inter-station offsets
 \textbf{GCR spectrum.}
 \label{sec:calib}
 Solar modulation of GCR flux uses the Gleeson--Axford force-field
-approximation applied to per-species local interstellar spectra: protons
-and helium come from Vos \& Potgieter \cite{vos2015}, and C/O/Si/Fe from
+approximation applied to per-species local interstellar spectra (LIS):
+protons and helium come from Vos \& Potgieter \cite{vos2015}, and C/O/Si/Fe from
 the HelMod model of Boschini et al.\ \cite{boschini2020}. Inter-species
 flux ratios are constrained to ACE/CRIS \citep{george2009} and PAMELA
 \citep{adriani2014} measurements at the MSL epoch. A single global scale
@@ -37,8 +38,8 @@ reference field \citep{slaba2016}, versus $\sim\!4\times$ under the prior
 calibration; this residual excess is attributed to the CSDA transport
 model not capturing nuclear fragmentation (Supplementary \S{}S1.3.3).
 
-\textbf{Transport.} Ionization energy loss uses the continuous-slowing-down
-approximation (CSDA) with Barkas effective-charge scaling on NIST
+\textbf{Transport.} Ionization energy loss uses CSDA with Barkas
+effective-charge scaling on NIST
 PSTAR/ASTAR proton stopping powers. Nuclear interactions are modeled as
 exponential fluence attenuation with a Bradt-Peters geometric mean free path
 \citep{bradtpeters1950}, the same form underlying HZETRN's tabulated mean
@@ -58,7 +59,8 @@ The field effective quality factor is $\Qeff = \sum H_{k,s}/\sum D_{k,s}$
 \cite{cucinotta2013} organ-specific ERR/EAR model (NASA/TP-2013-217375),
 using interpolated US sex-specific survival and baseline-mortality lookup
 tables as a practical approximation to the full NASA/Cucinotta framework.
-Point estimates use a fixed DDREF of $1.75$; the uncertainty ensemble
+Point estimates use a fixed dose and dose-rate effectiveness factor
+(DDREF) of $1.75$; the uncertainty ensemble
 instead samples DDREF~$\sim$~Uniform$[1,2]$. REID's distribution is
 right-skewed because \code{Q\_factor} (\S\ref{sec:uq}), the dominant tail
 driver, is drawn from a heavy-tailed lognormal; the effective quality
@@ -77,8 +79,8 @@ rates \citep{feynman1993}.
 \subsection{Uncertainty Quantification}
 \label{sec:uq}
 
-Nine parameters are varied simultaneously via Latin Hypercube Sampling
-(LHS): five physics (solar modulation, LIS normalization, nuclear
+Nine parameters are varied simultaneously via LHS: five physics
+(solar modulation, LIS normalization, nuclear
 cross-sections, neutron yield, HZE composition) and four biology (quality
 factor scale, DDREF, ERR scale, EAR scale), each with a lognormal, uniform,
 or clipped-normal prior justified by the relevant literature spread

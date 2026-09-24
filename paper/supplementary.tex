@@ -31,7 +31,8 @@ SEP acute hazard, and global uncertainty quantification}
 \cormark[1]
 \ead{ahs222@miami.edu}
 
-\affiliation[1]{organization={University of Miami},
+\affiliation[1]{organization={College of Arts and Sciences},
+            addressline={University of Miami},
             city={Miami},
             state={FL},
             country={USA}}
@@ -79,13 +80,14 @@ For the MSL transit period (2011 November -- 2012 July), values cluster
 around $\phi \approx 481 \pm 50$~MV. Systematic offsets between different
 neutron monitor stations introduce $\pm 50$--$100$~MV uncertainty in the
 absolute $\phi$ calibration; this is propagated via the \code{phi\_scale}
-LHS parameter (Table~\ref{tab:uq_params}).
+Latin Hypercube Sampling (LHS) parameter (Table~\ref{tab:uq_params}).
 
 \subsection{GCR Spectrum Generation}
 
 \subsubsection{Force-Field Modulation}
 
-Solar modulation of the GCR flux is computed using the Gleeson--Axford (1968)
+Solar modulation of the galactic cosmic ray (GCR) flux is computed using
+the Gleeson--Axford (1968)
 force-field approximation. For an ion of charge $Z$ and mass number $A$, the
 modulated differential flux at kinetic energy per nucleon $E$ is:
 \begin{equation}
@@ -95,7 +97,7 @@ modulated differential flux at kinetic energy per nucleon $E$ is:
 \end{equation}
 where $E_0 = 938.272$~MeV is the proton rest-mass energy,
 $\delta E = (Z/A)\,\phi$ (MeV/nucleon), and $J_\mathrm{LIS}$ is the local
-interstellar spectrum (below). The ratio in Eq.~\eqref{eq:ff} is the
+interstellar spectrum (LIS, below). The ratio in Eq.~\eqref{eq:ff} is the
 Jacobian of the energy transformation, ensuring flux conservation. The
 approximation is accurate for rigidities above $\sim\!1$~GV and $\phi$ in
 $200$--$1500$~MV \citep{potgieter2013}; charge-sign-dependent drift (relevant
@@ -181,9 +183,12 @@ externally anchored.
 Table~\ref{tab:species_compare} compares the resulting composition against
 the NASA Space Radiation Laboratory (NSRL) GCR simulator reference field
 \citep{slaba2016}. The proton fraction is within $\sim\!4$ points of NSRL;
-the HZE fraction is $\sim\!1.7\times$ the NSRL reference (down from
-$\sim\!4\times$ under the prior calibration), attributed to CSDA transport
-not modeling nuclear fragmentation (which converts high-LET heavy ions into
+the high-charge, high-energy (HZE) fraction is $\sim\!1.7\times$ the NSRL
+reference (down from
+$\sim\!4\times$ under the prior calibration), attributed to
+continuous-slowing-down approximation (CSDA) transport
+not modeling nuclear fragmentation (which converts high linear-energy-transfer
+(LET) heavy ions into
 lower-LET secondaries in NSRL/HZETRN but not here). The helium fraction is
 below NSRL, reflecting the measured ACE/CRIS He/H ratio at $200$~MeV/n being
 lower than the LIS model's He/H at the higher energies that set the
@@ -214,7 +219,8 @@ $\Qeff=3.32$ at the calibration geometry, vs.\ RAD's $4.81\pm0.97\mSvday$
 and $2.62\pm0.14$ (a $27\%$ excess). This is attributed to the same CSDA
 fragmentation gap: without converting high-LET HZE dose into lower-LET
 secondaries, the dose-weighted quality factor is inflated. $\dot{H}$ and
-REID from this pipeline should be read as conservative upper estimates.
+organ-specific cancer risk (REID) from this pipeline should be read as
+conservative upper estimates.
 The \code{hze\_norm\_scale} LHS parameter (LogNormal, $\sigma=0.20$)
 propagates the residual $\sim\!20\%$ ACE/CRIS inter-instrument composition
 uncertainty \citep{george2009, boschini2020}.
@@ -257,7 +263,8 @@ uses a pre-computed lookup, $\dot{H}_n(x,\phi,\mathrm{mat}) =
 \dot{H}_n^\mathrm{Al}(\phi)\cdot f_\mathrm{mat}\cdot g(x)$, with material
 yield factor $f_\mathrm{mat}$ (PE $\approx 0.72\times$ Al) and depth
 dependence $g(x)$ interpolated from the HZETRN benchmark of Slaba et al.\
-\cite{slaba2014}; neutron $Q_n=10$ (ICRP-60). This introduces
+\cite{slaba2014}; neutron $Q_n=10$ (International Commission on
+Radiological Protection Publication 60, ICRP-60). This introduces
 $\pm25$--$30\%$ uncertainty, propagated via the \code{neutron\_H} LHS
 parameter.
 
@@ -329,13 +336,15 @@ REID integral:
   \label{eq:reidintegral}
 \end{equation}
 $a_e$=age at exposure, $L=10$~yr minimum latency, $S(a|a_e,s)$=conditional
-survival. Excess mortality combines EAR and ERR:
+survival. Excess mortality combines the excess absolute risk (EAR) and
+excess relative risk (ERR):
 \begin{equation}
   \mu_c(a) = \lambda_c^\mathrm{background}(a) \cdot \mathrm{ERR}(D, a_e)
            + \mathrm{EAR}(D, a_e, a),
 \end{equation}
 with EAR/ERR organ-specific functions of dose, age at exposure, and attained
-age from Tables 2--3 of Cucinotta et al.\ \cite{cucinotta2013}. DDREF reduces
+age from Tables 2--3 of Cucinotta et al.\ \cite{cucinotta2013}. The dose and
+dose-rate effectiveness factor (DDREF) reduces
 low-dose-rate risk, $D_\mathrm{eff}=D/\mathrm{DDREF}$: point estimates use a
 fixed DDREF of $1.75$; the uncertainty ensemble instead samples
 DDREF~$\sim$~Uniform$[1,2]$. Conditional survival and baseline cancer
@@ -370,7 +379,8 @@ $200$--$300\%$.
 
 \subsection{Solar Energetic Particle Acute Risk}
 
-SEP fluence spectra use the Band function \citep{tylka2006}:
+Solar energetic particle (SEP) fluence spectra use the Band function
+\citep{tylka2006}:
 \begin{equation}
   J_\mathrm{SEP}(E) = C \times \begin{cases}
     E^{\gamma_\ell} \exp(-E/E_b) & E \leq E_\mathrm{trans}, \\
@@ -400,7 +410,8 @@ larger uncertainty ($\sim\pm50\%$) than the 2003/2005 events.
   \end{tabular*}
 \end{table}
 
-BFO absorbed dose transports event-integrated proton fluence through wall +
+Blood-forming organ (BFO) absorbed dose transports event-integrated proton
+fluence through wall +
 $10\gcm$ tissue via CSDA; only protons are tracked (heavy-ion SEP fluence is
 generally dose-negligible at these energies). Results compare to the NASA
 30-day BFO limit of $250$~mGy \citep{cucinotta2010}. Mission encounter
@@ -410,7 +421,7 @@ minimum \citep{feynman1993}.
 
 \subsection{Uncertainty Quantification via Latin Hypercube Sampling}
 
-Nine parameters are varied via Latin Hypercube Sampling (Table~\ref{tab:uq_params}):
+Nine parameters are varied via LHS (Table~\ref{tab:uq_params}):
 five physics (solar modulation, LIS normalization, nuclear cross-sections,
 neutron yield, HZE composition) and four biology (quality factor, DDREF,
 ERR scale, EAR scale).
@@ -466,7 +477,8 @@ Dose-averaged LET per species: $\overline{L}_{D,s} = \int\Phi_sS_s^2\,dE
 / \int\Phi_sS_s\,dE$; field value $\overline{L}_D=\sum_sf_s\overline{L}_{D,s}$,
 $f_s=D_s/\sum_{s'}D_{s'}$.
 
-The repository also contains a proton RBE self-consistency layer using this
+The repository also contains a proton relative biological effectiveness
+(RBE) self-consistency layer using this
 same $\overline{L}_D$ infrastructure: Wedenberg et~al.\ (2013)
 \citep{wedenberg2013} and McNamara et~al.\ (2015) \citep{mcnamara2015},
 matched to OpenTOPAS-RBE scorer conventions and checked against
@@ -480,14 +492,13 @@ study.
 \subsection{Transport Model Approximations}
 \begin{itemize}
   \item \textbf{Nuclear fragmentation secondaries.} Heavy-ion nuclear
-        interactions are treated as simple fluence removal, without
-        producing lighter-ion secondaries. This underestimates secondary
-        proton/helium flux at depth and overestimates iron attenuation,
+        interactions are treated as simple fluence removal. As such, the pipeline doesn't take into account the lighter-ion secondaries produced through nuclear fragmentation.  This leads to the secondary
+        proton/helium flux being underestimated at depth and overestimates iron attenuation,
         largest above $30\gcm$. Based on the general direction/magnitude of
         differences between simplified transport and full fragmentation
         codes \citep{wilson1991, slaba2014}, my order-of-magnitude estimate
         is that omitting secondary production overestimates $\Qeff$ at
-        $16\gcm$ by roughly $15$--$25\%$. This is my own rough plausibility-bound
+        $16\gcm$ by roughly $15$--$25\%$. This is my own rough
         extrapolation from those sources' general direction and magnitude.
         The resulting REID overestimate is likely similar in fractional
         magnitude, well within the $12\times$ p5--p95 band but not
@@ -559,7 +570,8 @@ study.
         exposure and the acute exposures in the underlying datasets, is
         among the most debated parameters in space radiation risk assessment
         \citep{durant2013}.
-  \item \textbf{Non-cancer risks.} Only cancer mortality is modeled; CNS
+  \item \textbf{Non-cancer risks.} Only cancer mortality is modeled; central
+        nervous system (CNS)
         effects, cataracts, cardiovascular risk, and heritable effects are
         not quantified (CNS effects have drawn attention from rodent studies
         showing cognitive impairment below the cancer threshold
