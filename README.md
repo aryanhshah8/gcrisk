@@ -6,7 +6,7 @@ This repository accompanies the manuscript:
 
 > Shah, A. H. (2026). *An open-source GCR dosimetry pipeline for Mars mission risk assessment: organ-specific cancer risk, acute solar particle events, and global uncertainty quantification.* Submitted to *Life Sciences in Space Research*.
 
-The point of this tool is to offer a quicker, tranparent, and reproducable alternative to HZETRN and Geant4. The point is that those tools are closed, hard to install, and don't come with uncertainty quantification built in. This one does, and anyone with Python can run it.
+The point of this tool is not to claim new physics — HZETRN and Geant4 do the transport better. The point is that those tools are closed, hard to install, and don't come with uncertainty quantification built in. This one does, and anyone with Python can run it.
 
 ---
 
