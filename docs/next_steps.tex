@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+
+% Layout
+\usepackage[margin=1.1in]{geometry}
+\usepackage{setspace}
+\setstretch{1.15}
+
+% Math
+\usepackage{amsmath, amssymb}
+\usepackage{bm}
+
+% Figures & Tables
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+% Lists
+\usepackage{enumitem}
+
+% Typography & misc
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black, citecolor=blue!50!black}
+
+\title{Next Steps --- GCR Dosimetry Follow-On}
+\author{Aryan Hemendra Shah}
+
+\begin{document}
+\maketitle
+\textit{\small Last updated: \today}
+
+\section{9/25/26 --- where things stand}
+
+\texttt{gcrisk} (formerly \texttt{gcr-dosimetry-pipeline}) is submitted to
+\textit{Life Sciences in Space Research}. Manuscript number assigned,
+build-for-approval PDF came back clean --- no compile log dump, all 7
+figures rendering with real data, all cross-refs/citations resolved. Also
+found and fixed a real repo problem today: local \texttt{main} was 11
+commits ahead of GitHub and 2 behind (a stale README edit made directly on
+GitHub back on 6/4/26, before the \texttt{gcrisk} rename and the ISS/RAD
+validation work). Merged, caught the merge silently reverting one sentence
+to the old typo'd version, fixed it, pushed. Repo is clean and in sync now,
+including the full EM submission package (\texttt{paper/submission/}) so
+the exact files submitted are preserved in version control.
+
+So: nothing blocking, no open repo issues. This document is just about
+what's worth doing next, not anything urgent.
+
+\section{9/25/26 --- skimmed two ScienceDirect exports for next-project ideas}
+
+Two unrelated clusters, both from the same \textit{LSSR} special issue:
+
+\begin{enumerate}[itemsep=3pt]
+    \item \textbf{Astrochemistry / prebiotic ice chemistry} (13 papers) ---
+    COMs in protostellar systems, nucleobases in interstellar ices, glycine
+    stability under ionizing radiation, cosmic-ray implantation into
+    molecular clouds. Interesting field, but a genuinely different research
+    track from anything \texttt{gcrisk} does. Not pursuing unless I
+    deliberately want to branch into astrobiology/astrochemistry, which is
+    a separate decision from ``what's the sequel to the GCR paper.''
+
+    \item \textbf{Space radiation dose-response / quality-factor modeling}
+    (14 papers) --- this is the one that matters. Several of these are
+    direct hits against the exact uncertainty structure the just-submitted
+    paper already quantified.
+\end{enumerate}
+
+The overlap that matters: the paper's own value-of-information sweep found
+that halving $Q_{\text{factor}}$ uncertainty alone shrinks p95 REID by
+33.5\% --- about 7$\times$ more leverage than any other single parameter,
+more than every GCR transport-physics parameter combined. That's not a
+throwaway finding, it's a pointer at exactly what to work on next, and this
+paper batch landed with several candidate answers to it.
+
+\section{Candidate next projects, ranked}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{
+  >{\raggedright\arraybackslash}p{3.1cm}
+  >{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.9cm}
+}
+\toprule
+\textbf{Idea} & \textbf{What it is} & \textbf{Effort} \\
+\midrule
+Charge-weighted $Q^*$ &
+Naito \& Kodaira propose $Q^*$, a GCR-specific quality factor based on LET
+and charge that diverges from ICRP-60 $Q(L)$ at high LET, claiming current
+dose assessments over-weight the heavy-ion contribution. Direct drop-in
+alternative to what \texttt{reid.py} already uses. &
+Low \\[6pt]
+Ensemble dose-response model &
+Slaba \& Poignant (NASA Langley) --- a probabilistic, non-linear QF
+framework meant to replace the Cucinotta-era calibration approach the
+pipeline currently inherits. This is the actual research-frontier answer,
+not a swap-in. &
+High \\[6pt]
+ICRP $Q(L)$ history/meta-analysis &
+Sato's review --- not a project, but a citation that directly backs why
+$Q$-factor is the dominant uncertainty source. Should already be in the
+lit review. &
+Trivial \\[6pt]
+Murine organ DCFs + gastric cancer &
+Hosseini et al.\ (organ dose conversion factors for GCRsim mice) and Suman
+et al.\ (dose/LET-dependent gastric tumor incidence in
+Apc1638N/+ mice) --- real GCRsim-derived organ-dose and tumor-incidence
+data. Interesting as a validation target if REID validation ever moves
+past human epidemiological life tables into direct dose-to-tumor-incidence
+data. &
+Medium, bigger scope \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Pick: $Q^*$.} Best ratio of effort to payoff --- it's a direct,
+quantifiable extension of the exact sensitivity result the submitted paper
+already highlights, reuses the existing LHS/REID machinery almost
+unchanged, and gives a natural ``part 2'' paper: same validated pipeline,
+one swapped component, a concrete number for how much REID moves.
+
+\section{Build on top of \texttt{gcrisk}, or start separate?}
+
+\textbf{On top of \texttt{gcrisk}.} The whole value of the $Q^*$ idea is
+that it's the same validated dose/REID/LHS pipeline with one component
+swapped --- forking a new repo means re-deriving the transport and
+validation harness for no benefit.
+
+Risk: bolting a second quality-factor model directly into \texttt{reid.py}
+muddies the story of a package the just-submitted paper already describes
+in print. Mitigation: keep it in a clearly separate module rather than a
+rewrite in place ---
+
+\begin{itemize}[itemsep=2pt]
+    \item \texttt{gcrisk/qf\_models.py} --- \texttt{qf\_icrp60(LET)} (existing
+    logic, moved/kept as-is) and \texttt{qf\_naito\_kodaira(LET, Z)} (new).
+    \item \texttt{reid.py} takes a \texttt{qf\_model} argument rather than
+    hard-coding ICRP-60.
+    \item Version bump/tag so the new paper can just say ``\texttt{gcrisk}
+    vX.Y, run with QF model $=Q^*$'' --- core package stays legible, second
+    paper stays citable and reproducible off a pinned version.
+\end{itemize}
+
+\section{Concrete next action}
+
+Not started yet --- this is the actual to-do, next time I sit down with
+this:
+
+\begin{enumerate}[itemsep=3pt]
+    \item Pull the exact $Q^*(\text{LET}, Z)$ formula and $Z$-contribution
+    weighting out of the Naito \& Kodaira PDF (\textit{Charge-weighted
+    quality factors based on LET for practical dose assessment of space
+    radiation}).
+    \item Implement \texttt{qf\_naito\_kodaira()} in a new
+    \texttt{gcrisk/qf\_models.py}, unit-tested against the paper's own
+    reported $Q^*$ values at a few LET points before touching the ensemble.
+    \item Add the \texttt{qf\_model} switch to \texttt{reid.py} /
+    \texttt{uncertainty.py} without changing default behavior (ICRP-60
+    stays default).
+    \item Re-run the N=500 LHS ensemble with $Q^*$ in place of ICRP-60 at
+    the same 16\,g/cm$^2$ Al calibration geometry already used in the
+    submitted paper.
+    \item Report the shift: median REID, p5--p95 REID, and how much of the
+    75\% $Q_{\text{factor}}$-driven variance share moves. That number is
+    the whole paper.
+\end{enumerate}
+
+\end{document}
